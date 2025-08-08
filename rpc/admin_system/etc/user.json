@@ -1,0 +1,20 @@
+[
+  {
+    "password": "123456",
+    "email": "super@cyber-dancer.com",
+    "name": "super",
+    "nickname": "",
+    "phone": "",
+    "avatar": "https://dummyimage.com/64x64/000/fff.png&text=SUPER",
+    "role_code": ["SUPER"]
+  },
+  {
+    "password": "123456",
+    "email": "admin@cyber-dancer.com",
+    "name": "admin",
+    "nickname": "",
+    "phone": "",
+    "avatar": "https://dummyimage.com/64x64/000/fff.png&text=SUPER",
+    "role_code": ["ADMIN"]
+  }
+]

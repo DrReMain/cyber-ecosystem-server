@@ -1,0 +1,290 @@
+syntax = "proto3";
+
+package admin_system;
+option go_package = "./admin_system";
+
+
+message Empty {}
+
+message IDReq {
+  string id = 1;
+}
+
+message IDsReq {
+  repeated string ids = 1;
+}
+
+message ListReq {
+  uint64 page_no = 1;
+  uint64 page_size = 2;
+  repeated int64 created_at = 3;
+  repeated int64 updated_at = 4;
+}
+
+message BaseRes {
+  string msg = 1;
+}
+
+message BaseIDRes {
+  string id = 1;
+  string msg = 2;
+}
+
+service BaseService {
+  rpc InitDB (Empty) returns (BaseRes);
+}
+
+
+message CasbinBody {
+  string role_code = 1;
+  string method = 2;
+  string path = 3;
+}
+message CasbinReq {
+  repeated string role_code = 1;
+}
+message CasbinRes {
+  repeated CasbinBody list = 1;
+}
+
+message RoleFromRoleReq {
+  repeated string role_ids = 1;
+}
+message RoleFromRoleRes {
+  repeated string role_code = 1;
+}
+
+message RoleFromMenuReq {
+  repeated string menu_ids = 1;
+}
+message RoleFromMenuRes {
+  repeated string role_code = 1;
+}
+
+service CasbinService {
+  rpc queryCasbinByRole (CasbinReq) returns (CasbinRes);
+  rpc queryRoleByMenu (RoleFromMenuReq) returns (RoleFromMenuRes);
+  rpc queryRoleByRole (RoleFromRoleReq) returns (RoleFromRoleRes);
+}
+
+
+message DepartmentBody {
+  optional string id = 1;
+  optional int64 created_at = 2;
+  optional int64 updated_at = 3;
+  optional uint32 sort = 4;
+
+  optional string department_name = 5;
+  optional string remark = 7;
+  optional string parent_id = 8;
+  optional string path = 9;
+  optional uint32 level = 10;
+  repeated DepartmentBody children = 11;
+}
+
+message DepartmentListReq {
+  optional uint64 page_no = 1;
+  optional uint64 page_size = 2;
+}
+
+message DepartmentListRes {
+  uint64 page_no = 1;
+  uint64 page_size = 2;
+  uint64 total = 3;
+  bool more = 4;
+
+  repeated DepartmentBody list = 5;
+}
+
+service DepartmentService {
+  rpc createDepartment (DepartmentBody) returns (BaseIDRes);
+  rpc deleteDepartment (IDsReq) returns (BaseRes);
+  rpc updateDepartment (DepartmentBody) returns (BaseRes);
+  rpc getDepartment (IDReq) returns (DepartmentBody);
+  rpc queryDepartment (DepartmentListReq) returns (DepartmentListRes);
+
+}
+
+
+message ResourceBody {
+  optional string id = 1;
+  optional string method = 4;
+  optional string path = 5;
+}
+
+message MenuBody {
+  optional string id = 1;
+  optional int64 created_at = 2;
+  optional int64 updated_at = 3;
+  optional uint32 status = 4;
+  optional uint32 sort = 5;
+
+  optional string title = 6;
+  optional string icon = 7;
+  optional string code = 8;
+  optional string code_path = 9;
+  optional string parent_id = 10;
+  optional string menu_type = 11;
+  optional string menu_path = 12;
+  optional uint32 level = 13;
+  optional string properties = 14;
+
+  repeated ResourceBody resources = 15;
+  repeated MenuBody children = 16;
+}
+
+message MenuListReq {}
+
+message MenuListRes {
+  repeated MenuBody list = 5;
+}
+
+service MenuService {
+  rpc createMenu (MenuBody) returns (BaseIDRes);
+  rpc deleteMenu (IDsReq) returns (BaseRes);
+  rpc updateMenu (MenuBody) returns (BaseRes);
+  rpc getMenu (IDReq) returns (MenuBody);
+  rpc queryMenu (MenuListReq) returns (MenuListRes);
+
+}
+
+
+message PositionBody {
+  optional string id = 1;
+  optional int64 created_at = 2;
+  optional int64 updated_at = 3;
+  optional uint32 sort = 4;
+
+  optional string position_name = 5;
+  optional string code = 6;
+  optional string remark = 7;
+}
+
+message PositionListReq {
+  optional uint64 page_no = 1;
+  optional uint64 page_size = 2;
+  repeated int64 created_at = 3;
+  repeated int64 updated_at = 4;
+
+  optional string position_name = 5;
+  optional string code = 6;
+}
+
+message PositionListRes {
+  uint64 page_no = 1;
+  uint64 page_size = 2;
+  uint64 total = 3;
+  bool more = 4;
+
+  repeated PositionBody list = 5;
+}
+
+service PositionService {
+  rpc createPosition (PositionBody) returns (BaseIDRes);
+  rpc deletePosition (IDsReq) returns (BaseRes);
+  rpc updatePosition (PositionBody) returns (BaseRes);
+  rpc getPosition (IDReq) returns (PositionBody);
+  rpc queryPosition (PositionListReq) returns (PositionListRes);
+
+}
+
+
+message RoleBody {
+  optional string id = 1;
+  optional int64 created_at = 2;
+  optional int64 updated_at = 3;
+  optional uint32 sort = 4;
+
+  optional string role_name = 5;
+  optional string code = 6;
+  optional string remark = 7;
+  repeated MenuBody menus = 8;
+}
+
+message RoleListReq {
+  optional uint64 page_no = 1;
+  optional uint64 page_size = 2;
+  repeated int64 created_at = 3;
+  repeated int64 updated_at = 4;
+
+  optional string role_name = 5;
+  optional string code = 6;
+}
+
+message RoleListRes {
+  uint64 page_no = 1;
+  uint64 page_size = 2;
+  uint64 total = 3;
+  bool more = 4;
+
+  repeated RoleBody list = 5;
+}
+
+service RoleService {
+  rpc createRole (RoleBody) returns (BaseIDRes);
+  rpc deleteRole (IDsReq) returns (BaseRes);
+  rpc updateRole (RoleBody) returns (BaseRes);
+  rpc getRole (IDReq) returns (RoleBody);
+  rpc queryRole (RoleListReq) returns (RoleListRes);
+
+}
+
+
+message UserBody {
+  optional string id = 1;
+  optional int64 created_at = 2;
+  optional int64 updated_at = 3;
+  optional uint32 status = 4;
+
+  optional string password = 6;
+  optional string email = 7;
+  optional string name = 8;
+  optional string nickname = 9;
+  optional string phone = 10;
+  optional string avatar = 11;
+  optional string remark = 12;
+
+  optional DepartmentBody department = 13;
+  repeated PositionBody positions = 14;
+  repeated RoleBody roles = 15;
+}
+
+message UserListReq {
+  optional uint64 page_no = 1;
+  optional uint64 page_size = 2;
+  repeated int64 created_at = 3;
+  repeated int64 updated_at = 4;
+  optional uint32 status = 5;
+
+  optional string email = 6;
+  optional string name = 7;
+  optional string nickname = 8;
+  optional string phone = 9;
+  repeated string department_ids = 10;
+  repeated string position_ids = 11;
+  repeated string role_ids = 12;
+}
+
+message UserListRes {
+  uint64 page_no = 1;
+  uint64 page_size = 2;
+  uint64 total = 3;
+  bool more = 4;
+
+  repeated UserBody list = 5;
+}
+
+message EmailReq {
+  string email = 1;
+}
+
+service UserService {
+  rpc createUser (UserBody) returns (BaseIDRes);
+  rpc deleteUser (IDsReq) returns (BaseRes);
+  rpc updateUser (UserBody) returns (BaseRes);
+  rpc getUser (IDReq) returns (UserBody);
+  rpc queryUser (UserListReq) returns (UserListRes);
+
+  rpc getUserByEmail (EmailReq) returns (UserBody);
+}
+

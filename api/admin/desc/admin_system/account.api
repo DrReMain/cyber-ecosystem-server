@@ -1,0 +1,51 @@
+import "../common.api"
+
+info (
+	title:   "管理系统账户API"
+	desc:    "用于账户管理的API，包括登录和令牌刷新"
+)
+
+type (
+	Token {
+		AccessToken   *string `json:"access_token"`
+		AccessExpire  *int64  `json:"access_expire"`
+		RefreshToken  *string `json:"refresh_token"`
+		RefreshExpire *int64  `json:"refresh_expire"`
+	}
+	LoginPasswordReq {
+		Email    *string `json:"email,optional" validate:"required,email"`
+		Password *string `json:"password,optional" validate:"required"`
+	}
+	LoginPasswordRes {
+		*CommonRes
+		Data *Token `json:"data"`
+	}
+	RefreshReq {
+		RefreshToken *string `json:"refresh_token,optional" validate:"required"`
+	}
+	RefreshRes {
+		*CommonRes
+		Data *Token `json:"data"`
+	}
+)
+
+@server (
+	group:  admin_system/account
+	prefix: /api/v1/admin_system/account
+)
+service admin {
+	@doc (
+		summary:     "使用邮箱和密码登录"
+		description: "使用邮箱和密码进行用户认证，并返回访问令牌和刷新令牌"
+	)
+	@handler loginPassword
+	post /login_password (LoginPasswordReq) returns (LoginPasswordRes)
+
+	@doc (
+		summary:     "刷新访问令牌"
+		description: "使用刷新令牌获取新的访问令牌"
+	)
+	@handler refresh
+	post /refresh (RefreshReq) returns (RefreshRes)
+}
+

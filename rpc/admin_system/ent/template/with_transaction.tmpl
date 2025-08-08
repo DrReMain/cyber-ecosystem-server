@@ -1,0 +1,39 @@
+{{/* gotype: entgo.io/ent/entc/gen.Graph */}}
+
+
+{{ define "with_transaction" }}
+
+    {{/* Add the base header for the generated file */}}
+    {{ $pkg := base $.Config.Package }}
+    {{ template "header" $ }}
+    {{ template "import" $ }}
+
+    func WithTX(ctx context.Context, client *Client, fn func(tx *Tx) error) error {
+        tx, err := client.Tx(ctx)
+        if err != nil {
+            logx.Errorw("failed to start transaction", logx.Field("detail", err.Error()))
+            return err
+        }
+        defer func() {
+            if v := recover(); v != nil {
+                _ = tx.Rollback()
+                panic(v)
+            }
+        }()
+
+        if err := fn(tx); err != nil {
+            if rbErr := tx.Rollback(); rbErr != nil {
+                err = fmt.Errorf("%W; rolling back transaction: %v", err, rbErr)
+            }
+            logx.Errorw("errors occur in transaction", logx.Field("detail", err.Error()))
+            return err
+        }
+        if err := tx.Commit(); err != nil {
+            logx.Errorw("failed to commit transaction", logx.Field("detail", err.Error()))
+            return err
+        }
+        return nil
+    }
+
+
+{{ end }}

@@ -1,0 +1,64 @@
+// 以下两行必须要写，合并时会被删除
+syntax = "proto3";
+import "base.proto";
+import "department.proto";
+import "position.proto";
+import "role.proto";
+
+message UserBody {
+  optional string id = 1;
+  optional int64 created_at = 2;
+  optional int64 updated_at = 3;
+  optional uint32 status = 4;
+
+  optional string password = 6;
+  optional string email = 7;
+  optional string name = 8;
+  optional string nickname = 9;
+  optional string phone = 10;
+  optional string avatar = 11;
+  optional string remark = 12;
+
+  optional DepartmentBody department = 13;
+  repeated PositionBody positions = 14;
+  repeated RoleBody roles = 15;
+}
+
+message UserListReq {
+  optional uint64 page_no = 1;
+  optional uint64 page_size = 2;
+  repeated int64 created_at = 3;
+  repeated int64 updated_at = 4;
+  optional uint32 status = 5;
+
+  optional string email = 6;
+  optional string name = 7;
+  optional string nickname = 8;
+  optional string phone = 9;
+  repeated string department_ids = 10;
+  repeated string position_ids = 11;
+  repeated string role_ids = 12;
+}
+
+message UserListRes {
+  uint64 page_no = 1;
+  uint64 page_size = 2;
+  uint64 total = 3;
+  bool more = 4;
+
+  repeated UserBody list = 5;
+}
+
+message EmailReq {
+  string email = 1;
+}
+
+service UserService {
+  rpc createUser (UserBody) returns (BaseIDRes);
+  rpc deleteUser (IDsReq) returns (BaseRes);
+  rpc updateUser (UserBody) returns (BaseRes);
+  rpc getUser (IDReq) returns (UserBody);
+  rpc queryUser (UserListReq) returns (UserListRes);
+
+  rpc getUserByEmail (EmailReq) returns (UserBody);
+}

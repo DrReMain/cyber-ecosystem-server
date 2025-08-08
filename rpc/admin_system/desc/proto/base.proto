@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+message Empty {}
+
+message IDReq {
+  string id = 1;
+}
+
+message IDsReq {
+  repeated string ids = 1;
+}
+
+message ListReq {
+  uint64 page_no = 1;
+  uint64 page_size = 2;
+  repeated int64 created_at = 3;
+  repeated int64 updated_at = 4;
+}
+
+message BaseRes {
+  string msg = 1;
+}
+
+message BaseIDRes {
+  string id = 1;
+  string msg = 2;
+}
+
+service BaseService {
+  rpc InitDB (Empty) returns (BaseRes);
+}

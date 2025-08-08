@@ -1,0 +1,175 @@
+{{/* gotype: entgo.io/ent/entc/gen.Graph */}}
+
+{{ define "pagination" }}
+
+    {{ $pkg := base $.Config.Package }}
+    {{ template "header" $ }}
+    {{ template "import" $ }}
+
+    type PageDetail struct {
+        PageNo    uint64 `json:"page_no"`
+        PageSize  uint64 `json:"page_size"`
+        Total     uint64 `json:"total"`
+        More      bool   `json:"more"`
+    }
+
+    // OrderDirection defines the directions in which to order a list of items.
+    type OrderDirection string
+
+    const (
+        // OrderDirectionAsc specifies an ascending order.
+        OrderDirectionAsc OrderDirection  = "ASC"
+        // OrderDirectionDesc specifies a descending order.
+        OrderDirectionDesc OrderDirection = "DESC"
+    )
+
+    // Validate the order direction value.
+    func (o OrderDirection) Validate() error {
+        if o != OrderDirectionAsc && o != OrderDirectionDesc {
+            return fmt.Errorf("%s is not a valid OrderDirection", o)
+        }
+        return nil
+    }
+
+    // String implements fmt.Stringer interface.
+    func (o OrderDirection) String() string {
+        return string(o)
+    }
+
+    func (o OrderDirection) reverse() OrderDirection {
+        if o == OrderDirectionDesc {
+            return OrderDirectionAsc
+        }
+	    return OrderDirectionDesc
+    }
+
+    {{ range $node := $.Nodes -}}
+        {{- if ne $node.Name "CasbinRule" }}
+        {{ $pager := print $node.Name "Pager" }}
+        {{ $order := print $node.Name "Order"}}
+        {{ $query := print $node.Name "Query"}}
+        {{ $orderField := print $node.Name "OrderField"}}
+        type {{ $pager }} struct {
+            Order []{{ lower $node.Name }}.OrderOption
+            Filter func(*{{ $query }}) (*{{ $query }}, error)
+        }
+
+        {{ $opt := print $node.Name "PaginateOption" }}
+        type {{ $opt }} func(*{{ $pager }})
+
+
+        {{ $newPager := print "new" $node.Name "Pager" -}}
+        {{- $defaultOrder := print "Default" $node.Name "Order" }}
+
+		{{ range $f :=  $node.Fields -}}
+		    {{- if eq $node.HasOneFieldID true}}
+
+        var {{ $defaultOrder }} = Desc({{ lower $node.Name }}.FieldID)
+		    {{- break}}
+		    {{- else}}
+        // {{ $defaultOrder }} is the default ordering of {{ $node.Name }}.
+        var {{ $defaultOrder }} = Desc({{ lower $node.Name }}.Field{{ $f.StructField }})
+		    {{- break}}
+		    {{- end}}
+		{{end}}
+
+        func {{ $newPager }}(opts []{{ $opt }}) (*{{ $pager }}, error) {
+            pager := &{{ $pager }}{}
+            for _, opt := range opts {
+                opt(pager)
+            }
+            if pager.Order == nil {
+                pager.Order = []{{ lower $node.Name }}.OrderOption{ {{ $defaultOrder }} }
+            }
+            return pager, nil
+        }
+
+
+        func (p *{{ $pager }}) ApplyFilter(query *{{ $query }}) (*{{ $query }}, error) {
+            if p.Filter != nil {
+                return p.Filter(query)
+            }
+            return query, nil
+        }
+
+           {{ $pageList := print $node.Name "PageList" -}}
+        {{ $name := $node.Name }}
+
+        // {{ $pageList }} is {{ $name }} PageList result.
+        type {{ $pageList }} struct {
+            List       []*{{ $name }}   `json:"list"`
+            PageDetail *PageDetail      `json:"page_detail"`
+        }
+
+
+        {{ $r := $node.Receiver -}}
+        {{ $queryName := print $node.QueryName -}}
+
+        func ({{ $r }} *{{ $queryName }}) Page(
+            ctx context.Context, pageNo *uint64, pageSize *uint64, defaultSize, maxSize uint64, opts ...{{ $opt }},
+            ) (*{{ $pageList }}, error) {
+            var p, s uint64
+            if pageNo != nil {
+                p = *pageNo
+            }
+            if pageSize != nil {
+                s = *pageSize
+            }
+            if defaultSize > 0 && s == 0 {
+                s = defaultSize
+            }
+
+            pager, err := {{ $newPager }}(opts)
+            if err != nil {
+                return nil, err
+            }
+
+            if {{ $r }}, err = pager.ApplyFilter({{ $r }}); err != nil {
+                return nil, err
+            }
+
+            ret := &{{ $pageList }}{}
+
+query := {{ $r }}.Clone()
+query.ctx.Fields = nil
+count, err := query.Count(ctx)
+
+            if err != nil {
+                return nil, err
+            }
+
+            total := uint64(count)
+            if p == 0 {
+                p = 1
+            }
+            if s == 0 {
+                s = total
+            }
+            if maxSize > 0 && s > maxSize {
+                s = maxSize
+            }
+            ret.PageDetail = &PageDetail{
+                PageNo:     p,
+                PageSize:   s,
+                Total:      total,
+                More:       p * s < total,
+            }
+
+            if pager.Order != nil {
+           		{{ $r }} = {{ $r }}.Order(pager.Order...)
+           	} else {
+           		{{ $r }} = {{ $r }}.Order({{ $defaultOrder }})
+           	}
+
+            {{ $r }} = {{ $r }}.Offset(int((p - 1) * s)).Limit(int(s))
+            list, err := {{ $r }}.All(ctx)
+            if err != nil {
+                return nil, err
+            }
+            ret.List = list
+
+            return ret, nil
+        }
+    {{- end}}
+    {{- end}}
+{{- end}}

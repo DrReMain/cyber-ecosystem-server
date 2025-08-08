@@ -1,0 +1,123 @@
+import "../common.api"
+
+info (
+	title:   "管理系统职位API"
+	desc:    "用于职位管理的API，包括创建、删除、更新、查询职位信息"
+)
+
+type (
+	// create
+	PositionCreateReq {
+		Sort         *uint32 `json:"sort,optional" validate:"omitempty,gte=0"`
+		PositionName *string `json:"position_name,optional" validate:"required,max=255"`
+		Code         *string `json:"code,optional" validate:"required,max=255"`
+		Remark       *string `json:"remark,optional" validate:"omitempty,max=255"`
+	}
+	PositionCreateRes {
+		*CommonRes
+		Data *string `json:"data"`
+	}
+	// delete
+	PositionDeleteReq {
+		ID *string `path:"id" validate:"required,len=20"`
+	}
+	PositionDeleteRes {
+		*CommonRes
+	}
+	// update
+	PositionUpdateReq {
+		ID           *string `path:"id" validate:"required,len=20"`
+		Sort         *uint32 `json:"sort,optional" validate:"omitempty,gte=0"`
+		PositionName *string `json:"position_name,optional" validate:"omitempty,max=255"`
+		Code         *string `json:"code,optional" validate:"omitempty,max=255"`
+		Remark       *string `json:"remark,optional" validate:"omitempty,max=255"`
+	}
+	PositionUpdateRes {
+		*CommonRes
+	}
+	// get
+	PositionGet {
+		ID           *string `json:"id"`
+		CreatedAt    *int64  `json:"created_at"`
+		UpdatedAt    *int64  `json:"updated_at"`
+		Sort         *uint32 `json:"sort"`
+		PositionName *string `json:"position_name"`
+		Code         *string `json:"code"`
+		Remark       *string `json:"remark"`
+	}
+	PositionGetReq {
+		ID *string `path:"id" validate:"required,len=20"`
+	}
+	PositionGetRes {
+		*CommonRes
+		Data *PositionGet `json:"data"`
+	}
+	// query
+	PositionQuery {
+		*CommonPageRes
+		List []*PositionGet `json:"list"`
+	}
+	PositionQueryReq {
+		PageNo       *uint64 `form:"page_no,optional" validate:"omitempty,gte=0"`
+		PageSize     *uint64 `form:"page_size,optional" validate:"omitempty,gte=0"`
+		CreatedAt    []int64 `form:"created_at,optional" validate:"omitempty,max=2"`
+		UpdatedAt    []int64 `form:"updated_at,optional" validate:"omitempty,max=2"`
+		PositionName *string `form:"position_name,optional"`
+		Code         *string `form:"code,optional"`
+	}
+	PositionQueryRes {
+		*CommonRes
+		Data *PositionQuery `json:"data"`
+	}
+)
+
+@server (
+	jwt:        Auth
+	middleware: Auth
+	group:      admin_system/position
+	prefix:     /api/v1/admin_system/position
+)
+service admin {
+	@doc (
+		summary:     "创建职位"
+		description: "创建新的职位信息"
+	)
+	@handler createPosition
+	post / (PositionCreateReq) returns (PositionCreateRes)
+
+	@doc (
+		summary:     "删除职位"
+		description: "根据ID删除职位信息"
+	)
+	@handler deletePosition
+	post /delete (IDsReq) returns (CommonRes)
+
+	@doc (
+		summary:	 "删除单个职位"
+		description: "根据ID删除单个职位信息"
+	)
+	@handler deletePositionOne
+	delete /:id (PositionDeleteReq) returns (PositionDeleteRes)
+
+	@doc (
+		summary:     "更新职位"
+		description: "根据ID更新职位信息"
+	)
+	@handler updatePosition
+	put /:id (PositionUpdateReq) returns (PositionUpdateRes)
+
+	@doc (
+		summary:     "获取职位详情"
+		description: "根据ID获取职位详细信息"
+	)
+	@handler getPosition
+	get /:id (PositionGetReq) returns (PositionGetRes)
+
+	@doc (
+		summary:     "查询职位列表"
+		description: "分页查询职位列表信息"
+	)
+	@handler queryPosition
+	get / (PositionQueryReq) returns (PositionQueryRes)
+}
+

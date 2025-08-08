@@ -1,0 +1,10 @@
+package redisc
+
+const (
+	REDIS_CASBIN = "/casbin"
+
+	INIT_DB_LOCK      = "INIT:DATABASE:LOCK"
+	INIT_DB_ERROR     = "INIT:DATABASE:ERROR"
+	INIT_DB_STATE     = "INIT:DATABASE:STATE"
+	INIT_DB_STATE_YES = "1"
+)

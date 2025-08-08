@@ -1,0 +1,24 @@
+import "../common.api"
+
+info (
+	title:   "管理系统基础API"
+	desc:    "提供系统基础功能的API"
+)
+
+type (
+	InitReq  {}
+)
+
+@server (
+	group:  admin_system/base
+	prefix: /api/v1/admin_system/base
+)
+service admin {
+	@doc (
+		summary:     "初始化系统"
+		description: "初始化系统基础配置和数据"
+	)
+	@handler init
+	post /init (InitReq) returns (CommonRes)
+}
+

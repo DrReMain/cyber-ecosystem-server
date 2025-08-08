@@ -1,0 +1,53 @@
+{{/* gotype: entgo.io/ent/entc/gen.Graph */}}
+
+{{ define "predicate_chain" }}
+
+    {{ $pkg := base $.Config.Package }}
+    {{ template "header" $ }}
+    {{ template "import" $ }}
+
+    {{ range $node := $.Nodes -}}
+        {{- if ne $node.Name "CasbinRule" }}
+            {{ $pname := print "Predicate" $node.Name }}
+            type {{ $pname }} struct {
+                predicates []predicate.{{ $node.Name }}
+            }
+
+            func NewPredicate{{ $node.Name }}() *{{ $pname }} {
+                return &{{ $pname }}{ predicates: []predicate.{{ $node.Name }}{}, }
+            }
+            func (p *{{ $pname }}) Submit() []predicate.{{ $node.Name }} {
+                return p.predicates
+            }
+            func (p *{{ $pname }}) ApplyCreatedAt(at []int64) *{{ $pname }} {
+                if at != nil && len(at) > 0 {
+                    start := time.UnixMilli(at[0])
+                    p.predicates = append(p.predicates, {{ lower $node.Name }}.CreatedAtGTE(start))
+                    if len(at) > 1 {
+                        end := time.UnixMilli(at[1])
+                        p.predicates = append(p.predicates, {{ lower $node.Name }}.CreatedAtLTE(end))
+                    }
+                }
+                return p
+            }
+            func (p *{{ $pname }}) ApplyUpdatedAt(at []int64) *{{ $pname }} {
+                if at != nil && len(at) > 0 {
+                    start := time.UnixMilli(at[0])
+                    p.predicates = append(p.predicates, {{ lower $node.Name }}.UpdatedAtGTE(start))
+                    if len(at) > 1 {
+                        end := time.UnixMilli(at[1])
+                        p.predicates = append(p.predicates, {{ lower $node.Name }}.UpdatedAtLTE(end))
+                    }
+                }
+                return p
+            }
+            func (p *{{ $pname }}) Apply(c bool, f func() predicate.{{ $node.Name }}) *{{ $pname }} {
+                if c {
+                    p.predicates = append(p.predicates, f())
+                }
+                return p
+            }
+        {{- end}}
+    {{- end }}
+
+{{ end }}

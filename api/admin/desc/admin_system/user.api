@@ -1,0 +1,163 @@
+import "../common.api"
+import "./department.api"
+import "./position.api"
+import "./role.api"
+
+info (
+	title:   "管理系统用户API"
+	desc:    "用于用户管理的API，包括创建、删除、更新、查询用户信息"
+)
+
+type (
+	// create
+	UserCreateReq {
+		Password     *string  `json:"password,optional" validate:"required,min=6"`
+		Confirm      *string  `json:"confirm,optional" validate:"required"`
+		Email        *string  `json:"email,optional" validate:"required,email,max=255"`
+		Name         *string  `json:"name,optional" validate:"omitempty,max=255"`
+		NickName     *string  `json:"nickname,optional" validate:"omitempty,max=255"`
+		Phone        *string  `json:"phone,optional" validate:"omitempty,number"`
+		Avatar       *string  `json:"avatar,optional" validate:"omitempty,max=1024"`
+		Remark       *string  `json:"remark,optional" validate:"omitempty,max=255"`
+		DepartmentID *string  `json:"department_id,optional" validate:"omitempty,len=20"`
+		PositionIDs  []string `json:"position_ids,optional" validate:"omitempty"`
+		RoleIDs      []string `json:"role_ids,optional" validate:"omitempty"`
+	}
+	UserCreateRes {
+		*CommonRes
+		Data *string `json:"data"`
+	}
+	// delete
+	UserDeleteReq {
+		ID *string `path:"id" validate:"required,len=20"`
+	}
+	UserDeleteRes {
+		*CommonRes
+	}
+	// update
+	UserUpdateReq {
+		ID           *string  `path:"id" validate:"required,len=20"`
+		Status       *uint8   `json:"status,optional" validate:"omitempty,oneof=1 2"`
+		Password     *string  `json:"password,optional" validate:"omitempty,min=6"`
+		Confirm      *string  `json:"confirm,optional" validate:"omitempty"`
+		Email        *string  `json:"email,optional" validate:"omitempty,email,max=255"`
+		Name         *string  `json:"name,optional" validate:"omitempty,max=255"`
+		NickName     *string  `json:"nickname,optional" validate:"omitempty,max=255"`
+		Phone        *string  `json:"phone,optional" validate:"omitempty,number"`
+		Avatar       *string  `json:"avatar,optional" validate:"omitempty,max=1024"`
+		Remark       *string  `json:"remark,optional" validate:"omitempty,max=255"`
+		DepartmentID *string  `json:"department_id,optional" validate:"omitempty,len=20"`
+		PositionIDs  []string `json:"position_ids,optional" validate:"omitempty"`
+		RoleIDs      []string `json:"role_ids,optional" validate:"omitempty"`
+	}
+	UserUpdateRes {
+		*CommonRes
+	}
+	// get
+	UserGet {
+		ID         *string        `json:"id"`
+		CreatedAt  *int64         `json:"created_at"`
+		UpdatedAt  *int64         `json:"updated_at"`
+		Status     *uint8         `json:"status"`
+		Email      *string        `json:"email"`
+		Name       *string        `json:"name"`
+		NickName   *string        `json:"nickname"`
+		Phone      *string        `json:"phone"`
+		Avatar     *string        `json:"avatar"`
+		Remark     *string        `json:"remark"`
+		Department *DepartmentGet `json:"department"`
+		Positions  []*PositionGet `json:"positions"`
+		Roles      []*RoleGet     `json:"roles"`
+	}
+	UserGetReq {
+		ID *string `path:"id" validate:"required,len=20"`
+	}
+	UserGetByEmailReq {
+		Email *string `form:"email,optional" validate:"required"`
+	}
+	UserGetRes {
+		*CommonRes
+		Data *UserGet `json:"data"`
+	}
+	// query
+	UserQuery {
+		*CommonPageRes
+		List []*UserGet `json:"list"`
+	}
+	UserQueryReq {
+		PageNo        *uint64  `form:"page_no,optional" validate:"omitempty,gte=0"`
+		PageSize      *uint64  `form:"page_size,optional" validate:"omitempty,lte=100"`
+		CreatedAt     []int64  `form:"created_at,optional" validate:"omitempty,max=2"`
+		UpdatedAt     []int64  `form:"updated_at,optional" validate:"omitempty,max=2"`
+		Status        *uint8   `form:"status,optional" validate:"omitempty,oneof=1 2"`
+		Email         *string  `form:"email,optional" validate:"omitempty"`
+		Name          *string  `form:"name,optional"`
+		NickName      *string  `form:"nickname,optional"`
+		Phone         *string  `form:"phone,optional"`
+		DepartmentIDs []string `form:"department_ids,optional"`
+		PositionIDs   []string `form:"position_ids,optional"`
+		RoleIDs       []string `form:"role_ids,optional"`
+	}
+	UserQueryRes {
+		*CommonRes
+		Data *UserQuery `json:"data"`
+	}
+)
+
+@server (
+	jwt:        Auth
+	middleware: Auth
+	group:      admin_system/user
+	prefix:     /api/v1/admin_system/user
+)
+service admin {
+	@doc (
+		summary:     "创建用户"
+		description: "创建新的用户信息"
+	)
+	@handler createUser
+	post / (UserCreateReq) returns (UserCreateRes)
+
+	@doc (
+		summary:     "删除用户"
+		description: "根据ID删除用户信息"
+	)
+	@handler deleteUser
+	post /delete (IDsReq) returns (CommonRes)
+
+	@doc (
+		summary:	 "删除单个用户"
+		description: "根据ID删除单个用户信息"
+	)
+	@handler deleteUserOne
+	delete /:id (UserDeleteReq) returns (UserDeleteRes)
+
+	@doc (
+		summary:     "更新用户"
+		description: "根据ID更新用户信息"
+	)
+	@handler updateUser
+	put /:id (UserUpdateReq) returns (UserUpdateRes)
+
+	@doc (
+		summary:     "获取用户详情"
+		description: "根据ID获取用户详细信息"
+	)
+	@handler getUser
+	get /:id (UserGetReq) returns (UserGetRes)
+
+	@doc (
+		summary:     "查询用户列表"
+		description: "分页查询用户列表信息"
+	)
+	@handler queryUser
+	get / (UserQueryReq) returns (UserQueryRes)
+
+	@doc (
+		summary:     "通过邮箱获取用户"
+		description: "根据邮箱地址获取用户详细信息"
+	)
+	@handler getUserByEmail
+	get /byemail (UserGetByEmailReq) returns (UserGetRes)
+}
+

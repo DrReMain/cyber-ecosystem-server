@@ -1,0 +1,35 @@
+// 以下两行必须要写，合并时会被删除
+syntax = "proto3";
+import "base.proto";
+
+message CasbinBody {
+  string role_code = 1;
+  string method = 2;
+  string path = 3;
+}
+message CasbinReq {
+  repeated string role_code = 1;
+}
+message CasbinRes {
+  repeated CasbinBody list = 1;
+}
+
+message RoleFromRoleReq {
+  repeated string role_ids = 1;
+}
+message RoleFromRoleRes {
+  repeated string role_code = 1;
+}
+
+message RoleFromMenuReq {
+  repeated string menu_ids = 1;
+}
+message RoleFromMenuRes {
+  repeated string role_code = 1;
+}
+
+service CasbinService {
+  rpc queryCasbinByRole (CasbinReq) returns (CasbinRes);
+  rpc queryRoleByMenu (RoleFromMenuReq) returns (RoleFromMenuRes);
+  rpc queryRoleByRole (RoleFromRoleReq) returns (RoleFromRoleRes);
+}

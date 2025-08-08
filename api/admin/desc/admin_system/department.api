@@ -1,0 +1,122 @@
+import "../common.api"
+
+info (
+	title: "管理系统部门API"
+	desc:  "用于部门管理的API，包括创建、删除、更新、查询部门信息"
+)
+
+type (
+	// create
+	DepartmentCreateReq {
+		Sort           *uint32 `json:"sort,optional" validate:"omitempty,gte=0"`
+		DepartmentName *string `json:"department_name,optional" validate:"required,max=255"`
+		Remark         *string `json:"remark,optional" validate:"omitempty,max=255"`
+		ParentID       *string `json:"parent_id,optional" validate:"omitempty,len=20"`
+	}
+	DepartmentCreateRes {
+		*CommonRes
+		Data *string `json:"data"`
+	}
+	// delete
+	DepartmentDeleteReq {
+		ID *string `path:"id" validate:"required,len=20"`
+	}
+	DepartmentDeleteRes {
+		*CommonRes
+	}
+	// update
+	DepartmentUpdateReq {
+		ID             *string `path:"id" validate:"required,len=20"`
+		Sort           *uint32 `json:"sort,optional" validate:"omitempty,gte=0"`
+		DepartmentName *string `json:"department_name,optional" validate:"omitempty,max=255"`
+		Remark         *string `json:"remark,optional" validate:"omitempty,max=255"`
+		ParentID       *string `json:"parent_id,optional" validate:"omitempty,len=20"`
+	}
+	DepartmentUpdateRes {
+		*CommonRes
+	}
+	// get
+	DepartmentGet {
+		ID             *string          `json:"id"`
+		CreatedAt      *int64           `json:"created_at"`
+		UpdatedAt      *int64           `json:"updated_at"`
+		Sort           *uint32          `json:"sort"`
+		DepartmentName *string          `json:"department_name"`
+		Remark         *string          `json:"remark"`
+		ParentID       *string          `json:"parent_id"`
+		Path           *string          `json:"path"`
+		Level          *uint32          `json:"level"`
+		Children       []*DepartmentGet `json:"children"`
+	}
+	DepartmentGetReq {
+		ID *string `path:"id" validate:"required,len=20"`
+	}
+	DepartmentGetRes {
+		*CommonRes
+		Data *DepartmentGet `json:"data"`
+	}
+	// query
+	DepartmentQuery {
+		*CommonPageRes
+		List []*DepartmentGet `json:"list"`
+	}
+	DepartmentQueryReq {
+		PageNo   *uint64 `form:"page_no,optional" validate:"omitempty,gte=0"`
+		PageSize *uint64 `form:"page_size,optional" validate:"omitempty,gte=0"`
+	}
+	DepartmentQueryRes {
+		*CommonRes
+		Data *DepartmentQuery `json:"data"`
+	}
+)
+
+@server (
+	jwt:        Auth
+	middleware: Auth
+	group:      admin_system/department
+	prefix:     /api/v1/admin_system/department
+)
+service admin {
+	@doc (
+		summary:     "创建部门"
+		description: "创建新的部门信息"
+	)
+	@handler createDepartment
+	post / (DepartmentCreateReq) returns (DepartmentCreateRes)
+
+	@doc (
+		summary:     "删除部门"
+		description: "根据ID删除部门信息"
+	)
+	@handler deleteDepartment
+	post /delete (IDsReq) returns (CommonRes)
+
+	@doc (
+		summary:	 "删除单个部门"
+		description: "根据ID删除单个部门信息"
+	)
+	@handler deleteDepartmentOne
+	delete /:id (DepartmentDeleteReq) returns (DepartmentDeleteRes)
+
+	@doc (
+		summary:     "更新部门"
+		description: "根据ID更新部门信息"
+	)
+	@handler updateDepartment
+	put /:id (DepartmentUpdateReq) returns (DepartmentUpdateRes)
+
+	@doc (
+		summary:     "获取部门详情"
+		description: "根据ID获取部门详细信息"
+	)
+	@handler getDepartment
+	get /:id (DepartmentGetReq) returns (DepartmentGetRes)
+
+	@doc (
+		summary:     "查询部门列表"
+		description: "分页查询部门列表信息"
+	)
+	@handler queryDepartment
+	get / (DepartmentQueryReq) returns (DepartmentQueryRes)
+}
+

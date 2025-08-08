@@ -1,0 +1,274 @@
+[
+  {
+    "title": "欢迎光临",
+    "icon": "",
+    "code": "WELCOME",
+    "code_path": "WELCOME",
+    "menu_type": "page",
+    "menu_path": "/welcome",
+    "resources": [],
+    "children": []
+  },
+  {
+    "title": "系统管理",
+    "icon": "",
+    "code": "SYSTEM",
+    "code_path": "SYSTEM",
+    "menu_type": "page",
+    "menu_path": "/system",
+    "resources": [],
+    "children": [
+      {
+        "title": "菜单管理",
+        "icon": "",
+        "code": "MENU",
+        "code_path": "SYSTEM.MENU",
+        "menu_type": "page",
+        "menu_path": "/system/menu",
+        "resources": [
+          { "method": "GET", "path": "/api/v1/admin_system/menu" },
+          { "method": "GET", "path": "/api/v1/admin_system/menu/:id" }
+        ],
+        "children": [
+          {
+            "title": "新增菜单",
+            "icon": "",
+            "code": "MENU_CREATE",
+            "code_path": "SYSTEM.MENU.MENU_CREATE",
+            "menu_type": "button",
+            "menu_path": "",
+            "resources": [
+              { "method": "POST", "path": "/api/v1/admin_system/menu" }
+            ],
+            "children": []
+          },
+          {
+            "title": "编辑菜单",
+            "icon": "",
+            "code": "MENU_UPDATE",
+            "code_path": "SYSTEM.MENU.MENU_UPDATE",
+            "menu_type": "button",
+            "menu_path": "",
+            "resources": [
+              { "method": "PUT", "path": "/api/v1/admin_system/menu/:id" }
+            ],
+            "children": []
+          },
+          {
+            "title": "删除菜单",
+            "icon": "",
+            "code": "MENU_DELETE",
+            "code_path": "SYSTEM.MENU.MENU_DELETE",
+            "menu_type": "button",
+            "menu_path": "",
+            "resources": [
+              { "method": "DELETE", "path": "/api/v1/admin_system/menu" }
+            ],
+            "children": []
+          }
+        ]
+      },
+      {
+        "title": "角色管理",
+        "icon": "",
+        "code": "ROLE",
+        "code_path": "SYSTEM.ROLE",
+        "menu_type": "page",
+        "menu_path": "/system/role",
+        "resources": [
+          { "method": "GET", "path": "/api/v1/admin_system/role" },
+          { "method": "GET", "path": "/api/v1/admin_system/role/:id" }
+        ],
+        "children": [
+          {
+            "title": "新增角色",
+            "icon": "",
+            "code": "ROLE_CREATE",
+            "code_path": "SYSTEM.ROLE.ROLE_CREATE",
+            "menu_type": "button",
+            "menu_path": "",
+            "resources": [
+              { "method": "POST", "path": "/api/v1/admin_system/role" }
+            ],
+            "children": []
+          },
+          {
+            "title": "编辑角色",
+            "icon": "",
+            "code": "ROLE_UPDATE",
+            "code_path": "SYSTEM.ROLE.ROLE_UPDATE",
+            "menu_type": "button",
+            "menu_path": "",
+            "resources": [
+              { "method": "PUT", "path": "/api/v1/admin_system/role/:id" }
+            ],
+            "children": []
+          },
+          {
+            "title": "删除角色",
+            "icon": "",
+            "code": "ROLE_DELETE",
+            "code_path": "SYSTEM.ROLE.ROLE_DELETE",
+            "menu_type": "button",
+            "menu_path": "",
+            "resources": [
+              { "method": "DELETE", "path": "/api/v1/admin_system/role" }
+            ],
+            "children": []
+          }
+        ]
+      },
+      {
+        "title": "部门管理",
+        "icon": "",
+        "code": "DEPARTMENT",
+        "code_path": "SYSTEM.DEPARTMENT",
+        "menu_type": "page",
+        "menu_path": "/system/department",
+        "resources": [
+          { "method": "GET", "path": "/api/v1/admin_system/department" },
+          { "method": "GET", "path": "/api/v1/admin_system/department/:id" }
+        ],
+        "children": [
+          {
+            "title": "新增部门",
+            "icon": "",
+            "code": "DEPARTMENT_CREATE",
+            "code_path": "SYSTEM.DEPARTMENT.DEPARTMENT_CREATE",
+            "menu_type": "button",
+            "menu_path": "",
+            "resources": [
+              { "method": "POST", "path": "/api/v1/admin_system/department" }
+            ],
+            "children": []
+          },
+          {
+            "title": "编辑部门",
+            "icon": "",
+            "code": "DEPARTMENT_UPDATE",
+            "code_path": "SYSTEM.DEPARTMENT.DEPARTMENT_UPDATE",
+            "menu_type": "button",
+            "menu_path": "",
+            "resources": [
+              { "method": "PUT", "path": "/api/v1/admin_system/department/:id" }
+            ],
+            "children": []
+          },
+          {
+            "title": "删除部门",
+            "icon": "",
+            "code": "DEPARTMENT_DELETE",
+            "code_path": "SYSTEM.DEPARTMENT.DEPARTMENT_DELETE",
+            "menu_type": "button",
+            "menu_path": "",
+            "resources": [
+              { "method": "DELETE", "path": "/api/v1/admin_system/department" }
+            ],
+            "children": []
+          }
+        ]
+      },
+      {
+        "title": "岗位管理",
+        "icon": "",
+        "code": "POSITION",
+        "code_path": "SYSTEM.POSITION",
+        "menu_type": "page",
+        "menu_path": "/system/position",
+        "resources": [
+          { "method": "GET", "path": "/api/v1/admin_system/position" },
+          { "method": "GET", "path": "/api/v1/admin_system/position/:id" }
+        ],
+        "children": [
+          {
+            "title": "新增岗位",
+            "icon": "",
+            "code": "POSITION_CREATE",
+            "code_path": "SYSTEM.POSITION.POSITION_CREATE",
+            "menu_type": "button",
+            "menu_path": "",
+            "resources": [
+              { "method": "POST", "path": "/api/v1/admin_system/position" }
+            ],
+            "children": []
+          },
+          {
+            "title": "编辑岗位",
+            "icon": "",
+            "code": "POSITION_UPDATE",
+            "code_path": "SYSTEM.POSITION.POSITION_UPDATE",
+            "menu_type": "button",
+            "menu_path": "",
+            "resources": [
+              { "method": "PUT", "path": "/api/v1/admin_system/position/:id" }
+            ],
+            "children": []
+          },
+          {
+            "title": "删除岗位",
+            "icon": "",
+            "code": "POSITION_DELETE",
+            "code_path": "SYSTEM.POSITION.POSITION_DELETE",
+            "menu_type": "button",
+            "menu_path": "",
+            "resources": [
+              { "method": "DELETE", "path": "/api/v1/admin_system/position" }
+            ],
+            "children": []
+          }
+        ]
+      },
+      {
+        "title": "用户管理",
+        "icon": "",
+        "code": "USER",
+        "code_path": "SYSTEM.USER",
+        "menu_type": "page",
+        "menu_path": "/system/user",
+        "resources": [
+          { "method": "GET", "path": "/api/v1/admin_system/user" },
+          { "method": "GET", "path": "/api/v1/admin_system/user/:id" },
+          { "method": "GET", "path": "/api/v1/admin_system/user/byemail" }
+        ],
+        "children": [
+          {
+            "title": "新增用户",
+            "icon": "",
+            "code": "USER_CREATE",
+            "code_path": "SYSTEM.USER.USER_CREATE",
+            "menu_type": "button",
+            "menu_path": "",
+            "resources": [
+              { "method": "POST", "path": "/api/v1/admin_system/user" }
+            ],
+            "children": []
+          },
+          {
+            "title": "编辑用户",
+            "icon": "",
+            "code": "USER_UPDATE",
+            "code_path": "SYSTEM.USER.USER_UPDATE",
+            "menu_type": "button",
+            "menu_path": "",
+            "resources": [
+              { "method": "PUT", "path": "/api/v1/admin_system/user/:id" }
+            ],
+            "children": []
+          },
+          {
+            "title": "删除用户",
+            "icon": "",
+            "code": "USER_DELETE",
+            "code_path": "SYSTEM.USER.USER_DELETE",
+            "menu_type": "button",
+            "menu_path": "",
+            "resources": [
+              { "method": "DELETE", "path": "/api/v1/admin_system/user" }
+            ],
+            "children": []
+          }
+        ]
+      }
+    ]
+  }
+]

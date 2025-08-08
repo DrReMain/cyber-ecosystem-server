@@ -1,0 +1,112 @@
+package account
+
+import (
+	"context"
+	"strings"
+	"time"
+
+	"github.com/DrReMain/cyber-ecosystem-server/api/admin/internal/helper/common_res"
+	"github.com/DrReMain/cyber-ecosystem-server/api/admin/internal/helper/usual_err"
+	"github.com/DrReMain/cyber-ecosystem-server/api/admin/internal/svc"
+	"github.com/DrReMain/cyber-ecosystem-server/api/admin/internal/types"
+	"github.com/DrReMain/cyber-ecosystem-server/pkg/orm/ent/mixins"
+	"github.com/DrReMain/cyber-ecosystem-server/pkg/utils/jwt"
+	"github.com/DrReMain/cyber-ecosystem-server/pkg/utils/pointc"
+	"github.com/DrReMain/cyber-ecosystem-server/rpc/admin_system/admin_system"
+
+	"github.com/zeromicro/go-zero/core/logx"
+)
+
+type RefreshLogic struct {
+	logx.Logger
+	ctx    context.Context
+	svcCtx *svc.ServiceContext
+}
+
+func NewRefreshLogic(ctx context.Context, svcCtx *svc.ServiceContext) *RefreshLogic {
+	return &RefreshLogic{
+		Logger: logx.WithContext(ctx),
+		ctx:    ctx,
+		svcCtx: svcCtx,
+	}
+}
+
+func (l *RefreshLogic) Refresh(req *types.RefreshReq) (resp *types.RefreshRes, err error) {
+	claims, err := jwt.Parse(*req.RefreshToken, l.svcCtx.Config.Auth.RefreshSecret)
+	if err != nil {
+		return nil, usual_err.HTTPRefreshFail(err.Error())
+	}
+
+	id, ok := claims["userID"].(string)
+	if !ok {
+		return nil, usual_err.HTTPRefreshFail("userID not found")
+	}
+
+	user, err := l.svcCtx.RPCAdminSystem.USER.GetUser(l.ctx, &admin_system.IDReq{Id: id})
+	if err != nil {
+		return nil, usual_err.HTTPRefreshFail(err.Error())
+	}
+
+	if user.Status != nil && *user.Status != uint32(mixins.StatusNormal) {
+		return nil, usual_err.HTTPRefreshFail("user has been banned")
+	}
+
+	userID := ""
+	if user.Id != nil {
+		userID = *user.Id
+	}
+
+	departmentID := ""
+	if user.Department != nil && user.Department.Id != nil {
+		departmentID = *user.Department.Id
+	}
+
+	positionID := make([]string, 0)
+	if user.Positions != nil && len(user.Positions) > 0 {
+		for _, position := range user.Positions {
+			positionID = append(positionID, *position.Id)
+		}
+	}
+
+	roleCode := make([]string, 0)
+	if user.Roles != nil && len(user.Roles) > 0 {
+		for _, role := range user.Roles {
+			roleCode = append(roleCode, *role.Code)
+		}
+	}
+
+	now := time.Now()
+
+	accessToken, err := jwt.New(
+		l.svcCtx.Config.Auth.AccessSecret,
+		l.svcCtx.Config.Auth.AccessExpire,
+		now.Unix(),
+		jwt.WithPayload("userID", userID),
+		jwt.WithPayload("departmentID", departmentID),
+		jwt.WithPayload("positionID", strings.Join(positionID, ",")),
+		jwt.WithPayload("roleCode", strings.Join(roleCode, ",")),
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	refreshToken, err := jwt.New(
+		l.svcCtx.Config.Auth.RefreshSecret,
+		l.svcCtx.Config.Auth.RefreshExpire,
+		now.Unix(),
+		jwt.WithPayload("userID", userID),
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	return &types.RefreshRes{
+		CommonRes: common_res.NewYES(""),
+		Data: &types.Token{
+			AccessToken:   pointc.P(accessToken),
+			AccessExpire:  pointc.P(now.Add(time.Duration(l.svcCtx.Config.Auth.AccessExpire) * time.Second).UnixMilli()),
+			RefreshToken:  pointc.P(refreshToken),
+			RefreshExpire: pointc.P(now.Add(time.Duration(l.svcCtx.Config.Auth.RefreshExpire) * time.Second).UnixMilli()),
+		},
+	}, nil
+}

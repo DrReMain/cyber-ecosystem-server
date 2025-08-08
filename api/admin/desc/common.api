@@ -1,0 +1,22 @@
+syntax = "v1"
+
+type Empty {}
+
+type IDsReq {
+	IDs []string `json:"ids,optional" validate:"required,min=1"`
+}
+
+type CommonRes {
+	T       string `json:"t"`
+	Success bool   `json:"success"`
+	Code    string `json:"code"`
+	Msg     string `json:"msg"`
+}
+
+type CommonPageRes {
+	PageNo   uint64 `json:"page_no"`
+	PageSize uint64 `json:"page_size"`
+	Total    uint64 `json:"total"`
+	More     bool   `json:"more"`
+}
+

@@ -1,0 +1,14 @@
+import "admin_system/base.api"
+import "admin_system/department.api"
+import "admin_system/menu.api"
+import "admin_system/position.api"
+import "admin_system/role.api"
+import "admin_system/user.api"
+import "admin_system/account.api"
+
+info (
+	title:   "admin"
+	desc:    ""
+	version: "v1"
+)
+

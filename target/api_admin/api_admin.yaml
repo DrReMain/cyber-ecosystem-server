@@ -1,0 +1,65 @@
+Name: admin
+Host: 0.0.0.0
+Port: 9000
+Timeout: 6000
+
+CORS:
+  Address: '*'
+
+Project:
+  AppNameHeader: X-APP-NAME
+  AppNameValue: cyber-ecosystem
+
+Log:
+  ServiceName: adminApiLogger
+  Mode: volume
+  Encoding: json
+  Path: ./logs/admin/api
+  Level: info
+  Compress: false
+  KeepDays: 7
+  StackCoolDownMillis: 100
+
+Auth:
+  AccessSecret: jS6VKDtsJf3z1n2VKDtsJf3z1n2
+  AccessExpire: 86400 # 24h * 60m * 60s
+  RefreshSecret: jS6VKDtsJf3z1n2VKDtsJf3z1n2
+  RefreshExpire: 172800 # 2 * 24h * 60m * 60s
+
+DBC:
+  Debug: true
+  Type: mysql
+  Host: host.docker.internal
+  Port: 3306
+  DBName: cyber_ecosystem
+  Username: shijiao
+  Password: shijiao
+  MaxOpenConn: 100
+  SSLMode: disable # disable or require
+  CacheTime: 5
+
+RedisC:
+  Host: host.docker.internal:6379
+  DB: 0
+
+CasbinC:
+  ModelText: |
+    [request_definition]
+    r = sub, act, obj
+    [policy_definition]
+    p = sub, act, obj
+    [role_definition]
+    g = _, _
+    [policy_effect]
+    e = some(where (p.eft == allow))
+    [matchers]
+    m = r.sub == p.sub && r.act == p.act && (keyMatch2(r.obj,p.obj) || keyMatch2(r.obj,p.obj + "/"))
+
+RpcAdminSystem:
+  Endpoints:
+    - host.docker.internal:8001
+  Enabled: true
+  Timeout: 6000
+
+
+

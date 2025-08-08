@@ -1,0 +1,46 @@
+[
+  {
+    "role_name": "超级管理员",
+    "code": "SUPER",
+    "menu_code": [
+      "WELCOME",
+      "SYSTEM",
+      "MENU",
+      "MENU_CREATE",
+      "MENU_UPDATE",
+      "MENU_DELETE",
+      "ROLE",
+      "ROLE_CREATE",
+      "ROLE_UPDATE",
+      "ROLE_DELETE",
+      "DEPARTMENT",
+      "DEPARTMENT_CREATE",
+      "DEPARTMENT_UPDATE",
+      "DEPARTMENT_DELETE",
+      "POSITION",
+      "POSITION_CREATE",
+      "POSITION_UPDATE",
+      "POSITION_DELETE",
+      "USER",
+      "USER_CREATE",
+      "USER_UPDATE",
+      "USER_DELETE"
+    ]
+  },
+  {
+    "role_name": "普通管理员",
+    "code": "ADMIN",
+    "menu_code": [
+      "WELCOME",
+      "SYSTEM",
+      "DEPARTMENT",
+      "DEPARTMENT_CREATE",
+      "DEPARTMENT_UPDATE",
+      "DEPARTMENT_DELETE",
+      "POSITION",
+      "POSITION_CREATE",
+      "POSITION_UPDATE",
+      "POSITION_DELETE"
+    ]
+  }
+]
