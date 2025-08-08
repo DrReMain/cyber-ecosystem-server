@@ -1,87 +1,86 @@
-# 基础变量定义
+# Basic variable definitions
 VERSION:=$(shell git describe --tags --always 2>/dev/null || echo "0.0.0")
 LOCAL_GOHOSTOS:=$(shell go env GOHOSTOS)
 LOCAL_GOARCH:=$(shell go env GOARCH)
 LOCAL_GOPATH:=$(shell go env GOPATH)
 
-# 构建相关变量
+# Build-related variables
 BUILD_TIME:=$(shell date +%Y-%m-%d_%H:%M:%S)
 BUILD_USER:=$(shell whoami)
 BUILD_HOST:=$(shell hostname)
 
-# Ent 特性配置
+# Ent feature configuration
 ENT_FEATURE:=sql/execquery,sql/modifier,intercept
 
-# 默认目标
+# Default target
 .DEFAULT_GOAL := help
 
 .PHONY: init tidy format atlas ent_new ent_gen combine gen_rpc gen_api build_rpc build_api start stop restart image run help
 
-# 初始化环境
+# Initialize environment
 init:
-	@echo "开始初始化环境..."
+	@echo "Initializing environment..."
 	@go install github.com/zeromicro/go-zero/tools/goctl@latest
 	@goctl env check --install --verbose --force
-	@echo "环境初始化完成"
+	@echo "Environment initialization completed"
 
-# 更新依赖
+# Update dependencies
 tidy:
-	@echo "开始更新依赖..."
-	@export GOPROXY=https://goproxy.cn,direct
+	@echo "Updating dependencies..."
 	@go mod tidy -v
-	@echo "依赖更新完成"
+	@echo "Dependency update completed"
 
-# 格式化 *.api target=admin
+# Format *.api files target=admin
 format:
-	@echo "开始格式化 API 文件..."
+	@echo "Formatting API files..."
 	@goctl api format --dir api/$(target)/desc/
-	@echo "格式化完成"
+	@echo "Formatting completed"
 
 ############################################# Ent #################################################
 
-# visualize the schema target=admin_system
+# Visualize database schema target=admin_system
 atlas:
-	@echo "开始生成数据库可视化..."
+	@echo "Generating database visualization..."
 	@atlas schema inspect -u "ent://rpc/$(target)/ent/schema" --dev-url "docker+mysql://_/mysql:8.4-oracle/dev" -w
-	@echo "可视化完成"
+	@echo "Visualization completed"
 
-# ent new target=admin_system entity=User
+# Create new Ent entity target=admin_system entity=User
 ent_new:
-	@echo "开始创建新的 Ent 实体..."
+	@echo "Creating new Ent entity..."
 	@go run -mod=mod entgo.io/ent/cmd/ent new --target=rpc/$(target)/ent/schema $(entity)
-	@echo "实体创建完成"
+	@echo "Entity creation completed"
 
-# ent generate target=admin_system
+# Generate Ent code target=admin_system
 ent_gen:
-	@echo "开始生成 Ent 代码..."
+	@echo "Generating Ent code..."
 	@go run -mod=mod entgo.io/ent/cmd/ent generate --template glob="./rpc/$(target)/ent/template/*.tmpl" ./rpc/$(target)/ent/schema --feature $(ENT_FEATURE)
-	@echo "代码生成完成"
+	@echo "Code generation completed"
 
 ############################################# GEN ################################################
 
-# combine *.proto target=admin_system
+# Combine *.proto files target=admin_system
 combine:
-	@echo "开始合并 Proto 文件..."
+	@echo "Merging Proto files..."
 	@go run ./rpc/$(target)/desc/main.go
-	@echo "合并完成"
+	@echo "Merge completed"
 
-# 项目生成 rpc target=admin_system
+# Generate RPC service target=admin_system
 gen_rpc:
-	@echo "开始生成 RPC 服务..."
+	@echo "Generating RPC service..."
 	@goctl rpc protoc ./rpc/$(target)/$(target).proto --go_out=./rpc/$(target)/ --go-grpc_out=./rpc/$(target)/ --zrpc_out=./rpc/$(target)/ -m --style=go_zero
-	@echo "RPC 服务生成完成"
+	@echo "RPC service generation completed"
 
-# 项目生成 api target=admin
+# Generate API service target=admin
 gen_api:
-	@echo "开始生成 API 服务..."
+	@echo "Generating API service..."
 	@goctl api go -api ./api/$(target)/desc/$(target).api -dir ./api/$(target)/ --style=go_zero
-	@echo "API 服务生成完成"
+	@echo "API service generation completed"
 
 ############################################# Build #############################################
 
-# 构建 rpc os=windows|darwin|linux arch=amd64|arm64 ext=.exe target=admin_system
+# Build RPC service os=windows|darwin|linux arch=amd64|arm64 ext=.exe target=admin_system
 build_rpc:
-	@echo "开始构建 RPC 服务..."
+	@echo "Building RPC service..."
 	@mkdir -p target/rpc_$(target)
 	@env CGO_ENABLED=0 GOOS=$(os) GOARCH=$(arch) go build \
 		-ldflags "-s -w \
@@ -92,11 +91,11 @@ build_rpc:
 		-trimpath \
 		-o target/rpc_$(target)/rpc_$(target)$(ext) \
 		-v ./rpc/$(target)/$(target).go
-	@echo "RPC 服务构建完成"
+	@echo "RPC service build completed"
 
-# 构建 api os=windows|darwin|linux arch=amd64|arm64 ext=.exe target=admin
+# Build API service os=windows|darwin|linux arch=amd64|arm64 ext=.exe target=admin
 build_api:
-	@echo "开始构建 API 服务..."
+	@echo "Building API service..."
 	@mkdir -p target/api_$(target)
 	@env CGO_ENABLED=0 GOOS=$(os) GOARCH=$(arch) go build \
 		-ldflags "-s -w \
@@ -107,33 +106,33 @@ build_api:
 		-trimpath \
 		-o target/api_$(target)/api_$(target)$(ext) \
 		-v ./api/$(target)/$(target).go
-	@echo "API 服务构建完成"
+	@echo "API service build completed"
 
 ############################################# RUN ################################################
 
-# 裸机运行 target=rpc_admin_system
+# Run bare metal service target=rpc_admin_system
 start:
-	@echo "开始启动服务..."
+	@echo "Starting service..."
 	@nohup ./target/$(target)/$(target) -f ./target/$(target)/$(target).yaml > /dev/null 2>&1 &
-	@echo "服务启动完成"
+	@echo "Service started"
 
-# 裸机停止 target=rpc_admin_system
+# Stop bare metal service target=rpc_admin_system
 stop:
-	@echo "开始停止服务..."
+	@echo "Stopping service..."
 	@-pkill -f $(target)
 	@for i in 5 4 3 2 1; do \
-		echo -n "停止中 $$i"; \
+		echo -n "Stopping $$i"; \
 		sleep 1; \
 		echo " "; \
 	done
-	@echo "服务停止完成"
+	@echo "Service stopped"
 
-# 裸机重启
+# Restart bare metal service
 restart: stop start
 
-# 构建容器镜像 target=rpc_admin_system
+# Build container image target=rpc_admin_system
 image:
-	@echo "开始构建 Docker 镜像..."
+	@echo "Building Docker image..."
 	@docker build \
 		--build-arg VERSION=$(VERSION) \
 		--build-arg BUILD_TIME=$(BUILD_TIME) \
@@ -141,21 +140,21 @@ image:
 		--build-arg BUILD_HOST=$(BUILD_HOST) \
 		-t $(target):$(VERSION) \
 		-f target/$(target)/Dockerfile .
-	@echo "Docker 镜像构建完成"
+	@echo "Docker image build completed"
 
-# 启动容器 target=rpc_admin_system p=8001
+# Run container target=rpc_admin_system p=8001
 run:
-	@echo "开始运行容器..."
+	@echo "Starting container..."
 	@docker run -itd -p $(p):$(p) --name=$(target) $(target):$(VERSION)
-	@echo "容器运行完成"
+	@echo "Container running"
 
 # SHOW Help
 help:
 	@echo ''
-	@echo '使用方法:'
+	@echo 'Usage:'
 	@echo ' make [target]'
 	@echo ''
-	@echo '目标列表:'
+	@echo 'Targets:'
 	@awk '/^[a-zA-Z\-\_0-9]+:/ { \
 	helpMessage = match(lastLine, /^# (.*)/); \
 		if (helpMessage) { \
@@ -166,9 +165,9 @@ help:
 	} \
 	{ lastLine = $$0 }' $(MAKEFILE_LIST)
 	@echo ''
-	@echo '参数说明:'
-	@echo '  VERSION: 项目版本号'
-	@echo '  BUILD_TIME: 构建时间'
-	@echo '  BUILD_USER: 构建用户'
-	@echo '  BUILD_HOST: 构建主机'
-	@echo '  ENT_FEATURE: Ent 特性配置'
+	@echo 'Parameter Description:'
+	@echo '  VERSION: Project version number'
+	@echo '  BUILD_TIME: Build timestamp'
+	@echo '  BUILD_USER: Build user'
+	@echo '  BUILD_HOST: Build hostname'
+	@echo '  ENT_FEATURE: Ent feature configuration'
