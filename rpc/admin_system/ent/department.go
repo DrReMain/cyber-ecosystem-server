@@ -23,13 +23,13 @@ type Department struct {
 	UpdatedAt time.Time `json:"updated_at,omitempty"`
 	// Sort holds the value of the "sort" field.
 	Sort uint32 `json:"sort,omitempty"`
-	// Department name | 部门名称
+	// Department name
 	DepartmentName string `json:"department_name,omitempty"`
-	// Department remark | 部门备注
+	// Department remark
 	Remark string `json:"remark,omitempty"`
-	// Parent ID | 父级部门ID
-	ParentID string `json:"parent_id,omitempty"`
-	// Id path | ID路径
+	// Parent ID
+	ParentID *string `json:"parent_id,omitempty"`
+	// Id path
 	IDPath string `json:"id_path,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the DepartmentQuery when eager-loading is set.
@@ -39,10 +39,10 @@ type Department struct {
 
 // DepartmentEdges holds the relations/edges for other nodes in the graph.
 type DepartmentEdges struct {
-	// Parent holds the value of the parent edge.
-	Parent *Department `json:"parent,omitempty"`
 	// Children holds the value of the children edge.
 	Children []*Department `json:"children,omitempty"`
+	// Parent holds the value of the parent edge.
+	Parent *Department `json:"parent,omitempty"`
 	// Users holds the value of the users edge.
 	Users []*User `json:"users,omitempty"`
 	// loadedTypes holds the information for reporting if a
@@ -50,24 +50,24 @@ type DepartmentEdges struct {
 	loadedTypes [3]bool
 }
 
+// ChildrenOrErr returns the Children value or an error if the edge
+// was not loaded in eager-loading.
+func (e DepartmentEdges) ChildrenOrErr() ([]*Department, error) {
+	if e.loadedTypes[0] {
+		return e.Children, nil
+	}
+	return nil, &NotLoadedError{edge: "children"}
+}
+
 // ParentOrErr returns the Parent value or an error if the edge
 // was not loaded in eager-loading, or loaded but was not found.
 func (e DepartmentEdges) ParentOrErr() (*Department, error) {
 	if e.Parent != nil {
 		return e.Parent, nil
-	} else if e.loadedTypes[0] {
+	} else if e.loadedTypes[1] {
 		return nil, &NotFoundError{label: department.Label}
 	}
 	return nil, &NotLoadedError{edge: "parent"}
-}
-
-// ChildrenOrErr returns the Children value or an error if the edge
-// was not loaded in eager-loading.
-func (e DepartmentEdges) ChildrenOrErr() ([]*Department, error) {
-	if e.loadedTypes[1] {
-		return e.Children, nil
-	}
-	return nil, &NotLoadedError{edge: "children"}
 }
 
 // UsersOrErr returns the Users value or an error if the edge
@@ -99,7 +99,7 @@ func (*Department) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the Department fields.
-func (d *Department) assignValues(columns []string, values []any) error {
+func (_m *Department) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -109,52 +109,53 @@ func (d *Department) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
-				d.ID = value.String
+				_m.ID = value.String
 			}
 		case department.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				d.CreatedAt = value.Time
+				_m.CreatedAt = value.Time
 			}
 		case department.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				d.UpdatedAt = value.Time
+				_m.UpdatedAt = value.Time
 			}
 		case department.FieldSort:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field sort", values[i])
 			} else if value.Valid {
-				d.Sort = uint32(value.Int64)
+				_m.Sort = uint32(value.Int64)
 			}
 		case department.FieldDepartmentName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field department_name", values[i])
 			} else if value.Valid {
-				d.DepartmentName = value.String
+				_m.DepartmentName = value.String
 			}
 		case department.FieldRemark:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field remark", values[i])
 			} else if value.Valid {
-				d.Remark = value.String
+				_m.Remark = value.String
 			}
 		case department.FieldParentID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field parent_id", values[i])
 			} else if value.Valid {
-				d.ParentID = value.String
+				_m.ParentID = new(string)
+				*_m.ParentID = value.String
 			}
 		case department.FieldIDPath:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id_path", values[i])
 			} else if value.Valid {
-				d.IDPath = value.String
+				_m.IDPath = value.String
 			}
 		default:
-			d.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -162,68 +163,70 @@ func (d *Department) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the Department.
 // This includes values selected through modifiers, order, etc.
-func (d *Department) Value(name string) (ent.Value, error) {
-	return d.selectValues.Get(name)
-}
-
-// QueryParent queries the "parent" edge of the Department entity.
-func (d *Department) QueryParent() *DepartmentQuery {
-	return NewDepartmentClient(d.config).QueryParent(d)
+func (_m *Department) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // QueryChildren queries the "children" edge of the Department entity.
-func (d *Department) QueryChildren() *DepartmentQuery {
-	return NewDepartmentClient(d.config).QueryChildren(d)
+func (_m *Department) QueryChildren() *DepartmentQuery {
+	return NewDepartmentClient(_m.config).QueryChildren(_m)
+}
+
+// QueryParent queries the "parent" edge of the Department entity.
+func (_m *Department) QueryParent() *DepartmentQuery {
+	return NewDepartmentClient(_m.config).QueryParent(_m)
 }
 
 // QueryUsers queries the "users" edge of the Department entity.
-func (d *Department) QueryUsers() *UserQuery {
-	return NewDepartmentClient(d.config).QueryUsers(d)
+func (_m *Department) QueryUsers() *UserQuery {
+	return NewDepartmentClient(_m.config).QueryUsers(_m)
 }
 
 // Update returns a builder for updating this Department.
 // Note that you need to call Department.Unwrap() before calling this method if this Department
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (d *Department) Update() *DepartmentUpdateOne {
-	return NewDepartmentClient(d.config).UpdateOne(d)
+func (_m *Department) Update() *DepartmentUpdateOne {
+	return NewDepartmentClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the Department entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (d *Department) Unwrap() *Department {
-	_tx, ok := d.config.driver.(*txDriver)
+func (_m *Department) Unwrap() *Department {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: Department is not a transactional entity")
 	}
-	d.config.driver = _tx.drv
-	return d
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (d *Department) String() string {
+func (_m *Department) String() string {
 	var builder strings.Builder
 	builder.WriteString("Department(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", d.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("created_at=")
-	builder.WriteString(d.CreatedAt.Format(time.ANSIC))
+	builder.WriteString(_m.CreatedAt.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(d.UpdatedAt.Format(time.ANSIC))
+	builder.WriteString(_m.UpdatedAt.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("sort=")
-	builder.WriteString(fmt.Sprintf("%v", d.Sort))
+	builder.WriteString(fmt.Sprintf("%v", _m.Sort))
 	builder.WriteString(", ")
 	builder.WriteString("department_name=")
-	builder.WriteString(d.DepartmentName)
+	builder.WriteString(_m.DepartmentName)
 	builder.WriteString(", ")
 	builder.WriteString("remark=")
-	builder.WriteString(d.Remark)
+	builder.WriteString(_m.Remark)
 	builder.WriteString(", ")
-	builder.WriteString("parent_id=")
-	builder.WriteString(d.ParentID)
+	if v := _m.ParentID; v != nil {
+		builder.WriteString("parent_id=")
+		builder.WriteString(*v)
+	}
 	builder.WriteString(", ")
 	builder.WriteString("id_path=")
-	builder.WriteString(d.IDPath)
+	builder.WriteString(_m.IDPath)
 	builder.WriteByte(')')
 	return builder.String()
 }

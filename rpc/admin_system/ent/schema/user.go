@@ -20,30 +20,36 @@ type User struct {
 func (User) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("password").
-			Comment("User password | 用户密码"),
+			NotEmpty().
+			Comment("User password"),
 		field.String("email").
-			Comment("User email | 用户邮箱"),
+			NotEmpty().
+			Comment("User email"),
 		field.String("name").
 			Default("").
-			Comment("User name | 用户名"),
+			Comment("User name"),
 		field.String("nickname").
 			Default("").
-			Comment("User nickname | 用户昵称"),
+			Comment("User nickname"),
 		field.String("phone").
+			SchemaType(map[string]string{
+				dialect.MySQL: "varchar(32)",
+			}).
 			Default("").
-			Comment("User phone | 用户手机号"),
+			Comment("User phone"),
 		field.String("avatar").
 			SchemaType(map[string]string{
 				dialect.MySQL: "varchar(1024)",
 			}).
 			Default("").
-			Comment("User avatar | 用户头像"),
+			Comment("User avatar"),
 		field.String("remark").
 			Default("").
-			Comment("User remark | 用户备注"),
+			Comment("User remark"),
 		field.String("department_id").
-			Default("").
-			Comment("User DepartmentID | 用户所属部门"),
+			Optional().
+			Nillable().
+			Comment("User DepartmentID"),
 	}
 }
 
@@ -57,7 +63,7 @@ func (User) Mixin() []ent.Mixin {
 
 func (User) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.To("department", Department.Type).Required().Unique().Field("department_id"),
+		edge.To("department", Department.Type).Unique().Field("department_id"),
 		edge.To("positions", Position.Type).StorageKey(edge.Table("admin_system_user_positions")),
 		edge.To("roles", Role.Type).StorageKey(edge.Table("admin_system_user_roles")),
 	}
@@ -69,6 +75,7 @@ func (User) Indexes() []ent.Index {
 		index.Fields("name"),
 		index.Fields("nickname"),
 		index.Fields("phone"),
+		index.Fields("department_id"),
 	}
 }
 

@@ -2,6 +2,7 @@ package schema
 
 import (
 	"entgo.io/ent"
+	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/edge"
@@ -18,16 +19,21 @@ type Department struct {
 func (Department) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("department_name").
-			Comment("Department name | 部门名称"),
+			NotEmpty().
+			Comment("Department name"),
 		field.String("remark").
 			Default("").
-			Comment("Department remark | 部门备注"),
+			Comment("Department remark"),
 		field.String("parent_id").
-			Default("").
 			Optional().
-			Comment("Parent ID | 父级部门ID"),
-		field.String("id_path").Default("").
-			Comment("Id path | ID路径"),
+			Nillable().
+			Comment("Parent ID"),
+		field.String("id_path").
+			SchemaType(map[string]string{
+				dialect.MySQL: "varchar(512)",
+			}).
+			NotEmpty().
+			Comment("Id path"),
 	}
 }
 
@@ -40,14 +46,15 @@ func (Department) Mixin() []ent.Mixin {
 
 func (Department) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.To("children", Department.Type).From("parent").Unique().Field("parent_id"),
+		edge.To("children", Department.Type),
+		edge.From("parent", Department.Type).Ref("children").Unique().Field("parent_id"),
 		edge.From("users", User.Type).Ref("department"),
 	}
 }
 
 func (Department) Indexes() []ent.Index {
 	return []ent.Index{
-		index.Fields("department_name").Unique(),
+		index.Fields("department_name", "parent_id").Unique(),
 		index.Fields("parent_id"),
 		index.Fields("id_path").Unique(),
 	}

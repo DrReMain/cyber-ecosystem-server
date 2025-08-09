@@ -118,6 +118,10 @@ var (
 	UpdateDefaultUpdatedAt func() time.Time
 	// DefaultStatus holds the default value on creation for the "status" field.
 	DefaultStatus uint8
+	// PasswordValidator is a validator for the "password" field. It is called by the builders before save.
+	PasswordValidator func(string) error
+	// EmailValidator is a validator for the "email" field. It is called by the builders before save.
+	EmailValidator func(string) error
 	// DefaultName holds the default value on creation for the "name" field.
 	DefaultName string
 	// DefaultNickname holds the default value on creation for the "nickname" field.
@@ -128,8 +132,6 @@ var (
 	DefaultAvatar string
 	// DefaultRemark holds the default value on creation for the "remark" field.
 	DefaultRemark string
-	// DefaultDepartmentID holds the default value on creation for the "department_id" field.
-	DefaultDepartmentID string
 	// DefaultID holds the default value on creation for the "id" field.
 	DefaultID func() string
 	// IDValidator is a validator for the "id" field. It is called by the builders before save.

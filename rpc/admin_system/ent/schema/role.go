@@ -18,12 +18,14 @@ type Role struct {
 func (Role) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("role_name").
-			Comment("Role name | 角色名称"),
+			NotEmpty().
+			Comment("Role name"),
 		field.String("code").
-			Comment("Role code | 角色CODE"),
+			NotEmpty().
+			Comment("Role code"),
 		field.String("remark").
 			Default("").
-			Comment("Role remark | 角色备注"),
+			Comment("Role remark"),
 	}
 }
 

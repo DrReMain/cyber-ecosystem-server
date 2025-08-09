@@ -115,11 +115,6 @@ func MenuType(v string) predicate.Menu {
 	return predicate.Menu(sql.FieldEQ(FieldMenuType, v))
 }
 
-// MenuPath applies equality check predicate on the "menu_path" field. It's identical to MenuPathEQ.
-func MenuPath(v string) predicate.Menu {
-	return predicate.Menu(sql.FieldEQ(FieldMenuPath, v))
-}
-
 // Properties applies equality check predicate on the "properties" field. It's identical to PropertiesEQ.
 func Properties(v string) predicate.Menu {
 	return predicate.Menu(sql.FieldEQ(FieldProperties, v))
@@ -610,6 +605,16 @@ func ParentIDHasSuffix(v string) predicate.Menu {
 	return predicate.Menu(sql.FieldHasSuffix(FieldParentID, v))
 }
 
+// ParentIDIsNil applies the IsNil predicate on the "parent_id" field.
+func ParentIDIsNil() predicate.Menu {
+	return predicate.Menu(sql.FieldIsNull(FieldParentID))
+}
+
+// ParentIDNotNil applies the NotNil predicate on the "parent_id" field.
+func ParentIDNotNil() predicate.Menu {
+	return predicate.Menu(sql.FieldNotNull(FieldParentID))
+}
+
 // ParentIDEqualFold applies the EqualFold predicate on the "parent_id" field.
 func ParentIDEqualFold(v string) predicate.Menu {
 	return predicate.Menu(sql.FieldEqualFold(FieldParentID, v))
@@ -683,71 +688,6 @@ func MenuTypeEqualFold(v string) predicate.Menu {
 // MenuTypeContainsFold applies the ContainsFold predicate on the "menu_type" field.
 func MenuTypeContainsFold(v string) predicate.Menu {
 	return predicate.Menu(sql.FieldContainsFold(FieldMenuType, v))
-}
-
-// MenuPathEQ applies the EQ predicate on the "menu_path" field.
-func MenuPathEQ(v string) predicate.Menu {
-	return predicate.Menu(sql.FieldEQ(FieldMenuPath, v))
-}
-
-// MenuPathNEQ applies the NEQ predicate on the "menu_path" field.
-func MenuPathNEQ(v string) predicate.Menu {
-	return predicate.Menu(sql.FieldNEQ(FieldMenuPath, v))
-}
-
-// MenuPathIn applies the In predicate on the "menu_path" field.
-func MenuPathIn(vs ...string) predicate.Menu {
-	return predicate.Menu(sql.FieldIn(FieldMenuPath, vs...))
-}
-
-// MenuPathNotIn applies the NotIn predicate on the "menu_path" field.
-func MenuPathNotIn(vs ...string) predicate.Menu {
-	return predicate.Menu(sql.FieldNotIn(FieldMenuPath, vs...))
-}
-
-// MenuPathGT applies the GT predicate on the "menu_path" field.
-func MenuPathGT(v string) predicate.Menu {
-	return predicate.Menu(sql.FieldGT(FieldMenuPath, v))
-}
-
-// MenuPathGTE applies the GTE predicate on the "menu_path" field.
-func MenuPathGTE(v string) predicate.Menu {
-	return predicate.Menu(sql.FieldGTE(FieldMenuPath, v))
-}
-
-// MenuPathLT applies the LT predicate on the "menu_path" field.
-func MenuPathLT(v string) predicate.Menu {
-	return predicate.Menu(sql.FieldLT(FieldMenuPath, v))
-}
-
-// MenuPathLTE applies the LTE predicate on the "menu_path" field.
-func MenuPathLTE(v string) predicate.Menu {
-	return predicate.Menu(sql.FieldLTE(FieldMenuPath, v))
-}
-
-// MenuPathContains applies the Contains predicate on the "menu_path" field.
-func MenuPathContains(v string) predicate.Menu {
-	return predicate.Menu(sql.FieldContains(FieldMenuPath, v))
-}
-
-// MenuPathHasPrefix applies the HasPrefix predicate on the "menu_path" field.
-func MenuPathHasPrefix(v string) predicate.Menu {
-	return predicate.Menu(sql.FieldHasPrefix(FieldMenuPath, v))
-}
-
-// MenuPathHasSuffix applies the HasSuffix predicate on the "menu_path" field.
-func MenuPathHasSuffix(v string) predicate.Menu {
-	return predicate.Menu(sql.FieldHasSuffix(FieldMenuPath, v))
-}
-
-// MenuPathEqualFold applies the EqualFold predicate on the "menu_path" field.
-func MenuPathEqualFold(v string) predicate.Menu {
-	return predicate.Menu(sql.FieldEqualFold(FieldMenuPath, v))
-}
-
-// MenuPathContainsFold applies the ContainsFold predicate on the "menu_path" field.
-func MenuPathContainsFold(v string) predicate.Menu {
-	return predicate.Menu(sql.FieldContainsFold(FieldMenuPath, v))
 }
 
 // PropertiesEQ applies the EQ predicate on the "properties" field.
@@ -838,29 +778,6 @@ func HasRolesWith(preds ...predicate.Role) predicate.Menu {
 	})
 }
 
-// HasParent applies the HasEdge predicate on the "parent" edge.
-func HasParent() predicate.Menu {
-	return predicate.Menu(func(s *sql.Selector) {
-		step := sqlgraph.NewStep(
-			sqlgraph.From(Table, FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, ParentTable, ParentColumn),
-		)
-		sqlgraph.HasNeighbors(s, step)
-	})
-}
-
-// HasParentWith applies the HasEdge predicate on the "parent" edge with a given conditions (other predicates).
-func HasParentWith(preds ...predicate.Menu) predicate.Menu {
-	return predicate.Menu(func(s *sql.Selector) {
-		step := newParentStep()
-		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
-			for _, p := range preds {
-				p(s)
-			}
-		})
-	})
-}
-
 // HasChildren applies the HasEdge predicate on the "children" edge.
 func HasChildren() predicate.Menu {
 	return predicate.Menu(func(s *sql.Selector) {
@@ -876,6 +793,29 @@ func HasChildren() predicate.Menu {
 func HasChildrenWith(preds ...predicate.Menu) predicate.Menu {
 	return predicate.Menu(func(s *sql.Selector) {
 		step := newChildrenStep()
+		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
+			for _, p := range preds {
+				p(s)
+			}
+		})
+	})
+}
+
+// HasParent applies the HasEdge predicate on the "parent" edge.
+func HasParent() predicate.Menu {
+	return predicate.Menu(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, ParentTable, ParentColumn),
+		)
+		sqlgraph.HasNeighbors(s, step)
+	})
+}
+
+// HasParentWith applies the HasEdge predicate on the "parent" edge with a given conditions (other predicates).
+func HasParentWith(preds ...predicate.Menu) predicate.Menu {
+	return predicate.Menu(func(s *sql.Selector) {
+		step := newParentStep()
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)

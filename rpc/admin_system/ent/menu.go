@@ -25,21 +25,19 @@ type Menu struct {
 	Sort uint32 `json:"sort,omitempty"`
 	// Status | 1 正常 2 禁用
 	Status uint8 `json:"status,omitempty"`
-	// Menu title | 菜单标题
+	// Menu title
 	Title string `json:"title,omitempty"`
-	// Menu icon | 菜单图标
+	// Menu icon
 	Icon string `json:"icon,omitempty"`
-	// Menu code | 菜单CODE
+	// Menu code
 	Code string `json:"code,omitempty"`
-	// Menu code path | 菜单CODE路径 (code1.code2.code3)
+	// Menu code path (code1_code2_code3)
 	CodePath string `json:"code_path,omitempty"`
-	// Parent MenuID | 父级菜单ID
-	ParentID string `json:"parent_id,omitempty"`
-	// Menu type | 菜单类型 (page/button)
+	// Parent MenuID
+	ParentID *string `json:"parent_id,omitempty"`
+	// Menu type (divider/group/menu/page/button)
 	MenuType string `json:"menu_type,omitempty"`
-	// Menu path | 菜单路径
-	MenuPath string `json:"menu_path,omitempty"`
-	// Menu properties | 菜单属性 (JSON字符串)
+	// Menu properties (JSON字符串)
 	Properties string `json:"properties,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the MenuQuery when eager-loading is set.
@@ -51,10 +49,10 @@ type Menu struct {
 type MenuEdges struct {
 	// Roles holds the value of the roles edge.
 	Roles []*Role `json:"roles,omitempty"`
-	// Parent holds the value of the parent edge.
-	Parent *Menu `json:"parent,omitempty"`
 	// Children holds the value of the children edge.
 	Children []*Menu `json:"children,omitempty"`
+	// Parent holds the value of the parent edge.
+	Parent *Menu `json:"parent,omitempty"`
 	// Resources holds the value of the resources edge.
 	Resources []*Resource `json:"resources,omitempty"`
 	// loadedTypes holds the information for reporting if a
@@ -71,24 +69,24 @@ func (e MenuEdges) RolesOrErr() ([]*Role, error) {
 	return nil, &NotLoadedError{edge: "roles"}
 }
 
+// ChildrenOrErr returns the Children value or an error if the edge
+// was not loaded in eager-loading.
+func (e MenuEdges) ChildrenOrErr() ([]*Menu, error) {
+	if e.loadedTypes[1] {
+		return e.Children, nil
+	}
+	return nil, &NotLoadedError{edge: "children"}
+}
+
 // ParentOrErr returns the Parent value or an error if the edge
 // was not loaded in eager-loading, or loaded but was not found.
 func (e MenuEdges) ParentOrErr() (*Menu, error) {
 	if e.Parent != nil {
 		return e.Parent, nil
-	} else if e.loadedTypes[1] {
+	} else if e.loadedTypes[2] {
 		return nil, &NotFoundError{label: menu.Label}
 	}
 	return nil, &NotLoadedError{edge: "parent"}
-}
-
-// ChildrenOrErr returns the Children value or an error if the edge
-// was not loaded in eager-loading.
-func (e MenuEdges) ChildrenOrErr() ([]*Menu, error) {
-	if e.loadedTypes[2] {
-		return e.Children, nil
-	}
-	return nil, &NotLoadedError{edge: "children"}
 }
 
 // ResourcesOrErr returns the Resources value or an error if the edge
@@ -107,7 +105,7 @@ func (*Menu) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case menu.FieldSort, menu.FieldStatus:
 			values[i] = new(sql.NullInt64)
-		case menu.FieldID, menu.FieldTitle, menu.FieldIcon, menu.FieldCode, menu.FieldCodePath, menu.FieldParentID, menu.FieldMenuType, menu.FieldMenuPath, menu.FieldProperties:
+		case menu.FieldID, menu.FieldTitle, menu.FieldIcon, menu.FieldCode, menu.FieldCodePath, menu.FieldParentID, menu.FieldMenuType, menu.FieldProperties:
 			values[i] = new(sql.NullString)
 		case menu.FieldCreatedAt, menu.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
@@ -120,7 +118,7 @@ func (*Menu) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the Menu fields.
-func (m *Menu) assignValues(columns []string, values []any) error {
+func (_m *Menu) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -130,82 +128,77 @@ func (m *Menu) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
-				m.ID = value.String
+				_m.ID = value.String
 			}
 		case menu.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				m.CreatedAt = value.Time
+				_m.CreatedAt = value.Time
 			}
 		case menu.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				m.UpdatedAt = value.Time
+				_m.UpdatedAt = value.Time
 			}
 		case menu.FieldSort:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field sort", values[i])
 			} else if value.Valid {
-				m.Sort = uint32(value.Int64)
+				_m.Sort = uint32(value.Int64)
 			}
 		case menu.FieldStatus:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field status", values[i])
 			} else if value.Valid {
-				m.Status = uint8(value.Int64)
+				_m.Status = uint8(value.Int64)
 			}
 		case menu.FieldTitle:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field title", values[i])
 			} else if value.Valid {
-				m.Title = value.String
+				_m.Title = value.String
 			}
 		case menu.FieldIcon:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field icon", values[i])
 			} else if value.Valid {
-				m.Icon = value.String
+				_m.Icon = value.String
 			}
 		case menu.FieldCode:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field code", values[i])
 			} else if value.Valid {
-				m.Code = value.String
+				_m.Code = value.String
 			}
 		case menu.FieldCodePath:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field code_path", values[i])
 			} else if value.Valid {
-				m.CodePath = value.String
+				_m.CodePath = value.String
 			}
 		case menu.FieldParentID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field parent_id", values[i])
 			} else if value.Valid {
-				m.ParentID = value.String
+				_m.ParentID = new(string)
+				*_m.ParentID = value.String
 			}
 		case menu.FieldMenuType:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field menu_type", values[i])
 			} else if value.Valid {
-				m.MenuType = value.String
-			}
-		case menu.FieldMenuPath:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field menu_path", values[i])
-			} else if value.Valid {
-				m.MenuPath = value.String
+				_m.MenuType = value.String
 			}
 		case menu.FieldProperties:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field properties", values[i])
 			} else if value.Valid {
-				m.Properties = value.String
+				_m.Properties = value.String
 			}
 		default:
-			m.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -213,88 +206,87 @@ func (m *Menu) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the Menu.
 // This includes values selected through modifiers, order, etc.
-func (m *Menu) Value(name string) (ent.Value, error) {
-	return m.selectValues.Get(name)
+func (_m *Menu) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // QueryRoles queries the "roles" edge of the Menu entity.
-func (m *Menu) QueryRoles() *RoleQuery {
-	return NewMenuClient(m.config).QueryRoles(m)
-}
-
-// QueryParent queries the "parent" edge of the Menu entity.
-func (m *Menu) QueryParent() *MenuQuery {
-	return NewMenuClient(m.config).QueryParent(m)
+func (_m *Menu) QueryRoles() *RoleQuery {
+	return NewMenuClient(_m.config).QueryRoles(_m)
 }
 
 // QueryChildren queries the "children" edge of the Menu entity.
-func (m *Menu) QueryChildren() *MenuQuery {
-	return NewMenuClient(m.config).QueryChildren(m)
+func (_m *Menu) QueryChildren() *MenuQuery {
+	return NewMenuClient(_m.config).QueryChildren(_m)
+}
+
+// QueryParent queries the "parent" edge of the Menu entity.
+func (_m *Menu) QueryParent() *MenuQuery {
+	return NewMenuClient(_m.config).QueryParent(_m)
 }
 
 // QueryResources queries the "resources" edge of the Menu entity.
-func (m *Menu) QueryResources() *ResourceQuery {
-	return NewMenuClient(m.config).QueryResources(m)
+func (_m *Menu) QueryResources() *ResourceQuery {
+	return NewMenuClient(_m.config).QueryResources(_m)
 }
 
 // Update returns a builder for updating this Menu.
 // Note that you need to call Menu.Unwrap() before calling this method if this Menu
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (m *Menu) Update() *MenuUpdateOne {
-	return NewMenuClient(m.config).UpdateOne(m)
+func (_m *Menu) Update() *MenuUpdateOne {
+	return NewMenuClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the Menu entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (m *Menu) Unwrap() *Menu {
-	_tx, ok := m.config.driver.(*txDriver)
+func (_m *Menu) Unwrap() *Menu {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: Menu is not a transactional entity")
 	}
-	m.config.driver = _tx.drv
-	return m
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (m *Menu) String() string {
+func (_m *Menu) String() string {
 	var builder strings.Builder
 	builder.WriteString("Menu(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", m.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("created_at=")
-	builder.WriteString(m.CreatedAt.Format(time.ANSIC))
+	builder.WriteString(_m.CreatedAt.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(m.UpdatedAt.Format(time.ANSIC))
+	builder.WriteString(_m.UpdatedAt.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("sort=")
-	builder.WriteString(fmt.Sprintf("%v", m.Sort))
+	builder.WriteString(fmt.Sprintf("%v", _m.Sort))
 	builder.WriteString(", ")
 	builder.WriteString("status=")
-	builder.WriteString(fmt.Sprintf("%v", m.Status))
+	builder.WriteString(fmt.Sprintf("%v", _m.Status))
 	builder.WriteString(", ")
 	builder.WriteString("title=")
-	builder.WriteString(m.Title)
+	builder.WriteString(_m.Title)
 	builder.WriteString(", ")
 	builder.WriteString("icon=")
-	builder.WriteString(m.Icon)
+	builder.WriteString(_m.Icon)
 	builder.WriteString(", ")
 	builder.WriteString("code=")
-	builder.WriteString(m.Code)
+	builder.WriteString(_m.Code)
 	builder.WriteString(", ")
 	builder.WriteString("code_path=")
-	builder.WriteString(m.CodePath)
+	builder.WriteString(_m.CodePath)
 	builder.WriteString(", ")
-	builder.WriteString("parent_id=")
-	builder.WriteString(m.ParentID)
+	if v := _m.ParentID; v != nil {
+		builder.WriteString("parent_id=")
+		builder.WriteString(*v)
+	}
 	builder.WriteString(", ")
 	builder.WriteString("menu_type=")
-	builder.WriteString(m.MenuType)
-	builder.WriteString(", ")
-	builder.WriteString("menu_path=")
-	builder.WriteString(m.MenuPath)
+	builder.WriteString(_m.MenuType)
 	builder.WriteString(", ")
 	builder.WriteString("properties=")
-	builder.WriteString(m.Properties)
+	builder.WriteString(_m.Properties)
 	builder.WriteByte(')')
 	return builder.String()
 }

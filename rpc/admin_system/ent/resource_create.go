@@ -22,84 +22,84 @@ type ResourceCreate struct {
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (rc *ResourceCreate) SetCreatedAt(t time.Time) *ResourceCreate {
-	rc.mutation.SetCreatedAt(t)
-	return rc
+func (_c *ResourceCreate) SetCreatedAt(v time.Time) *ResourceCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (rc *ResourceCreate) SetNillableCreatedAt(t *time.Time) *ResourceCreate {
-	if t != nil {
-		rc.SetCreatedAt(*t)
+func (_c *ResourceCreate) SetNillableCreatedAt(v *time.Time) *ResourceCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return rc
+	return _c
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (rc *ResourceCreate) SetUpdatedAt(t time.Time) *ResourceCreate {
-	rc.mutation.SetUpdatedAt(t)
-	return rc
+func (_c *ResourceCreate) SetUpdatedAt(v time.Time) *ResourceCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (rc *ResourceCreate) SetNillableUpdatedAt(t *time.Time) *ResourceCreate {
-	if t != nil {
-		rc.SetUpdatedAt(*t)
+func (_c *ResourceCreate) SetNillableUpdatedAt(v *time.Time) *ResourceCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return rc
+	return _c
 }
 
 // SetMenuID sets the "menu_id" field.
-func (rc *ResourceCreate) SetMenuID(s string) *ResourceCreate {
-	rc.mutation.SetMenuID(s)
-	return rc
+func (_c *ResourceCreate) SetMenuID(v string) *ResourceCreate {
+	_c.mutation.SetMenuID(v)
+	return _c
 }
 
 // SetMethod sets the "method" field.
-func (rc *ResourceCreate) SetMethod(s string) *ResourceCreate {
-	rc.mutation.SetMethod(s)
-	return rc
+func (_c *ResourceCreate) SetMethod(v string) *ResourceCreate {
+	_c.mutation.SetMethod(v)
+	return _c
 }
 
 // SetPath sets the "path" field.
-func (rc *ResourceCreate) SetPath(s string) *ResourceCreate {
-	rc.mutation.SetPath(s)
-	return rc
+func (_c *ResourceCreate) SetPath(v string) *ResourceCreate {
+	_c.mutation.SetPath(v)
+	return _c
 }
 
 // SetID sets the "id" field.
-func (rc *ResourceCreate) SetID(s string) *ResourceCreate {
-	rc.mutation.SetID(s)
-	return rc
+func (_c *ResourceCreate) SetID(v string) *ResourceCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // SetNillableID sets the "id" field if the given value is not nil.
-func (rc *ResourceCreate) SetNillableID(s *string) *ResourceCreate {
-	if s != nil {
-		rc.SetID(*s)
+func (_c *ResourceCreate) SetNillableID(v *string) *ResourceCreate {
+	if v != nil {
+		_c.SetID(*v)
 	}
-	return rc
+	return _c
 }
 
 // SetMenu sets the "menu" edge to the Menu entity.
-func (rc *ResourceCreate) SetMenu(m *Menu) *ResourceCreate {
-	return rc.SetMenuID(m.ID)
+func (_c *ResourceCreate) SetMenu(v *Menu) *ResourceCreate {
+	return _c.SetMenuID(v.ID)
 }
 
 // Mutation returns the ResourceMutation object of the builder.
-func (rc *ResourceCreate) Mutation() *ResourceMutation {
-	return rc.mutation
+func (_c *ResourceCreate) Mutation() *ResourceMutation {
+	return _c.mutation
 }
 
 // Save creates the Resource in the database.
-func (rc *ResourceCreate) Save(ctx context.Context) (*Resource, error) {
-	rc.defaults()
-	return withHooks(ctx, rc.sqlSave, rc.mutation, rc.hooks)
+func (_c *ResourceCreate) Save(ctx context.Context) (*Resource, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (rc *ResourceCreate) SaveX(ctx context.Context) *Resource {
-	v, err := rc.Save(ctx)
+func (_c *ResourceCreate) SaveX(ctx context.Context) *Resource {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -107,83 +107,83 @@ func (rc *ResourceCreate) SaveX(ctx context.Context) *Resource {
 }
 
 // Exec executes the query.
-func (rc *ResourceCreate) Exec(ctx context.Context) error {
-	_, err := rc.Save(ctx)
+func (_c *ResourceCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (rc *ResourceCreate) ExecX(ctx context.Context) {
-	if err := rc.Exec(ctx); err != nil {
+func (_c *ResourceCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (rc *ResourceCreate) defaults() {
-	if _, ok := rc.mutation.CreatedAt(); !ok {
+func (_c *ResourceCreate) defaults() {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := resource.DefaultCreatedAt()
-		rc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := rc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := resource.DefaultUpdatedAt()
-		rc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
-	if _, ok := rc.mutation.ID(); !ok {
+	if _, ok := _c.mutation.ID(); !ok {
 		v := resource.DefaultID()
-		rc.mutation.SetID(v)
+		_c.mutation.SetID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (rc *ResourceCreate) check() error {
-	if _, ok := rc.mutation.CreatedAt(); !ok {
+func (_c *ResourceCreate) check() error {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		return &ValidationError{Name: "created_at", err: errors.New(`ent: missing required field "Resource.created_at"`)}
 	}
-	if _, ok := rc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		return &ValidationError{Name: "updated_at", err: errors.New(`ent: missing required field "Resource.updated_at"`)}
 	}
-	if _, ok := rc.mutation.MenuID(); !ok {
+	if _, ok := _c.mutation.MenuID(); !ok {
 		return &ValidationError{Name: "menu_id", err: errors.New(`ent: missing required field "Resource.menu_id"`)}
 	}
-	if v, ok := rc.mutation.MenuID(); ok {
+	if v, ok := _c.mutation.MenuID(); ok {
 		if err := resource.MenuIDValidator(v); err != nil {
 			return &ValidationError{Name: "menu_id", err: fmt.Errorf(`ent: validator failed for field "Resource.menu_id": %w`, err)}
 		}
 	}
-	if _, ok := rc.mutation.Method(); !ok {
+	if _, ok := _c.mutation.Method(); !ok {
 		return &ValidationError{Name: "method", err: errors.New(`ent: missing required field "Resource.method"`)}
 	}
-	if v, ok := rc.mutation.Method(); ok {
+	if v, ok := _c.mutation.Method(); ok {
 		if err := resource.MethodValidator(v); err != nil {
 			return &ValidationError{Name: "method", err: fmt.Errorf(`ent: validator failed for field "Resource.method": %w`, err)}
 		}
 	}
-	if _, ok := rc.mutation.Path(); !ok {
+	if _, ok := _c.mutation.Path(); !ok {
 		return &ValidationError{Name: "path", err: errors.New(`ent: missing required field "Resource.path"`)}
 	}
-	if v, ok := rc.mutation.Path(); ok {
+	if v, ok := _c.mutation.Path(); ok {
 		if err := resource.PathValidator(v); err != nil {
 			return &ValidationError{Name: "path", err: fmt.Errorf(`ent: validator failed for field "Resource.path": %w`, err)}
 		}
 	}
-	if v, ok := rc.mutation.ID(); ok {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := resource.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Resource.id": %w`, err)}
 		}
 	}
-	if len(rc.mutation.MenuIDs()) == 0 {
+	if len(_c.mutation.MenuIDs()) == 0 {
 		return &ValidationError{Name: "menu", err: errors.New(`ent: missing required edge "Resource.menu"`)}
 	}
 	return nil
 }
 
-func (rc *ResourceCreate) sqlSave(ctx context.Context) (*Resource, error) {
-	if err := rc.check(); err != nil {
+func (_c *ResourceCreate) sqlSave(ctx context.Context) (*Resource, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := rc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, rc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -196,37 +196,37 @@ func (rc *ResourceCreate) sqlSave(ctx context.Context) (*Resource, error) {
 			return nil, fmt.Errorf("unexpected Resource.ID type: %T", _spec.ID.Value)
 		}
 	}
-	rc.mutation.id = &_node.ID
-	rc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (rc *ResourceCreate) createSpec() (*Resource, *sqlgraph.CreateSpec) {
+func (_c *ResourceCreate) createSpec() (*Resource, *sqlgraph.CreateSpec) {
 	var (
-		_node = &Resource{config: rc.config}
+		_node = &Resource{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(resource.Table, sqlgraph.NewFieldSpec(resource.FieldID, field.TypeString))
 	)
-	if id, ok := rc.mutation.ID(); ok {
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := rc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(resource.FieldCreatedAt, field.TypeTime, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := rc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(resource.FieldUpdatedAt, field.TypeTime, value)
 		_node.UpdatedAt = value
 	}
-	if value, ok := rc.mutation.Method(); ok {
+	if value, ok := _c.mutation.Method(); ok {
 		_spec.SetField(resource.FieldMethod, field.TypeString, value)
 		_node.Method = value
 	}
-	if value, ok := rc.mutation.Path(); ok {
+	if value, ok := _c.mutation.Path(); ok {
 		_spec.SetField(resource.FieldPath, field.TypeString, value)
 		_node.Path = value
 	}
-	if nodes := rc.mutation.MenuIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.MenuIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -254,16 +254,16 @@ type ResourceCreateBulk struct {
 }
 
 // Save creates the Resource entities in the database.
-func (rcb *ResourceCreateBulk) Save(ctx context.Context) ([]*Resource, error) {
-	if rcb.err != nil {
-		return nil, rcb.err
+func (_c *ResourceCreateBulk) Save(ctx context.Context) ([]*Resource, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(rcb.builders))
-	nodes := make([]*Resource, len(rcb.builders))
-	mutators := make([]Mutator, len(rcb.builders))
-	for i := range rcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*Resource, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := rcb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*ResourceMutation)
@@ -277,11 +277,11 @@ func (rcb *ResourceCreateBulk) Save(ctx context.Context) ([]*Resource, error) {
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, rcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, rcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -301,7 +301,7 @@ func (rcb *ResourceCreateBulk) Save(ctx context.Context) ([]*Resource, error) {
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, rcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -309,8 +309,8 @@ func (rcb *ResourceCreateBulk) Save(ctx context.Context) ([]*Resource, error) {
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (rcb *ResourceCreateBulk) SaveX(ctx context.Context) []*Resource {
-	v, err := rcb.Save(ctx)
+func (_c *ResourceCreateBulk) SaveX(ctx context.Context) []*Resource {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -318,14 +318,14 @@ func (rcb *ResourceCreateBulk) SaveX(ctx context.Context) []*Resource {
 }
 
 // Exec executes the query.
-func (rcb *ResourceCreateBulk) Exec(ctx context.Context) error {
-	_, err := rcb.Save(ctx)
+func (_c *ResourceCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (rcb *ResourceCreateBulk) ExecX(ctx context.Context) {
-	if err := rcb.Exec(ctx); err != nil {
+func (_c *ResourceCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

@@ -34,16 +34,14 @@ const (
 	FieldParentID = "parent_id"
 	// FieldMenuType holds the string denoting the menu_type field in the database.
 	FieldMenuType = "menu_type"
-	// FieldMenuPath holds the string denoting the menu_path field in the database.
-	FieldMenuPath = "menu_path"
 	// FieldProperties holds the string denoting the properties field in the database.
 	FieldProperties = "properties"
 	// EdgeRoles holds the string denoting the roles edge name in mutations.
 	EdgeRoles = "roles"
-	// EdgeParent holds the string denoting the parent edge name in mutations.
-	EdgeParent = "parent"
 	// EdgeChildren holds the string denoting the children edge name in mutations.
 	EdgeChildren = "children"
+	// EdgeParent holds the string denoting the parent edge name in mutations.
+	EdgeParent = "parent"
 	// EdgeResources holds the string denoting the resources edge name in mutations.
 	EdgeResources = "resources"
 	// Table holds the table name of the menu in the database.
@@ -53,14 +51,14 @@ const (
 	// RolesInverseTable is the table name for the Role entity.
 	// It exists in this package in order to avoid circular dependency with the "role" package.
 	RolesInverseTable = "admin_system_roles"
-	// ParentTable is the table that holds the parent relation/edge.
-	ParentTable = "admin_system_menus"
-	// ParentColumn is the table column denoting the parent relation/edge.
-	ParentColumn = "parent_id"
 	// ChildrenTable is the table that holds the children relation/edge.
 	ChildrenTable = "admin_system_menus"
 	// ChildrenColumn is the table column denoting the children relation/edge.
 	ChildrenColumn = "parent_id"
+	// ParentTable is the table that holds the parent relation/edge.
+	ParentTable = "admin_system_menus"
+	// ParentColumn is the table column denoting the parent relation/edge.
+	ParentColumn = "parent_id"
 	// ResourcesTable is the table that holds the resources relation/edge.
 	ResourcesTable = "admin_system_resources"
 	// ResourcesInverseTable is the table name for the Resource entity.
@@ -83,7 +81,6 @@ var Columns = []string{
 	FieldCodePath,
 	FieldParentID,
 	FieldMenuType,
-	FieldMenuPath,
 	FieldProperties,
 }
 
@@ -114,16 +111,16 @@ var (
 	DefaultSort uint32
 	// DefaultStatus holds the default value on creation for the "status" field.
 	DefaultStatus uint8
+	// DefaultTitle holds the default value on creation for the "title" field.
+	DefaultTitle string
 	// DefaultIcon holds the default value on creation for the "icon" field.
 	DefaultIcon string
 	// CodeValidator is a validator for the "code" field. It is called by the builders before save.
 	CodeValidator func(string) error
-	// DefaultParentID holds the default value on creation for the "parent_id" field.
-	DefaultParentID string
+	// CodePathValidator is a validator for the "code_path" field. It is called by the builders before save.
+	CodePathValidator func(string) error
 	// MenuTypeValidator is a validator for the "menu_type" field. It is called by the builders before save.
 	MenuTypeValidator func(string) error
-	// DefaultMenuPath holds the default value on creation for the "menu_path" field.
-	DefaultMenuPath string
 	// DefaultProperties holds the default value on creation for the "properties" field.
 	DefaultProperties string
 	// DefaultID holds the default value on creation for the "id" field.
@@ -190,11 +187,6 @@ func ByMenuType(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldMenuType, opts...).ToFunc()
 }
 
-// ByMenuPath orders the results by the menu_path field.
-func ByMenuPath(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldMenuPath, opts...).ToFunc()
-}
-
 // ByProperties orders the results by the properties field.
 func ByProperties(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldProperties, opts...).ToFunc()
@@ -214,13 +206,6 @@ func ByRoles(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
 	}
 }
 
-// ByParentField orders the results by parent field.
-func ByParentField(field string, opts ...sql.OrderTermOption) OrderOption {
-	return func(s *sql.Selector) {
-		sqlgraph.OrderByNeighborTerms(s, newParentStep(), sql.OrderByField(field, opts...))
-	}
-}
-
 // ByChildrenCount orders the results by children count.
 func ByChildrenCount(opts ...sql.OrderTermOption) OrderOption {
 	return func(s *sql.Selector) {
@@ -232,6 +217,13 @@ func ByChildrenCount(opts ...sql.OrderTermOption) OrderOption {
 func ByChildren(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
 	return func(s *sql.Selector) {
 		sqlgraph.OrderByNeighborTerms(s, newChildrenStep(), append([]sql.OrderTerm{term}, terms...)...)
+	}
+}
+
+// ByParentField orders the results by parent field.
+func ByParentField(field string, opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newParentStep(), sql.OrderByField(field, opts...))
 	}
 }
 
@@ -255,18 +247,18 @@ func newRolesStep() *sqlgraph.Step {
 		sqlgraph.Edge(sqlgraph.M2M, true, RolesTable, RolesPrimaryKey...),
 	)
 }
-func newParentStep() *sqlgraph.Step {
-	return sqlgraph.NewStep(
-		sqlgraph.From(Table, FieldID),
-		sqlgraph.To(Table, FieldID),
-		sqlgraph.Edge(sqlgraph.M2O, true, ParentTable, ParentColumn),
-	)
-}
 func newChildrenStep() *sqlgraph.Step {
 	return sqlgraph.NewStep(
 		sqlgraph.From(Table, FieldID),
 		sqlgraph.To(Table, FieldID),
 		sqlgraph.Edge(sqlgraph.O2M, false, ChildrenTable, ChildrenColumn),
+	)
+}
+func newParentStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(Table, FieldID),
+		sqlgraph.Edge(sqlgraph.M2O, true, ParentTable, ParentColumn),
 	)
 }
 func newResourcesStep() *sqlgraph.Step {

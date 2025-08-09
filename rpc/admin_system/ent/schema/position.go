@@ -18,12 +18,14 @@ type Position struct {
 func (Position) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("position_name").
-			Comment("Position name | 职位名称"),
+			NotEmpty().
+			Comment("Position name"),
 		field.String("code").
-			Comment("Position code | 职位编号"),
+			NotEmpty().
+			Comment("Position code"),
 		field.String("remark").
 			Default("").
-			Comment("Position remark | 职位备注"),
+			Comment("Position remark"),
 	}
 }
 

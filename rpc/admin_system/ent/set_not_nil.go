@@ -4,863 +4,842 @@ package ent
 
 import "time"
 
-func (d *DepartmentUpdate) SetNotNilUpdatedAt(value *time.Time) *DepartmentUpdate {
+func (_m *DepartmentUpdate) SetNotNilUpdatedAt(value *time.Time) *DepartmentUpdate {
 	if value != nil {
-		return d.SetUpdatedAt(*value)
+		return _m.SetUpdatedAt(*value)
 	}
-	return d
+	return _m
 }
 
-func (d *DepartmentUpdateOne) SetNotNilUpdatedAt(value *time.Time) *DepartmentUpdateOne {
+func (_m *DepartmentUpdateOne) SetNotNilUpdatedAt(value *time.Time) *DepartmentUpdateOne {
 	if value != nil {
-		return d.SetUpdatedAt(*value)
+		return _m.SetUpdatedAt(*value)
 	}
-	return d
+	return _m
 }
 
-func (d *DepartmentCreate) SetNotNilUpdatedAt(value *time.Time) *DepartmentCreate {
+func (_m *DepartmentCreate) SetNotNilUpdatedAt(value *time.Time) *DepartmentCreate {
 	if value != nil {
-		return d.SetUpdatedAt(*value)
+		return _m.SetUpdatedAt(*value)
 	}
-	return d
+	return _m
 }
 
-func (d *DepartmentUpdate) SetNotNilSort(value *uint32) *DepartmentUpdate {
+func (_m *DepartmentUpdate) SetNotNilSort(value *uint32) *DepartmentUpdate {
 	if value != nil {
-		return d.SetSort(*value)
+		return _m.SetSort(*value)
 	}
-	return d
+	return _m
 }
 
-func (d *DepartmentUpdateOne) SetNotNilSort(value *uint32) *DepartmentUpdateOne {
+func (_m *DepartmentUpdateOne) SetNotNilSort(value *uint32) *DepartmentUpdateOne {
 	if value != nil {
-		return d.SetSort(*value)
+		return _m.SetSort(*value)
 	}
-	return d
+	return _m
 }
 
-func (d *DepartmentCreate) SetNotNilSort(value *uint32) *DepartmentCreate {
+func (_m *DepartmentCreate) SetNotNilSort(value *uint32) *DepartmentCreate {
 	if value != nil {
-		return d.SetSort(*value)
+		return _m.SetSort(*value)
 	}
-	return d
+	return _m
 }
 
-func (d *DepartmentUpdate) SetNotNilDepartmentName(value *string) *DepartmentUpdate {
+func (_m *DepartmentUpdate) SetNotNilDepartmentName(value *string) *DepartmentUpdate {
 	if value != nil {
-		return d.SetDepartmentName(*value)
+		return _m.SetDepartmentName(*value)
 	}
-	return d
+	return _m
 }
 
-func (d *DepartmentUpdateOne) SetNotNilDepartmentName(value *string) *DepartmentUpdateOne {
+func (_m *DepartmentUpdateOne) SetNotNilDepartmentName(value *string) *DepartmentUpdateOne {
 	if value != nil {
-		return d.SetDepartmentName(*value)
+		return _m.SetDepartmentName(*value)
 	}
-	return d
+	return _m
 }
 
-func (d *DepartmentCreate) SetNotNilDepartmentName(value *string) *DepartmentCreate {
+func (_m *DepartmentCreate) SetNotNilDepartmentName(value *string) *DepartmentCreate {
 	if value != nil {
-		return d.SetDepartmentName(*value)
+		return _m.SetDepartmentName(*value)
 	}
-	return d
+	return _m
 }
 
-func (d *DepartmentUpdate) SetNotNilRemark(value *string) *DepartmentUpdate {
+func (_m *DepartmentUpdate) SetNotNilRemark(value *string) *DepartmentUpdate {
 	if value != nil {
-		return d.SetRemark(*value)
+		return _m.SetRemark(*value)
 	}
-	return d
+	return _m
 }
 
-func (d *DepartmentUpdateOne) SetNotNilRemark(value *string) *DepartmentUpdateOne {
+func (_m *DepartmentUpdateOne) SetNotNilRemark(value *string) *DepartmentUpdateOne {
 	if value != nil {
-		return d.SetRemark(*value)
+		return _m.SetRemark(*value)
 	}
-	return d
+	return _m
 }
 
-func (d *DepartmentCreate) SetNotNilRemark(value *string) *DepartmentCreate {
+func (_m *DepartmentCreate) SetNotNilRemark(value *string) *DepartmentCreate {
 	if value != nil {
-		return d.SetRemark(*value)
+		return _m.SetRemark(*value)
 	}
-	return d
+	return _m
 }
 
-func (d *DepartmentUpdate) SetNotNilParentID(value *string) *DepartmentUpdate {
+func (_m *DepartmentUpdate) SetNotNilParentID(value *string) *DepartmentUpdate {
 	if value != nil {
-		return d.SetParentID(*value)
+		return _m.SetParentID(*value)
 	}
-	return d
+	return _m
 }
 
-func (d *DepartmentUpdateOne) SetNotNilParentID(value *string) *DepartmentUpdateOne {
+func (_m *DepartmentUpdateOne) SetNotNilParentID(value *string) *DepartmentUpdateOne {
 	if value != nil {
-		return d.SetParentID(*value)
+		return _m.SetParentID(*value)
 	}
-	return d
+	return _m
 }
 
-func (d *DepartmentCreate) SetNotNilParentID(value *string) *DepartmentCreate {
+func (_m *DepartmentCreate) SetNotNilParentID(value *string) *DepartmentCreate {
 	if value != nil {
-		return d.SetParentID(*value)
+		return _m.SetParentID(*value)
 	}
-	return d
+	return _m
 }
 
-func (d *DepartmentUpdate) SetNotNilIDPath(value *string) *DepartmentUpdate {
+func (_m *DepartmentUpdate) SetNotNilIDPath(value *string) *DepartmentUpdate {
 	if value != nil {
-		return d.SetIDPath(*value)
+		return _m.SetIDPath(*value)
 	}
-	return d
+	return _m
 }
 
-func (d *DepartmentUpdateOne) SetNotNilIDPath(value *string) *DepartmentUpdateOne {
+func (_m *DepartmentUpdateOne) SetNotNilIDPath(value *string) *DepartmentUpdateOne {
 	if value != nil {
-		return d.SetIDPath(*value)
+		return _m.SetIDPath(*value)
 	}
-	return d
+	return _m
 }
 
-func (d *DepartmentCreate) SetNotNilIDPath(value *string) *DepartmentCreate {
+func (_m *DepartmentCreate) SetNotNilIDPath(value *string) *DepartmentCreate {
 	if value != nil {
-		return d.SetIDPath(*value)
+		return _m.SetIDPath(*value)
 	}
-	return d
+	return _m
 }
 
-func (m *MenuUpdate) SetNotNilUpdatedAt(value *time.Time) *MenuUpdate {
+func (_m *MenuUpdate) SetNotNilUpdatedAt(value *time.Time) *MenuUpdate {
 	if value != nil {
-		return m.SetUpdatedAt(*value)
+		return _m.SetUpdatedAt(*value)
 	}
-	return m
+	return _m
 }
 
-func (m *MenuUpdateOne) SetNotNilUpdatedAt(value *time.Time) *MenuUpdateOne {
+func (_m *MenuUpdateOne) SetNotNilUpdatedAt(value *time.Time) *MenuUpdateOne {
 	if value != nil {
-		return m.SetUpdatedAt(*value)
+		return _m.SetUpdatedAt(*value)
 	}
-	return m
+	return _m
 }
 
-func (m *MenuCreate) SetNotNilUpdatedAt(value *time.Time) *MenuCreate {
+func (_m *MenuCreate) SetNotNilUpdatedAt(value *time.Time) *MenuCreate {
 	if value != nil {
-		return m.SetUpdatedAt(*value)
+		return _m.SetUpdatedAt(*value)
 	}
-	return m
+	return _m
 }
 
-func (m *MenuUpdate) SetNotNilSort(value *uint32) *MenuUpdate {
+func (_m *MenuUpdate) SetNotNilSort(value *uint32) *MenuUpdate {
 	if value != nil {
-		return m.SetSort(*value)
+		return _m.SetSort(*value)
 	}
-	return m
+	return _m
 }
 
-func (m *MenuUpdateOne) SetNotNilSort(value *uint32) *MenuUpdateOne {
+func (_m *MenuUpdateOne) SetNotNilSort(value *uint32) *MenuUpdateOne {
 	if value != nil {
-		return m.SetSort(*value)
+		return _m.SetSort(*value)
 	}
-	return m
+	return _m
 }
 
-func (m *MenuCreate) SetNotNilSort(value *uint32) *MenuCreate {
+func (_m *MenuCreate) SetNotNilSort(value *uint32) *MenuCreate {
 	if value != nil {
-		return m.SetSort(*value)
+		return _m.SetSort(*value)
 	}
-	return m
+	return _m
 }
 
-func (m *MenuUpdate) SetNotNilStatus(value *uint8) *MenuUpdate {
+func (_m *MenuUpdate) SetNotNilStatus(value *uint8) *MenuUpdate {
 	if value != nil {
-		return m.SetStatus(*value)
+		return _m.SetStatus(*value)
 	}
-	return m
+	return _m
 }
 
-func (m *MenuUpdateOne) SetNotNilStatus(value *uint8) *MenuUpdateOne {
+func (_m *MenuUpdateOne) SetNotNilStatus(value *uint8) *MenuUpdateOne {
 	if value != nil {
-		return m.SetStatus(*value)
+		return _m.SetStatus(*value)
 	}
-	return m
+	return _m
 }
 
-func (m *MenuCreate) SetNotNilStatus(value *uint8) *MenuCreate {
+func (_m *MenuCreate) SetNotNilStatus(value *uint8) *MenuCreate {
 	if value != nil {
-		return m.SetStatus(*value)
+		return _m.SetStatus(*value)
 	}
-	return m
+	return _m
 }
 
-func (m *MenuUpdate) SetNotNilTitle(value *string) *MenuUpdate {
+func (_m *MenuUpdate) SetNotNilTitle(value *string) *MenuUpdate {
 	if value != nil {
-		return m.SetTitle(*value)
+		return _m.SetTitle(*value)
 	}
-	return m
+	return _m
 }
 
-func (m *MenuUpdateOne) SetNotNilTitle(value *string) *MenuUpdateOne {
+func (_m *MenuUpdateOne) SetNotNilTitle(value *string) *MenuUpdateOne {
 	if value != nil {
-		return m.SetTitle(*value)
+		return _m.SetTitle(*value)
 	}
-	return m
+	return _m
 }
 
-func (m *MenuCreate) SetNotNilTitle(value *string) *MenuCreate {
+func (_m *MenuCreate) SetNotNilTitle(value *string) *MenuCreate {
 	if value != nil {
-		return m.SetTitle(*value)
+		return _m.SetTitle(*value)
 	}
-	return m
+	return _m
 }
 
-func (m *MenuUpdate) SetNotNilIcon(value *string) *MenuUpdate {
+func (_m *MenuUpdate) SetNotNilIcon(value *string) *MenuUpdate {
 	if value != nil {
-		return m.SetIcon(*value)
+		return _m.SetIcon(*value)
 	}
-	return m
+	return _m
 }
 
-func (m *MenuUpdateOne) SetNotNilIcon(value *string) *MenuUpdateOne {
+func (_m *MenuUpdateOne) SetNotNilIcon(value *string) *MenuUpdateOne {
 	if value != nil {
-		return m.SetIcon(*value)
+		return _m.SetIcon(*value)
 	}
-	return m
+	return _m
 }
 
-func (m *MenuCreate) SetNotNilIcon(value *string) *MenuCreate {
+func (_m *MenuCreate) SetNotNilIcon(value *string) *MenuCreate {
 	if value != nil {
-		return m.SetIcon(*value)
+		return _m.SetIcon(*value)
 	}
-	return m
+	return _m
 }
 
-func (m *MenuUpdate) SetNotNilCode(value *string) *MenuUpdate {
+func (_m *MenuUpdate) SetNotNilCode(value *string) *MenuUpdate {
 	if value != nil {
-		return m.SetCode(*value)
+		return _m.SetCode(*value)
 	}
-	return m
+	return _m
 }
 
-func (m *MenuUpdateOne) SetNotNilCode(value *string) *MenuUpdateOne {
+func (_m *MenuUpdateOne) SetNotNilCode(value *string) *MenuUpdateOne {
 	if value != nil {
-		return m.SetCode(*value)
+		return _m.SetCode(*value)
 	}
-	return m
+	return _m
 }
 
-func (m *MenuCreate) SetNotNilCode(value *string) *MenuCreate {
+func (_m *MenuCreate) SetNotNilCode(value *string) *MenuCreate {
 	if value != nil {
-		return m.SetCode(*value)
+		return _m.SetCode(*value)
 	}
-	return m
+	return _m
 }
 
-func (m *MenuUpdate) SetNotNilCodePath(value *string) *MenuUpdate {
+func (_m *MenuUpdate) SetNotNilCodePath(value *string) *MenuUpdate {
 	if value != nil {
-		return m.SetCodePath(*value)
+		return _m.SetCodePath(*value)
 	}
-	return m
+	return _m
 }
 
-func (m *MenuUpdateOne) SetNotNilCodePath(value *string) *MenuUpdateOne {
+func (_m *MenuUpdateOne) SetNotNilCodePath(value *string) *MenuUpdateOne {
 	if value != nil {
-		return m.SetCodePath(*value)
+		return _m.SetCodePath(*value)
 	}
-	return m
+	return _m
 }
 
-func (m *MenuCreate) SetNotNilCodePath(value *string) *MenuCreate {
+func (_m *MenuCreate) SetNotNilCodePath(value *string) *MenuCreate {
 	if value != nil {
-		return m.SetCodePath(*value)
+		return _m.SetCodePath(*value)
 	}
-	return m
+	return _m
 }
 
-func (m *MenuUpdate) SetNotNilParentID(value *string) *MenuUpdate {
+func (_m *MenuUpdate) SetNotNilParentID(value *string) *MenuUpdate {
 	if value != nil {
-		return m.SetParentID(*value)
+		return _m.SetParentID(*value)
 	}
-	return m
+	return _m
 }
 
-func (m *MenuUpdateOne) SetNotNilParentID(value *string) *MenuUpdateOne {
+func (_m *MenuUpdateOne) SetNotNilParentID(value *string) *MenuUpdateOne {
 	if value != nil {
-		return m.SetParentID(*value)
+		return _m.SetParentID(*value)
 	}
-	return m
+	return _m
 }
 
-func (m *MenuCreate) SetNotNilParentID(value *string) *MenuCreate {
+func (_m *MenuCreate) SetNotNilParentID(value *string) *MenuCreate {
 	if value != nil {
-		return m.SetParentID(*value)
+		return _m.SetParentID(*value)
 	}
-	return m
+	return _m
 }
 
-func (m *MenuUpdate) SetNotNilMenuType(value *string) *MenuUpdate {
+func (_m *MenuUpdate) SetNotNilMenuType(value *string) *MenuUpdate {
 	if value != nil {
-		return m.SetMenuType(*value)
+		return _m.SetMenuType(*value)
 	}
-	return m
+	return _m
 }
 
-func (m *MenuUpdateOne) SetNotNilMenuType(value *string) *MenuUpdateOne {
+func (_m *MenuUpdateOne) SetNotNilMenuType(value *string) *MenuUpdateOne {
 	if value != nil {
-		return m.SetMenuType(*value)
+		return _m.SetMenuType(*value)
 	}
-	return m
+	return _m
 }
 
-func (m *MenuCreate) SetNotNilMenuType(value *string) *MenuCreate {
+func (_m *MenuCreate) SetNotNilMenuType(value *string) *MenuCreate {
 	if value != nil {
-		return m.SetMenuType(*value)
+		return _m.SetMenuType(*value)
 	}
-	return m
+	return _m
 }
 
-func (m *MenuUpdate) SetNotNilMenuPath(value *string) *MenuUpdate {
+func (_m *MenuUpdate) SetNotNilProperties(value *string) *MenuUpdate {
 	if value != nil {
-		return m.SetMenuPath(*value)
+		return _m.SetProperties(*value)
 	}
-	return m
+	return _m
 }
 
-func (m *MenuUpdateOne) SetNotNilMenuPath(value *string) *MenuUpdateOne {
+func (_m *MenuUpdateOne) SetNotNilProperties(value *string) *MenuUpdateOne {
 	if value != nil {
-		return m.SetMenuPath(*value)
+		return _m.SetProperties(*value)
 	}
-	return m
+	return _m
 }
 
-func (m *MenuCreate) SetNotNilMenuPath(value *string) *MenuCreate {
+func (_m *MenuCreate) SetNotNilProperties(value *string) *MenuCreate {
 	if value != nil {
-		return m.SetMenuPath(*value)
+		return _m.SetProperties(*value)
 	}
-	return m
+	return _m
 }
 
-func (m *MenuUpdate) SetNotNilProperties(value *string) *MenuUpdate {
+func (_m *PositionUpdate) SetNotNilUpdatedAt(value *time.Time) *PositionUpdate {
 	if value != nil {
-		return m.SetProperties(*value)
+		return _m.SetUpdatedAt(*value)
 	}
-	return m
+	return _m
 }
 
-func (m *MenuUpdateOne) SetNotNilProperties(value *string) *MenuUpdateOne {
+func (_m *PositionUpdateOne) SetNotNilUpdatedAt(value *time.Time) *PositionUpdateOne {
 	if value != nil {
-		return m.SetProperties(*value)
+		return _m.SetUpdatedAt(*value)
 	}
-	return m
+	return _m
 }
 
-func (m *MenuCreate) SetNotNilProperties(value *string) *MenuCreate {
+func (_m *PositionCreate) SetNotNilUpdatedAt(value *time.Time) *PositionCreate {
 	if value != nil {
-		return m.SetProperties(*value)
+		return _m.SetUpdatedAt(*value)
 	}
-	return m
+	return _m
 }
 
-func (po *PositionUpdate) SetNotNilUpdatedAt(value *time.Time) *PositionUpdate {
+func (_m *PositionUpdate) SetNotNilSort(value *uint32) *PositionUpdate {
 	if value != nil {
-		return po.SetUpdatedAt(*value)
+		return _m.SetSort(*value)
 	}
-	return po
+	return _m
 }
 
-func (po *PositionUpdateOne) SetNotNilUpdatedAt(value *time.Time) *PositionUpdateOne {
+func (_m *PositionUpdateOne) SetNotNilSort(value *uint32) *PositionUpdateOne {
 	if value != nil {
-		return po.SetUpdatedAt(*value)
+		return _m.SetSort(*value)
 	}
-	return po
+	return _m
 }
 
-func (po *PositionCreate) SetNotNilUpdatedAt(value *time.Time) *PositionCreate {
+func (_m *PositionCreate) SetNotNilSort(value *uint32) *PositionCreate {
 	if value != nil {
-		return po.SetUpdatedAt(*value)
+		return _m.SetSort(*value)
 	}
-	return po
+	return _m
 }
 
-func (po *PositionUpdate) SetNotNilSort(value *uint32) *PositionUpdate {
+func (_m *PositionUpdate) SetNotNilPositionName(value *string) *PositionUpdate {
 	if value != nil {
-		return po.SetSort(*value)
+		return _m.SetPositionName(*value)
 	}
-	return po
+	return _m
 }
 
-func (po *PositionUpdateOne) SetNotNilSort(value *uint32) *PositionUpdateOne {
+func (_m *PositionUpdateOne) SetNotNilPositionName(value *string) *PositionUpdateOne {
 	if value != nil {
-		return po.SetSort(*value)
+		return _m.SetPositionName(*value)
 	}
-	return po
+	return _m
 }
 
-func (po *PositionCreate) SetNotNilSort(value *uint32) *PositionCreate {
+func (_m *PositionCreate) SetNotNilPositionName(value *string) *PositionCreate {
 	if value != nil {
-		return po.SetSort(*value)
+		return _m.SetPositionName(*value)
 	}
-	return po
+	return _m
 }
 
-func (po *PositionUpdate) SetNotNilPositionName(value *string) *PositionUpdate {
+func (_m *PositionUpdate) SetNotNilCode(value *string) *PositionUpdate {
 	if value != nil {
-		return po.SetPositionName(*value)
+		return _m.SetCode(*value)
 	}
-	return po
+	return _m
 }
 
-func (po *PositionUpdateOne) SetNotNilPositionName(value *string) *PositionUpdateOne {
+func (_m *PositionUpdateOne) SetNotNilCode(value *string) *PositionUpdateOne {
 	if value != nil {
-		return po.SetPositionName(*value)
+		return _m.SetCode(*value)
 	}
-	return po
+	return _m
 }
 
-func (po *PositionCreate) SetNotNilPositionName(value *string) *PositionCreate {
+func (_m *PositionCreate) SetNotNilCode(value *string) *PositionCreate {
 	if value != nil {
-		return po.SetPositionName(*value)
+		return _m.SetCode(*value)
 	}
-	return po
+	return _m
 }
 
-func (po *PositionUpdate) SetNotNilCode(value *string) *PositionUpdate {
+func (_m *PositionUpdate) SetNotNilRemark(value *string) *PositionUpdate {
 	if value != nil {
-		return po.SetCode(*value)
+		return _m.SetRemark(*value)
 	}
-	return po
+	return _m
 }
 
-func (po *PositionUpdateOne) SetNotNilCode(value *string) *PositionUpdateOne {
+func (_m *PositionUpdateOne) SetNotNilRemark(value *string) *PositionUpdateOne {
 	if value != nil {
-		return po.SetCode(*value)
+		return _m.SetRemark(*value)
 	}
-	return po
+	return _m
 }
 
-func (po *PositionCreate) SetNotNilCode(value *string) *PositionCreate {
+func (_m *PositionCreate) SetNotNilRemark(value *string) *PositionCreate {
 	if value != nil {
-		return po.SetCode(*value)
+		return _m.SetRemark(*value)
 	}
-	return po
+	return _m
 }
 
-func (po *PositionUpdate) SetNotNilRemark(value *string) *PositionUpdate {
+func (_m *ResourceUpdate) SetNotNilUpdatedAt(value *time.Time) *ResourceUpdate {
 	if value != nil {
-		return po.SetRemark(*value)
+		return _m.SetUpdatedAt(*value)
 	}
-	return po
+	return _m
 }
 
-func (po *PositionUpdateOne) SetNotNilRemark(value *string) *PositionUpdateOne {
+func (_m *ResourceUpdateOne) SetNotNilUpdatedAt(value *time.Time) *ResourceUpdateOne {
 	if value != nil {
-		return po.SetRemark(*value)
+		return _m.SetUpdatedAt(*value)
 	}
-	return po
+	return _m
 }
 
-func (po *PositionCreate) SetNotNilRemark(value *string) *PositionCreate {
+func (_m *ResourceCreate) SetNotNilUpdatedAt(value *time.Time) *ResourceCreate {
 	if value != nil {
-		return po.SetRemark(*value)
+		return _m.SetUpdatedAt(*value)
 	}
-	return po
+	return _m
 }
 
-func (r *ResourceUpdate) SetNotNilUpdatedAt(value *time.Time) *ResourceUpdate {
+func (_m *ResourceUpdate) SetNotNilMethod(value *string) *ResourceUpdate {
 	if value != nil {
-		return r.SetUpdatedAt(*value)
+		return _m.SetMethod(*value)
 	}
-	return r
+	return _m
 }
 
-func (r *ResourceUpdateOne) SetNotNilUpdatedAt(value *time.Time) *ResourceUpdateOne {
+func (_m *ResourceUpdateOne) SetNotNilMethod(value *string) *ResourceUpdateOne {
 	if value != nil {
-		return r.SetUpdatedAt(*value)
+		return _m.SetMethod(*value)
 	}
-	return r
+	return _m
 }
 
-func (r *ResourceCreate) SetNotNilUpdatedAt(value *time.Time) *ResourceCreate {
+func (_m *ResourceCreate) SetNotNilMethod(value *string) *ResourceCreate {
 	if value != nil {
-		return r.SetUpdatedAt(*value)
+		return _m.SetMethod(*value)
 	}
-	return r
+	return _m
 }
 
-func (r *ResourceUpdate) SetNotNilMethod(value *string) *ResourceUpdate {
+func (_m *ResourceUpdate) SetNotNilPath(value *string) *ResourceUpdate {
 	if value != nil {
-		return r.SetMethod(*value)
+		return _m.SetPath(*value)
 	}
-	return r
+	return _m
 }
 
-func (r *ResourceUpdateOne) SetNotNilMethod(value *string) *ResourceUpdateOne {
+func (_m *ResourceUpdateOne) SetNotNilPath(value *string) *ResourceUpdateOne {
 	if value != nil {
-		return r.SetMethod(*value)
+		return _m.SetPath(*value)
 	}
-	return r
+	return _m
 }
 
-func (r *ResourceCreate) SetNotNilMethod(value *string) *ResourceCreate {
+func (_m *ResourceCreate) SetNotNilPath(value *string) *ResourceCreate {
 	if value != nil {
-		return r.SetMethod(*value)
+		return _m.SetPath(*value)
 	}
-	return r
+	return _m
 }
 
-func (r *ResourceUpdate) SetNotNilPath(value *string) *ResourceUpdate {
+func (_m *RoleUpdate) SetNotNilUpdatedAt(value *time.Time) *RoleUpdate {
 	if value != nil {
-		return r.SetPath(*value)
+		return _m.SetUpdatedAt(*value)
 	}
-	return r
+	return _m
 }
 
-func (r *ResourceUpdateOne) SetNotNilPath(value *string) *ResourceUpdateOne {
+func (_m *RoleUpdateOne) SetNotNilUpdatedAt(value *time.Time) *RoleUpdateOne {
 	if value != nil {
-		return r.SetPath(*value)
+		return _m.SetUpdatedAt(*value)
 	}
-	return r
+	return _m
 }
 
-func (r *ResourceCreate) SetNotNilPath(value *string) *ResourceCreate {
+func (_m *RoleCreate) SetNotNilUpdatedAt(value *time.Time) *RoleCreate {
 	if value != nil {
-		return r.SetPath(*value)
+		return _m.SetUpdatedAt(*value)
 	}
-	return r
+	return _m
 }
 
-func (r *RoleUpdate) SetNotNilUpdatedAt(value *time.Time) *RoleUpdate {
+func (_m *RoleUpdate) SetNotNilSort(value *uint32) *RoleUpdate {
 	if value != nil {
-		return r.SetUpdatedAt(*value)
+		return _m.SetSort(*value)
 	}
-	return r
+	return _m
 }
 
-func (r *RoleUpdateOne) SetNotNilUpdatedAt(value *time.Time) *RoleUpdateOne {
+func (_m *RoleUpdateOne) SetNotNilSort(value *uint32) *RoleUpdateOne {
 	if value != nil {
-		return r.SetUpdatedAt(*value)
+		return _m.SetSort(*value)
 	}
-	return r
+	return _m
 }
 
-func (r *RoleCreate) SetNotNilUpdatedAt(value *time.Time) *RoleCreate {
+func (_m *RoleCreate) SetNotNilSort(value *uint32) *RoleCreate {
 	if value != nil {
-		return r.SetUpdatedAt(*value)
+		return _m.SetSort(*value)
 	}
-	return r
+	return _m
 }
 
-func (r *RoleUpdate) SetNotNilSort(value *uint32) *RoleUpdate {
+func (_m *RoleUpdate) SetNotNilRoleName(value *string) *RoleUpdate {
 	if value != nil {
-		return r.SetSort(*value)
+		return _m.SetRoleName(*value)
 	}
-	return r
+	return _m
 }
 
-func (r *RoleUpdateOne) SetNotNilSort(value *uint32) *RoleUpdateOne {
+func (_m *RoleUpdateOne) SetNotNilRoleName(value *string) *RoleUpdateOne {
 	if value != nil {
-		return r.SetSort(*value)
+		return _m.SetRoleName(*value)
 	}
-	return r
+	return _m
 }
 
-func (r *RoleCreate) SetNotNilSort(value *uint32) *RoleCreate {
+func (_m *RoleCreate) SetNotNilRoleName(value *string) *RoleCreate {
 	if value != nil {
-		return r.SetSort(*value)
+		return _m.SetRoleName(*value)
 	}
-	return r
+	return _m
 }
 
-func (r *RoleUpdate) SetNotNilRoleName(value *string) *RoleUpdate {
+func (_m *RoleUpdate) SetNotNilCode(value *string) *RoleUpdate {
 	if value != nil {
-		return r.SetRoleName(*value)
+		return _m.SetCode(*value)
 	}
-	return r
+	return _m
 }
 
-func (r *RoleUpdateOne) SetNotNilRoleName(value *string) *RoleUpdateOne {
+func (_m *RoleUpdateOne) SetNotNilCode(value *string) *RoleUpdateOne {
 	if value != nil {
-		return r.SetRoleName(*value)
+		return _m.SetCode(*value)
 	}
-	return r
+	return _m
 }
 
-func (r *RoleCreate) SetNotNilRoleName(value *string) *RoleCreate {
+func (_m *RoleCreate) SetNotNilCode(value *string) *RoleCreate {
 	if value != nil {
-		return r.SetRoleName(*value)
+		return _m.SetCode(*value)
 	}
-	return r
+	return _m
 }
 
-func (r *RoleUpdate) SetNotNilCode(value *string) *RoleUpdate {
+func (_m *RoleUpdate) SetNotNilRemark(value *string) *RoleUpdate {
 	if value != nil {
-		return r.SetCode(*value)
+		return _m.SetRemark(*value)
 	}
-	return r
+	return _m
 }
 
-func (r *RoleUpdateOne) SetNotNilCode(value *string) *RoleUpdateOne {
+func (_m *RoleUpdateOne) SetNotNilRemark(value *string) *RoleUpdateOne {
 	if value != nil {
-		return r.SetCode(*value)
+		return _m.SetRemark(*value)
 	}
-	return r
+	return _m
 }
 
-func (r *RoleCreate) SetNotNilCode(value *string) *RoleCreate {
+func (_m *RoleCreate) SetNotNilRemark(value *string) *RoleCreate {
 	if value != nil {
-		return r.SetCode(*value)
+		return _m.SetRemark(*value)
 	}
-	return r
+	return _m
 }
 
-func (r *RoleUpdate) SetNotNilRemark(value *string) *RoleUpdate {
+func (_m *UserUpdate) SetNotNilUpdatedAt(value *time.Time) *UserUpdate {
 	if value != nil {
-		return r.SetRemark(*value)
+		return _m.SetUpdatedAt(*value)
 	}
-	return r
+	return _m
 }
 
-func (r *RoleUpdateOne) SetNotNilRemark(value *string) *RoleUpdateOne {
+func (_m *UserUpdateOne) SetNotNilUpdatedAt(value *time.Time) *UserUpdateOne {
 	if value != nil {
-		return r.SetRemark(*value)
+		return _m.SetUpdatedAt(*value)
 	}
-	return r
+	return _m
 }
 
-func (r *RoleCreate) SetNotNilRemark(value *string) *RoleCreate {
+func (_m *UserCreate) SetNotNilUpdatedAt(value *time.Time) *UserCreate {
 	if value != nil {
-		return r.SetRemark(*value)
+		return _m.SetUpdatedAt(*value)
 	}
-	return r
+	return _m
 }
 
-func (u *UserUpdate) SetNotNilUpdatedAt(value *time.Time) *UserUpdate {
+func (_m *UserUpdate) SetNotNilDeletedAt(value *time.Time) *UserUpdate {
 	if value != nil {
-		return u.SetUpdatedAt(*value)
+		return _m.SetDeletedAt(*value)
 	}
-	return u
+	return _m
 }
 
-func (u *UserUpdateOne) SetNotNilUpdatedAt(value *time.Time) *UserUpdateOne {
+func (_m *UserUpdateOne) SetNotNilDeletedAt(value *time.Time) *UserUpdateOne {
 	if value != nil {
-		return u.SetUpdatedAt(*value)
+		return _m.SetDeletedAt(*value)
 	}
-	return u
+	return _m
 }
 
-func (u *UserCreate) SetNotNilUpdatedAt(value *time.Time) *UserCreate {
+func (_m *UserCreate) SetNotNilDeletedAt(value *time.Time) *UserCreate {
 	if value != nil {
-		return u.SetUpdatedAt(*value)
+		return _m.SetDeletedAt(*value)
 	}
-	return u
+	return _m
 }
 
-func (u *UserUpdate) SetNotNilDeletedAt(value *time.Time) *UserUpdate {
+func (_m *UserUpdate) SetNotNilStatus(value *uint8) *UserUpdate {
 	if value != nil {
-		return u.SetDeletedAt(*value)
+		return _m.SetStatus(*value)
 	}
-	return u
+	return _m
 }
 
-func (u *UserUpdateOne) SetNotNilDeletedAt(value *time.Time) *UserUpdateOne {
+func (_m *UserUpdateOne) SetNotNilStatus(value *uint8) *UserUpdateOne {
 	if value != nil {
-		return u.SetDeletedAt(*value)
+		return _m.SetStatus(*value)
 	}
-	return u
+	return _m
 }
 
-func (u *UserCreate) SetNotNilDeletedAt(value *time.Time) *UserCreate {
+func (_m *UserCreate) SetNotNilStatus(value *uint8) *UserCreate {
 	if value != nil {
-		return u.SetDeletedAt(*value)
+		return _m.SetStatus(*value)
 	}
-	return u
+	return _m
 }
 
-func (u *UserUpdate) SetNotNilStatus(value *uint8) *UserUpdate {
+func (_m *UserUpdate) SetNotNilPassword(value *string) *UserUpdate {
 	if value != nil {
-		return u.SetStatus(*value)
+		return _m.SetPassword(*value)
 	}
-	return u
+	return _m
 }
 
-func (u *UserUpdateOne) SetNotNilStatus(value *uint8) *UserUpdateOne {
+func (_m *UserUpdateOne) SetNotNilPassword(value *string) *UserUpdateOne {
 	if value != nil {
-		return u.SetStatus(*value)
+		return _m.SetPassword(*value)
 	}
-	return u
+	return _m
 }
 
-func (u *UserCreate) SetNotNilStatus(value *uint8) *UserCreate {
+func (_m *UserCreate) SetNotNilPassword(value *string) *UserCreate {
 	if value != nil {
-		return u.SetStatus(*value)
+		return _m.SetPassword(*value)
 	}
-	return u
+	return _m
 }
 
-func (u *UserUpdate) SetNotNilPassword(value *string) *UserUpdate {
+func (_m *UserUpdate) SetNotNilEmail(value *string) *UserUpdate {
 	if value != nil {
-		return u.SetPassword(*value)
+		return _m.SetEmail(*value)
 	}
-	return u
+	return _m
 }
 
-func (u *UserUpdateOne) SetNotNilPassword(value *string) *UserUpdateOne {
+func (_m *UserUpdateOne) SetNotNilEmail(value *string) *UserUpdateOne {
 	if value != nil {
-		return u.SetPassword(*value)
+		return _m.SetEmail(*value)
 	}
-	return u
+	return _m
 }
 
-func (u *UserCreate) SetNotNilPassword(value *string) *UserCreate {
+func (_m *UserCreate) SetNotNilEmail(value *string) *UserCreate {
 	if value != nil {
-		return u.SetPassword(*value)
+		return _m.SetEmail(*value)
 	}
-	return u
+	return _m
 }
 
-func (u *UserUpdate) SetNotNilEmail(value *string) *UserUpdate {
+func (_m *UserUpdate) SetNotNilName(value *string) *UserUpdate {
 	if value != nil {
-		return u.SetEmail(*value)
+		return _m.SetName(*value)
 	}
-	return u
+	return _m
 }
 
-func (u *UserUpdateOne) SetNotNilEmail(value *string) *UserUpdateOne {
+func (_m *UserUpdateOne) SetNotNilName(value *string) *UserUpdateOne {
 	if value != nil {
-		return u.SetEmail(*value)
+		return _m.SetName(*value)
 	}
-	return u
+	return _m
 }
 
-func (u *UserCreate) SetNotNilEmail(value *string) *UserCreate {
+func (_m *UserCreate) SetNotNilName(value *string) *UserCreate {
 	if value != nil {
-		return u.SetEmail(*value)
+		return _m.SetName(*value)
 	}
-	return u
+	return _m
 }
 
-func (u *UserUpdate) SetNotNilName(value *string) *UserUpdate {
+func (_m *UserUpdate) SetNotNilNickname(value *string) *UserUpdate {
 	if value != nil {
-		return u.SetName(*value)
+		return _m.SetNickname(*value)
 	}
-	return u
+	return _m
 }
 
-func (u *UserUpdateOne) SetNotNilName(value *string) *UserUpdateOne {
+func (_m *UserUpdateOne) SetNotNilNickname(value *string) *UserUpdateOne {
 	if value != nil {
-		return u.SetName(*value)
+		return _m.SetNickname(*value)
 	}
-	return u
+	return _m
 }
 
-func (u *UserCreate) SetNotNilName(value *string) *UserCreate {
+func (_m *UserCreate) SetNotNilNickname(value *string) *UserCreate {
 	if value != nil {
-		return u.SetName(*value)
+		return _m.SetNickname(*value)
 	}
-	return u
+	return _m
 }
 
-func (u *UserUpdate) SetNotNilNickname(value *string) *UserUpdate {
+func (_m *UserUpdate) SetNotNilPhone(value *string) *UserUpdate {
 	if value != nil {
-		return u.SetNickname(*value)
+		return _m.SetPhone(*value)
 	}
-	return u
+	return _m
 }
 
-func (u *UserUpdateOne) SetNotNilNickname(value *string) *UserUpdateOne {
+func (_m *UserUpdateOne) SetNotNilPhone(value *string) *UserUpdateOne {
 	if value != nil {
-		return u.SetNickname(*value)
+		return _m.SetPhone(*value)
 	}
-	return u
+	return _m
 }
 
-func (u *UserCreate) SetNotNilNickname(value *string) *UserCreate {
+func (_m *UserCreate) SetNotNilPhone(value *string) *UserCreate {
 	if value != nil {
-		return u.SetNickname(*value)
+		return _m.SetPhone(*value)
 	}
-	return u
+	return _m
 }
 
-func (u *UserUpdate) SetNotNilPhone(value *string) *UserUpdate {
+func (_m *UserUpdate) SetNotNilAvatar(value *string) *UserUpdate {
 	if value != nil {
-		return u.SetPhone(*value)
+		return _m.SetAvatar(*value)
 	}
-	return u
+	return _m
 }
 
-func (u *UserUpdateOne) SetNotNilPhone(value *string) *UserUpdateOne {
+func (_m *UserUpdateOne) SetNotNilAvatar(value *string) *UserUpdateOne {
 	if value != nil {
-		return u.SetPhone(*value)
+		return _m.SetAvatar(*value)
 	}
-	return u
+	return _m
 }
 
-func (u *UserCreate) SetNotNilPhone(value *string) *UserCreate {
+func (_m *UserCreate) SetNotNilAvatar(value *string) *UserCreate {
 	if value != nil {
-		return u.SetPhone(*value)
+		return _m.SetAvatar(*value)
 	}
-	return u
+	return _m
 }
 
-func (u *UserUpdate) SetNotNilAvatar(value *string) *UserUpdate {
+func (_m *UserUpdate) SetNotNilRemark(value *string) *UserUpdate {
 	if value != nil {
-		return u.SetAvatar(*value)
+		return _m.SetRemark(*value)
 	}
-	return u
+	return _m
 }
 
-func (u *UserUpdateOne) SetNotNilAvatar(value *string) *UserUpdateOne {
+func (_m *UserUpdateOne) SetNotNilRemark(value *string) *UserUpdateOne {
 	if value != nil {
-		return u.SetAvatar(*value)
+		return _m.SetRemark(*value)
 	}
-	return u
+	return _m
 }
 
-func (u *UserCreate) SetNotNilAvatar(value *string) *UserCreate {
+func (_m *UserCreate) SetNotNilRemark(value *string) *UserCreate {
 	if value != nil {
-		return u.SetAvatar(*value)
+		return _m.SetRemark(*value)
 	}
-	return u
+	return _m
 }
 
-func (u *UserUpdate) SetNotNilRemark(value *string) *UserUpdate {
+func (_m *UserUpdate) SetNotNilDepartmentID(value *string) *UserUpdate {
 	if value != nil {
-		return u.SetRemark(*value)
+		return _m.SetDepartmentID(*value)
 	}
-	return u
+	return _m
 }
 
-func (u *UserUpdateOne) SetNotNilRemark(value *string) *UserUpdateOne {
+func (_m *UserUpdateOne) SetNotNilDepartmentID(value *string) *UserUpdateOne {
 	if value != nil {
-		return u.SetRemark(*value)
+		return _m.SetDepartmentID(*value)
 	}
-	return u
+	return _m
 }
 
-func (u *UserCreate) SetNotNilRemark(value *string) *UserCreate {
+func (_m *UserCreate) SetNotNilDepartmentID(value *string) *UserCreate {
 	if value != nil {
-		return u.SetRemark(*value)
+		return _m.SetDepartmentID(*value)
 	}
-	return u
-}
-
-func (u *UserUpdate) SetNotNilDepartmentID(value *string) *UserUpdate {
-	if value != nil {
-		return u.SetDepartmentID(*value)
-	}
-	return u
-}
-
-func (u *UserUpdateOne) SetNotNilDepartmentID(value *string) *UserUpdateOne {
-	if value != nil {
-		return u.SetDepartmentID(*value)
-	}
-	return u
-}
-
-func (u *UserCreate) SetNotNilDepartmentID(value *string) *UserCreate {
-	if value != nil {
-		return u.SetDepartmentID(*value)
-	}
-	return u
+	return _m
 }

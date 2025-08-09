@@ -73,6 +73,10 @@ var (
 	UpdateDefaultUpdatedAt func() time.Time
 	// DefaultSort holds the default value on creation for the "sort" field.
 	DefaultSort uint32
+	// PositionNameValidator is a validator for the "position_name" field. It is called by the builders before save.
+	PositionNameValidator func(string) error
+	// CodeValidator is a validator for the "code" field. It is called by the builders before save.
+	CodeValidator func(string) error
 	// DefaultRemark holds the default value on creation for the "remark" field.
 	DefaultRemark string
 	// DefaultID holds the default value on creation for the "id" field.

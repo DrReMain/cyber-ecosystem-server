@@ -815,6 +815,16 @@ func DepartmentIDHasSuffix(v string) predicate.User {
 	return predicate.User(sql.FieldHasSuffix(FieldDepartmentID, v))
 }
 
+// DepartmentIDIsNil applies the IsNil predicate on the "department_id" field.
+func DepartmentIDIsNil() predicate.User {
+	return predicate.User(sql.FieldIsNull(FieldDepartmentID))
+}
+
+// DepartmentIDNotNil applies the NotNil predicate on the "department_id" field.
+func DepartmentIDNotNil() predicate.User {
+	return predicate.User(sql.FieldNotNull(FieldDepartmentID))
+}
+
 // DepartmentIDEqualFold applies the EqualFold predicate on the "department_id" field.
 func DepartmentIDEqualFold(v string) predicate.User {
 	return predicate.User(sql.FieldEqualFold(FieldDepartmentID, v))

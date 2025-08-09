@@ -24,59 +24,59 @@ type ResourceUpdate struct {
 }
 
 // Where appends a list predicates to the ResourceUpdate builder.
-func (ru *ResourceUpdate) Where(ps ...predicate.Resource) *ResourceUpdate {
-	ru.mutation.Where(ps...)
-	return ru
+func (_u *ResourceUpdate) Where(ps ...predicate.Resource) *ResourceUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (ru *ResourceUpdate) SetUpdatedAt(t time.Time) *ResourceUpdate {
-	ru.mutation.SetUpdatedAt(t)
-	return ru
+func (_u *ResourceUpdate) SetUpdatedAt(v time.Time) *ResourceUpdate {
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
 // SetMethod sets the "method" field.
-func (ru *ResourceUpdate) SetMethod(s string) *ResourceUpdate {
-	ru.mutation.SetMethod(s)
-	return ru
+func (_u *ResourceUpdate) SetMethod(v string) *ResourceUpdate {
+	_u.mutation.SetMethod(v)
+	return _u
 }
 
 // SetNillableMethod sets the "method" field if the given value is not nil.
-func (ru *ResourceUpdate) SetNillableMethod(s *string) *ResourceUpdate {
-	if s != nil {
-		ru.SetMethod(*s)
+func (_u *ResourceUpdate) SetNillableMethod(v *string) *ResourceUpdate {
+	if v != nil {
+		_u.SetMethod(*v)
 	}
-	return ru
+	return _u
 }
 
 // SetPath sets the "path" field.
-func (ru *ResourceUpdate) SetPath(s string) *ResourceUpdate {
-	ru.mutation.SetPath(s)
-	return ru
+func (_u *ResourceUpdate) SetPath(v string) *ResourceUpdate {
+	_u.mutation.SetPath(v)
+	return _u
 }
 
 // SetNillablePath sets the "path" field if the given value is not nil.
-func (ru *ResourceUpdate) SetNillablePath(s *string) *ResourceUpdate {
-	if s != nil {
-		ru.SetPath(*s)
+func (_u *ResourceUpdate) SetNillablePath(v *string) *ResourceUpdate {
+	if v != nil {
+		_u.SetPath(*v)
 	}
-	return ru
+	return _u
 }
 
 // Mutation returns the ResourceMutation object of the builder.
-func (ru *ResourceUpdate) Mutation() *ResourceMutation {
-	return ru.mutation
+func (_u *ResourceUpdate) Mutation() *ResourceMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (ru *ResourceUpdate) Save(ctx context.Context) (int, error) {
-	ru.defaults()
-	return withHooks(ctx, ru.sqlSave, ru.mutation, ru.hooks)
+func (_u *ResourceUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (ru *ResourceUpdate) SaveX(ctx context.Context) int {
-	affected, err := ru.Save(ctx)
+func (_u *ResourceUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -84,73 +84,73 @@ func (ru *ResourceUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (ru *ResourceUpdate) Exec(ctx context.Context) error {
-	_, err := ru.Save(ctx)
+func (_u *ResourceUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ru *ResourceUpdate) ExecX(ctx context.Context) {
-	if err := ru.Exec(ctx); err != nil {
+func (_u *ResourceUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (ru *ResourceUpdate) defaults() {
-	if _, ok := ru.mutation.UpdatedAt(); !ok {
+func (_u *ResourceUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok {
 		v := resource.UpdateDefaultUpdatedAt()
-		ru.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (ru *ResourceUpdate) check() error {
-	if v, ok := ru.mutation.Method(); ok {
+func (_u *ResourceUpdate) check() error {
+	if v, ok := _u.mutation.Method(); ok {
 		if err := resource.MethodValidator(v); err != nil {
 			return &ValidationError{Name: "method", err: fmt.Errorf(`ent: validator failed for field "Resource.method": %w`, err)}
 		}
 	}
-	if v, ok := ru.mutation.Path(); ok {
+	if v, ok := _u.mutation.Path(); ok {
 		if err := resource.PathValidator(v); err != nil {
 			return &ValidationError{Name: "path", err: fmt.Errorf(`ent: validator failed for field "Resource.path": %w`, err)}
 		}
 	}
-	if ru.mutation.MenuCleared() && len(ru.mutation.MenuIDs()) > 0 {
+	if _u.mutation.MenuCleared() && len(_u.mutation.MenuIDs()) > 0 {
 		return errors.New(`ent: clearing a required unique edge "Resource.menu"`)
 	}
 	return nil
 }
 
 // Modify adds a statement modifier for attaching custom logic to the UPDATE statement.
-func (ru *ResourceUpdate) Modify(modifiers ...func(u *sql.UpdateBuilder)) *ResourceUpdate {
-	ru.modifiers = append(ru.modifiers, modifiers...)
-	return ru
+func (_u *ResourceUpdate) Modify(modifiers ...func(u *sql.UpdateBuilder)) *ResourceUpdate {
+	_u.modifiers = append(_u.modifiers, modifiers...)
+	return _u
 }
 
-func (ru *ResourceUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := ru.check(); err != nil {
-		return n, err
+func (_u *ResourceUpdate) sqlSave(ctx context.Context) (_node int, err error) {
+	if err := _u.check(); err != nil {
+		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(resource.Table, resource.Columns, sqlgraph.NewFieldSpec(resource.FieldID, field.TypeString))
-	if ps := ru.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := ru.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(resource.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if value, ok := ru.mutation.Method(); ok {
+	if value, ok := _u.mutation.Method(); ok {
 		_spec.SetField(resource.FieldMethod, field.TypeString, value)
 	}
-	if value, ok := ru.mutation.Path(); ok {
+	if value, ok := _u.mutation.Path(); ok {
 		_spec.SetField(resource.FieldPath, field.TypeString, value)
 	}
-	_spec.AddModifiers(ru.modifiers...)
-	if n, err = sqlgraph.UpdateNodes(ctx, ru.driver, _spec); err != nil {
+	_spec.AddModifiers(_u.modifiers...)
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{resource.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -158,8 +158,8 @@ func (ru *ResourceUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	ru.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // ResourceUpdateOne is the builder for updating a single Resource entity.
@@ -172,66 +172,66 @@ type ResourceUpdateOne struct {
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (ruo *ResourceUpdateOne) SetUpdatedAt(t time.Time) *ResourceUpdateOne {
-	ruo.mutation.SetUpdatedAt(t)
-	return ruo
+func (_u *ResourceUpdateOne) SetUpdatedAt(v time.Time) *ResourceUpdateOne {
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
 // SetMethod sets the "method" field.
-func (ruo *ResourceUpdateOne) SetMethod(s string) *ResourceUpdateOne {
-	ruo.mutation.SetMethod(s)
-	return ruo
+func (_u *ResourceUpdateOne) SetMethod(v string) *ResourceUpdateOne {
+	_u.mutation.SetMethod(v)
+	return _u
 }
 
 // SetNillableMethod sets the "method" field if the given value is not nil.
-func (ruo *ResourceUpdateOne) SetNillableMethod(s *string) *ResourceUpdateOne {
-	if s != nil {
-		ruo.SetMethod(*s)
+func (_u *ResourceUpdateOne) SetNillableMethod(v *string) *ResourceUpdateOne {
+	if v != nil {
+		_u.SetMethod(*v)
 	}
-	return ruo
+	return _u
 }
 
 // SetPath sets the "path" field.
-func (ruo *ResourceUpdateOne) SetPath(s string) *ResourceUpdateOne {
-	ruo.mutation.SetPath(s)
-	return ruo
+func (_u *ResourceUpdateOne) SetPath(v string) *ResourceUpdateOne {
+	_u.mutation.SetPath(v)
+	return _u
 }
 
 // SetNillablePath sets the "path" field if the given value is not nil.
-func (ruo *ResourceUpdateOne) SetNillablePath(s *string) *ResourceUpdateOne {
-	if s != nil {
-		ruo.SetPath(*s)
+func (_u *ResourceUpdateOne) SetNillablePath(v *string) *ResourceUpdateOne {
+	if v != nil {
+		_u.SetPath(*v)
 	}
-	return ruo
+	return _u
 }
 
 // Mutation returns the ResourceMutation object of the builder.
-func (ruo *ResourceUpdateOne) Mutation() *ResourceMutation {
-	return ruo.mutation
+func (_u *ResourceUpdateOne) Mutation() *ResourceMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the ResourceUpdate builder.
-func (ruo *ResourceUpdateOne) Where(ps ...predicate.Resource) *ResourceUpdateOne {
-	ruo.mutation.Where(ps...)
-	return ruo
+func (_u *ResourceUpdateOne) Where(ps ...predicate.Resource) *ResourceUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (ruo *ResourceUpdateOne) Select(field string, fields ...string) *ResourceUpdateOne {
-	ruo.fields = append([]string{field}, fields...)
-	return ruo
+func (_u *ResourceUpdateOne) Select(field string, fields ...string) *ResourceUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated Resource entity.
-func (ruo *ResourceUpdateOne) Save(ctx context.Context) (*Resource, error) {
-	ruo.defaults()
-	return withHooks(ctx, ruo.sqlSave, ruo.mutation, ruo.hooks)
+func (_u *ResourceUpdateOne) Save(ctx context.Context) (*Resource, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (ruo *ResourceUpdateOne) SaveX(ctx context.Context) *Resource {
-	node, err := ruo.Save(ctx)
+func (_u *ResourceUpdateOne) SaveX(ctx context.Context) *Resource {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -239,61 +239,61 @@ func (ruo *ResourceUpdateOne) SaveX(ctx context.Context) *Resource {
 }
 
 // Exec executes the query on the entity.
-func (ruo *ResourceUpdateOne) Exec(ctx context.Context) error {
-	_, err := ruo.Save(ctx)
+func (_u *ResourceUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ruo *ResourceUpdateOne) ExecX(ctx context.Context) {
-	if err := ruo.Exec(ctx); err != nil {
+func (_u *ResourceUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (ruo *ResourceUpdateOne) defaults() {
-	if _, ok := ruo.mutation.UpdatedAt(); !ok {
+func (_u *ResourceUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok {
 		v := resource.UpdateDefaultUpdatedAt()
-		ruo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (ruo *ResourceUpdateOne) check() error {
-	if v, ok := ruo.mutation.Method(); ok {
+func (_u *ResourceUpdateOne) check() error {
+	if v, ok := _u.mutation.Method(); ok {
 		if err := resource.MethodValidator(v); err != nil {
 			return &ValidationError{Name: "method", err: fmt.Errorf(`ent: validator failed for field "Resource.method": %w`, err)}
 		}
 	}
-	if v, ok := ruo.mutation.Path(); ok {
+	if v, ok := _u.mutation.Path(); ok {
 		if err := resource.PathValidator(v); err != nil {
 			return &ValidationError{Name: "path", err: fmt.Errorf(`ent: validator failed for field "Resource.path": %w`, err)}
 		}
 	}
-	if ruo.mutation.MenuCleared() && len(ruo.mutation.MenuIDs()) > 0 {
+	if _u.mutation.MenuCleared() && len(_u.mutation.MenuIDs()) > 0 {
 		return errors.New(`ent: clearing a required unique edge "Resource.menu"`)
 	}
 	return nil
 }
 
 // Modify adds a statement modifier for attaching custom logic to the UPDATE statement.
-func (ruo *ResourceUpdateOne) Modify(modifiers ...func(u *sql.UpdateBuilder)) *ResourceUpdateOne {
-	ruo.modifiers = append(ruo.modifiers, modifiers...)
-	return ruo
+func (_u *ResourceUpdateOne) Modify(modifiers ...func(u *sql.UpdateBuilder)) *ResourceUpdateOne {
+	_u.modifiers = append(_u.modifiers, modifiers...)
+	return _u
 }
 
-func (ruo *ResourceUpdateOne) sqlSave(ctx context.Context) (_node *Resource, err error) {
-	if err := ruo.check(); err != nil {
+func (_u *ResourceUpdateOne) sqlSave(ctx context.Context) (_node *Resource, err error) {
+	if err := _u.check(); err != nil {
 		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(resource.Table, resource.Columns, sqlgraph.NewFieldSpec(resource.FieldID, field.TypeString))
-	id, ok := ruo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "Resource.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := ruo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, resource.FieldID)
 		for _, f := range fields {
@@ -305,27 +305,27 @@ func (ruo *ResourceUpdateOne) sqlSave(ctx context.Context) (_node *Resource, err
 			}
 		}
 	}
-	if ps := ruo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := ruo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(resource.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if value, ok := ruo.mutation.Method(); ok {
+	if value, ok := _u.mutation.Method(); ok {
 		_spec.SetField(resource.FieldMethod, field.TypeString, value)
 	}
-	if value, ok := ruo.mutation.Path(); ok {
+	if value, ok := _u.mutation.Path(); ok {
 		_spec.SetField(resource.FieldPath, field.TypeString, value)
 	}
-	_spec.AddModifiers(ruo.modifiers...)
-	_node = &Resource{config: ruo.config}
+	_spec.AddModifiers(_u.modifiers...)
+	_node = &Resource{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, ruo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{resource.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -333,6 +333,6 @@ func (ruo *ResourceUpdateOne) sqlSave(ctx context.Context) (_node *Resource, err
 		}
 		return nil, err
 	}
-	ruo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

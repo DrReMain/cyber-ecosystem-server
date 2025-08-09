@@ -22,158 +22,150 @@ type DepartmentCreate struct {
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (dc *DepartmentCreate) SetCreatedAt(t time.Time) *DepartmentCreate {
-	dc.mutation.SetCreatedAt(t)
-	return dc
+func (_c *DepartmentCreate) SetCreatedAt(v time.Time) *DepartmentCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (dc *DepartmentCreate) SetNillableCreatedAt(t *time.Time) *DepartmentCreate {
-	if t != nil {
-		dc.SetCreatedAt(*t)
+func (_c *DepartmentCreate) SetNillableCreatedAt(v *time.Time) *DepartmentCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return dc
+	return _c
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (dc *DepartmentCreate) SetUpdatedAt(t time.Time) *DepartmentCreate {
-	dc.mutation.SetUpdatedAt(t)
-	return dc
+func (_c *DepartmentCreate) SetUpdatedAt(v time.Time) *DepartmentCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (dc *DepartmentCreate) SetNillableUpdatedAt(t *time.Time) *DepartmentCreate {
-	if t != nil {
-		dc.SetUpdatedAt(*t)
+func (_c *DepartmentCreate) SetNillableUpdatedAt(v *time.Time) *DepartmentCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return dc
+	return _c
 }
 
 // SetSort sets the "sort" field.
-func (dc *DepartmentCreate) SetSort(u uint32) *DepartmentCreate {
-	dc.mutation.SetSort(u)
-	return dc
+func (_c *DepartmentCreate) SetSort(v uint32) *DepartmentCreate {
+	_c.mutation.SetSort(v)
+	return _c
 }
 
 // SetNillableSort sets the "sort" field if the given value is not nil.
-func (dc *DepartmentCreate) SetNillableSort(u *uint32) *DepartmentCreate {
-	if u != nil {
-		dc.SetSort(*u)
+func (_c *DepartmentCreate) SetNillableSort(v *uint32) *DepartmentCreate {
+	if v != nil {
+		_c.SetSort(*v)
 	}
-	return dc
+	return _c
 }
 
 // SetDepartmentName sets the "department_name" field.
-func (dc *DepartmentCreate) SetDepartmentName(s string) *DepartmentCreate {
-	dc.mutation.SetDepartmentName(s)
-	return dc
+func (_c *DepartmentCreate) SetDepartmentName(v string) *DepartmentCreate {
+	_c.mutation.SetDepartmentName(v)
+	return _c
 }
 
 // SetRemark sets the "remark" field.
-func (dc *DepartmentCreate) SetRemark(s string) *DepartmentCreate {
-	dc.mutation.SetRemark(s)
-	return dc
+func (_c *DepartmentCreate) SetRemark(v string) *DepartmentCreate {
+	_c.mutation.SetRemark(v)
+	return _c
 }
 
 // SetNillableRemark sets the "remark" field if the given value is not nil.
-func (dc *DepartmentCreate) SetNillableRemark(s *string) *DepartmentCreate {
-	if s != nil {
-		dc.SetRemark(*s)
+func (_c *DepartmentCreate) SetNillableRemark(v *string) *DepartmentCreate {
+	if v != nil {
+		_c.SetRemark(*v)
 	}
-	return dc
+	return _c
 }
 
 // SetParentID sets the "parent_id" field.
-func (dc *DepartmentCreate) SetParentID(s string) *DepartmentCreate {
-	dc.mutation.SetParentID(s)
-	return dc
+func (_c *DepartmentCreate) SetParentID(v string) *DepartmentCreate {
+	_c.mutation.SetParentID(v)
+	return _c
 }
 
 // SetNillableParentID sets the "parent_id" field if the given value is not nil.
-func (dc *DepartmentCreate) SetNillableParentID(s *string) *DepartmentCreate {
-	if s != nil {
-		dc.SetParentID(*s)
+func (_c *DepartmentCreate) SetNillableParentID(v *string) *DepartmentCreate {
+	if v != nil {
+		_c.SetParentID(*v)
 	}
-	return dc
+	return _c
 }
 
 // SetIDPath sets the "id_path" field.
-func (dc *DepartmentCreate) SetIDPath(s string) *DepartmentCreate {
-	dc.mutation.SetIDPath(s)
-	return dc
-}
-
-// SetNillableIDPath sets the "id_path" field if the given value is not nil.
-func (dc *DepartmentCreate) SetNillableIDPath(s *string) *DepartmentCreate {
-	if s != nil {
-		dc.SetIDPath(*s)
-	}
-	return dc
+func (_c *DepartmentCreate) SetIDPath(v string) *DepartmentCreate {
+	_c.mutation.SetIDPath(v)
+	return _c
 }
 
 // SetID sets the "id" field.
-func (dc *DepartmentCreate) SetID(s string) *DepartmentCreate {
-	dc.mutation.SetID(s)
-	return dc
+func (_c *DepartmentCreate) SetID(v string) *DepartmentCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // SetNillableID sets the "id" field if the given value is not nil.
-func (dc *DepartmentCreate) SetNillableID(s *string) *DepartmentCreate {
-	if s != nil {
-		dc.SetID(*s)
+func (_c *DepartmentCreate) SetNillableID(v *string) *DepartmentCreate {
+	if v != nil {
+		_c.SetID(*v)
 	}
-	return dc
-}
-
-// SetParent sets the "parent" edge to the Department entity.
-func (dc *DepartmentCreate) SetParent(d *Department) *DepartmentCreate {
-	return dc.SetParentID(d.ID)
+	return _c
 }
 
 // AddChildIDs adds the "children" edge to the Department entity by IDs.
-func (dc *DepartmentCreate) AddChildIDs(ids ...string) *DepartmentCreate {
-	dc.mutation.AddChildIDs(ids...)
-	return dc
+func (_c *DepartmentCreate) AddChildIDs(ids ...string) *DepartmentCreate {
+	_c.mutation.AddChildIDs(ids...)
+	return _c
 }
 
 // AddChildren adds the "children" edges to the Department entity.
-func (dc *DepartmentCreate) AddChildren(d ...*Department) *DepartmentCreate {
-	ids := make([]string, len(d))
-	for i := range d {
-		ids[i] = d[i].ID
+func (_c *DepartmentCreate) AddChildren(v ...*Department) *DepartmentCreate {
+	ids := make([]string, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return dc.AddChildIDs(ids...)
+	return _c.AddChildIDs(ids...)
+}
+
+// SetParent sets the "parent" edge to the Department entity.
+func (_c *DepartmentCreate) SetParent(v *Department) *DepartmentCreate {
+	return _c.SetParentID(v.ID)
 }
 
 // AddUserIDs adds the "users" edge to the User entity by IDs.
-func (dc *DepartmentCreate) AddUserIDs(ids ...string) *DepartmentCreate {
-	dc.mutation.AddUserIDs(ids...)
-	return dc
+func (_c *DepartmentCreate) AddUserIDs(ids ...string) *DepartmentCreate {
+	_c.mutation.AddUserIDs(ids...)
+	return _c
 }
 
 // AddUsers adds the "users" edges to the User entity.
-func (dc *DepartmentCreate) AddUsers(u ...*User) *DepartmentCreate {
-	ids := make([]string, len(u))
-	for i := range u {
-		ids[i] = u[i].ID
+func (_c *DepartmentCreate) AddUsers(v ...*User) *DepartmentCreate {
+	ids := make([]string, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return dc.AddUserIDs(ids...)
+	return _c.AddUserIDs(ids...)
 }
 
 // Mutation returns the DepartmentMutation object of the builder.
-func (dc *DepartmentCreate) Mutation() *DepartmentMutation {
-	return dc.mutation
+func (_c *DepartmentCreate) Mutation() *DepartmentMutation {
+	return _c.mutation
 }
 
 // Save creates the Department in the database.
-func (dc *DepartmentCreate) Save(ctx context.Context) (*Department, error) {
-	dc.defaults()
-	return withHooks(ctx, dc.sqlSave, dc.mutation, dc.hooks)
+func (_c *DepartmentCreate) Save(ctx context.Context) (*Department, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (dc *DepartmentCreate) SaveX(ctx context.Context) *Department {
-	v, err := dc.Save(ctx)
+func (_c *DepartmentCreate) SaveX(ctx context.Context) *Department {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -181,71 +173,73 @@ func (dc *DepartmentCreate) SaveX(ctx context.Context) *Department {
 }
 
 // Exec executes the query.
-func (dc *DepartmentCreate) Exec(ctx context.Context) error {
-	_, err := dc.Save(ctx)
+func (_c *DepartmentCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (dc *DepartmentCreate) ExecX(ctx context.Context) {
-	if err := dc.Exec(ctx); err != nil {
+func (_c *DepartmentCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (dc *DepartmentCreate) defaults() {
-	if _, ok := dc.mutation.CreatedAt(); !ok {
+func (_c *DepartmentCreate) defaults() {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := department.DefaultCreatedAt()
-		dc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := dc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := department.DefaultUpdatedAt()
-		dc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
-	if _, ok := dc.mutation.Sort(); !ok {
+	if _, ok := _c.mutation.Sort(); !ok {
 		v := department.DefaultSort
-		dc.mutation.SetSort(v)
+		_c.mutation.SetSort(v)
 	}
-	if _, ok := dc.mutation.Remark(); !ok {
+	if _, ok := _c.mutation.Remark(); !ok {
 		v := department.DefaultRemark
-		dc.mutation.SetRemark(v)
+		_c.mutation.SetRemark(v)
 	}
-	if _, ok := dc.mutation.ParentID(); !ok {
-		v := department.DefaultParentID
-		dc.mutation.SetParentID(v)
-	}
-	if _, ok := dc.mutation.IDPath(); !ok {
-		v := department.DefaultIDPath
-		dc.mutation.SetIDPath(v)
-	}
-	if _, ok := dc.mutation.ID(); !ok {
+	if _, ok := _c.mutation.ID(); !ok {
 		v := department.DefaultID()
-		dc.mutation.SetID(v)
+		_c.mutation.SetID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (dc *DepartmentCreate) check() error {
-	if _, ok := dc.mutation.CreatedAt(); !ok {
+func (_c *DepartmentCreate) check() error {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		return &ValidationError{Name: "created_at", err: errors.New(`ent: missing required field "Department.created_at"`)}
 	}
-	if _, ok := dc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		return &ValidationError{Name: "updated_at", err: errors.New(`ent: missing required field "Department.updated_at"`)}
 	}
-	if _, ok := dc.mutation.Sort(); !ok {
+	if _, ok := _c.mutation.Sort(); !ok {
 		return &ValidationError{Name: "sort", err: errors.New(`ent: missing required field "Department.sort"`)}
 	}
-	if _, ok := dc.mutation.DepartmentName(); !ok {
+	if _, ok := _c.mutation.DepartmentName(); !ok {
 		return &ValidationError{Name: "department_name", err: errors.New(`ent: missing required field "Department.department_name"`)}
 	}
-	if _, ok := dc.mutation.Remark(); !ok {
+	if v, ok := _c.mutation.DepartmentName(); ok {
+		if err := department.DepartmentNameValidator(v); err != nil {
+			return &ValidationError{Name: "department_name", err: fmt.Errorf(`ent: validator failed for field "Department.department_name": %w`, err)}
+		}
+	}
+	if _, ok := _c.mutation.Remark(); !ok {
 		return &ValidationError{Name: "remark", err: errors.New(`ent: missing required field "Department.remark"`)}
 	}
-	if _, ok := dc.mutation.IDPath(); !ok {
+	if _, ok := _c.mutation.IDPath(); !ok {
 		return &ValidationError{Name: "id_path", err: errors.New(`ent: missing required field "Department.id_path"`)}
 	}
-	if v, ok := dc.mutation.ID(); ok {
+	if v, ok := _c.mutation.IDPath(); ok {
+		if err := department.IDPathValidator(v); err != nil {
+			return &ValidationError{Name: "id_path", err: fmt.Errorf(`ent: validator failed for field "Department.id_path": %w`, err)}
+		}
+	}
+	if v, ok := _c.mutation.ID(); ok {
 		if err := department.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Department.id": %w`, err)}
 		}
@@ -253,12 +247,12 @@ func (dc *DepartmentCreate) check() error {
 	return nil
 }
 
-func (dc *DepartmentCreate) sqlSave(ctx context.Context) (*Department, error) {
-	if err := dc.check(); err != nil {
+func (_c *DepartmentCreate) sqlSave(ctx context.Context) (*Department, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := dc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, dc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -271,45 +265,61 @@ func (dc *DepartmentCreate) sqlSave(ctx context.Context) (*Department, error) {
 			return nil, fmt.Errorf("unexpected Department.ID type: %T", _spec.ID.Value)
 		}
 	}
-	dc.mutation.id = &_node.ID
-	dc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (dc *DepartmentCreate) createSpec() (*Department, *sqlgraph.CreateSpec) {
+func (_c *DepartmentCreate) createSpec() (*Department, *sqlgraph.CreateSpec) {
 	var (
-		_node = &Department{config: dc.config}
+		_node = &Department{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(department.Table, sqlgraph.NewFieldSpec(department.FieldID, field.TypeString))
 	)
-	if id, ok := dc.mutation.ID(); ok {
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := dc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(department.FieldCreatedAt, field.TypeTime, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := dc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(department.FieldUpdatedAt, field.TypeTime, value)
 		_node.UpdatedAt = value
 	}
-	if value, ok := dc.mutation.Sort(); ok {
+	if value, ok := _c.mutation.Sort(); ok {
 		_spec.SetField(department.FieldSort, field.TypeUint32, value)
 		_node.Sort = value
 	}
-	if value, ok := dc.mutation.DepartmentName(); ok {
+	if value, ok := _c.mutation.DepartmentName(); ok {
 		_spec.SetField(department.FieldDepartmentName, field.TypeString, value)
 		_node.DepartmentName = value
 	}
-	if value, ok := dc.mutation.Remark(); ok {
+	if value, ok := _c.mutation.Remark(); ok {
 		_spec.SetField(department.FieldRemark, field.TypeString, value)
 		_node.Remark = value
 	}
-	if value, ok := dc.mutation.IDPath(); ok {
+	if value, ok := _c.mutation.IDPath(); ok {
 		_spec.SetField(department.FieldIDPath, field.TypeString, value)
 		_node.IDPath = value
 	}
-	if nodes := dc.mutation.ParentIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.ChildrenIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   department.ChildrenTable,
+			Columns: []string{department.ChildrenColumn},
+			Bidi:    true,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(department.FieldID, field.TypeString),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges = append(_spec.Edges, edge)
+	}
+	if nodes := _c.mutation.ParentIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -323,26 +333,10 @@ func (dc *DepartmentCreate) createSpec() (*Department, *sqlgraph.CreateSpec) {
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
-		_node.ParentID = nodes[0]
+		_node.ParentID = &nodes[0]
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := dc.mutation.ChildrenIDs(); len(nodes) > 0 {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   department.ChildrenTable,
-			Columns: []string{department.ChildrenColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(department.FieldID, field.TypeString),
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_spec.Edges = append(_spec.Edges, edge)
-	}
-	if nodes := dc.mutation.UsersIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.UsersIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: true,
@@ -369,16 +363,16 @@ type DepartmentCreateBulk struct {
 }
 
 // Save creates the Department entities in the database.
-func (dcb *DepartmentCreateBulk) Save(ctx context.Context) ([]*Department, error) {
-	if dcb.err != nil {
-		return nil, dcb.err
+func (_c *DepartmentCreateBulk) Save(ctx context.Context) ([]*Department, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(dcb.builders))
-	nodes := make([]*Department, len(dcb.builders))
-	mutators := make([]Mutator, len(dcb.builders))
-	for i := range dcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*Department, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := dcb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*DepartmentMutation)
@@ -392,11 +386,11 @@ func (dcb *DepartmentCreateBulk) Save(ctx context.Context) ([]*Department, error
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, dcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, dcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -416,7 +410,7 @@ func (dcb *DepartmentCreateBulk) Save(ctx context.Context) ([]*Department, error
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, dcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -424,8 +418,8 @@ func (dcb *DepartmentCreateBulk) Save(ctx context.Context) ([]*Department, error
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (dcb *DepartmentCreateBulk) SaveX(ctx context.Context) []*Department {
-	v, err := dcb.Save(ctx)
+func (_c *DepartmentCreateBulk) SaveX(ctx context.Context) []*Department {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -433,14 +427,14 @@ func (dcb *DepartmentCreateBulk) SaveX(ctx context.Context) []*Department {
 }
 
 // Exec executes the query.
-func (dcb *DepartmentCreateBulk) Exec(ctx context.Context) error {
-	_, err := dcb.Save(ctx)
+func (_c *DepartmentCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (dcb *DepartmentCreateBulk) ExecX(ctx context.Context) {
-	if err := dcb.Exec(ctx); err != nil {
+func (_c *DepartmentCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

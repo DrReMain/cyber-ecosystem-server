@@ -21,19 +21,19 @@ func (Resource) Fields() []ent.Field {
 		field.String("menu_id").
 			NotEmpty().
 			Immutable().
-			Comment("Menu ID | 所属 Menu"),
+			Comment("Menu ID"),
 		field.String("method").
 			SchemaType(map[string]string{
 				dialect.MySQL: "varchar(32)",
 			}).
 			NotEmpty().
-			Comment("HTTP method | HTTP 请求类型"),
+			Comment("HTTP method"),
 		field.String("path").
 			SchemaType(map[string]string{
 				dialect.MySQL: "varchar(512)",
 			}).
 			NotEmpty().
-			Comment("HTTP path | HTTP 请求路径"),
+			Comment("HTTP path"),
 	}
 }
 
@@ -52,6 +52,8 @@ func (Resource) Edges() []ent.Edge {
 func (Resource) Indexes() []ent.Index {
 	return []ent.Index{
 		index.Fields("menu_id", "method", "path").Unique(),
+		index.Fields("menu_id"),
+		index.Fields("method", "path"),
 	}
 }
 

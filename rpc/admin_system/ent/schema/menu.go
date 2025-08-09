@@ -19,39 +19,39 @@ type Menu struct {
 func (Menu) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("title").
-			Comment("Menu title | 菜单标题"),
+			Default("").
+			Comment("Menu title"),
 		field.String("icon").
 			SchemaType(map[string]string{
 				dialect.MySQL: "varchar(512)",
 			}).
 			Default("").
-			Comment("Menu icon | 菜单图标"),
+			Comment("Menu icon"),
 		field.String("code").
 			NotEmpty().
-			Comment("Menu code | 菜单CODE"),
+			Comment("Menu code"),
 		field.String("code_path").
 			SchemaType(map[string]string{
 				dialect.MySQL: "varchar(512)",
 			}).
-			Comment("Menu code path | 菜单CODE路径 (code1.code2.code3)"),
+			NotEmpty().
+			Comment("Menu code path (code1_code2_code3)"),
 		field.String("parent_id").
-			Default("").
-			Comment("Parent MenuID | 父级菜单ID"),
+			Optional().
+			Nillable().
+			Comment("Parent MenuID"),
 		field.String("menu_type").
 			SchemaType(map[string]string{
 				dialect.MySQL: "varchar(16)",
 			}).
 			NotEmpty().
-			Comment("Menu type | 菜单类型 (page/button)"),
-		field.String("menu_path").
-			Default("").
-			Comment("Menu path | 菜单路径"),
+			Comment("Menu type (divider/group/menu/page/button)"),
 		field.String("properties").
 			SchemaType(map[string]string{
 				dialect.MySQL: "varchar(2048)",
 			}).
 			Default("{}").
-			Comment("Menu properties | 菜单属性 (JSON字符串)"),
+			Comment("Menu properties (JSON字符串)"),
 	}
 }
 
@@ -66,14 +66,16 @@ func (Menu) Mixin() []ent.Mixin {
 func (Menu) Edges() []ent.Edge {
 	return []ent.Edge{
 		edge.From("roles", Role.Type).Ref("menus"),
-		edge.To("children", Menu.Type).From("parent").Required().Unique().Field("parent_id"),
+		edge.To("children", Menu.Type),
+		edge.From("parent", Menu.Type).Ref("children").Unique().Field("parent_id"),
 		edge.To("resources", Resource.Type),
 	}
 }
 
 func (Menu) Indexes() []ent.Index {
 	return []ent.Index{
-		index.Fields("code").Unique(),
+		index.Fields("code", "parent_id").Unique(),
+		index.Fields("parent_id"),
 		index.Fields("code_path").Unique(),
 		index.Fields("menu_type"),
 	}

@@ -39,18 +39,18 @@ func init() {
 	departmentDescSort := departmentMixinFields1[0].Descriptor()
 	// department.DefaultSort holds the default value on creation for the sort field.
 	department.DefaultSort = departmentDescSort.Default.(uint32)
+	// departmentDescDepartmentName is the schema descriptor for department_name field.
+	departmentDescDepartmentName := departmentFields[0].Descriptor()
+	// department.DepartmentNameValidator is a validator for the "department_name" field. It is called by the builders before save.
+	department.DepartmentNameValidator = departmentDescDepartmentName.Validators[0].(func(string) error)
 	// departmentDescRemark is the schema descriptor for remark field.
 	departmentDescRemark := departmentFields[1].Descriptor()
 	// department.DefaultRemark holds the default value on creation for the remark field.
 	department.DefaultRemark = departmentDescRemark.Default.(string)
-	// departmentDescParentID is the schema descriptor for parent_id field.
-	departmentDescParentID := departmentFields[2].Descriptor()
-	// department.DefaultParentID holds the default value on creation for the parent_id field.
-	department.DefaultParentID = departmentDescParentID.Default.(string)
 	// departmentDescIDPath is the schema descriptor for id_path field.
 	departmentDescIDPath := departmentFields[3].Descriptor()
-	// department.DefaultIDPath holds the default value on creation for the id_path field.
-	department.DefaultIDPath = departmentDescIDPath.Default.(string)
+	// department.IDPathValidator is a validator for the "id_path" field. It is called by the builders before save.
+	department.IDPathValidator = departmentDescIDPath.Validators[0].(func(string) error)
 	// departmentDescID is the schema descriptor for id field.
 	departmentDescID := departmentMixinFields0[0].Descriptor()
 	// department.DefaultID holds the default value on creation for the id field.
@@ -84,6 +84,10 @@ func init() {
 	menuDescStatus := menuMixinFields2[0].Descriptor()
 	// menu.DefaultStatus holds the default value on creation for the status field.
 	menu.DefaultStatus = menuDescStatus.Default.(uint8)
+	// menuDescTitle is the schema descriptor for title field.
+	menuDescTitle := menuFields[0].Descriptor()
+	// menu.DefaultTitle holds the default value on creation for the title field.
+	menu.DefaultTitle = menuDescTitle.Default.(string)
 	// menuDescIcon is the schema descriptor for icon field.
 	menuDescIcon := menuFields[1].Descriptor()
 	// menu.DefaultIcon holds the default value on creation for the icon field.
@@ -92,20 +96,16 @@ func init() {
 	menuDescCode := menuFields[2].Descriptor()
 	// menu.CodeValidator is a validator for the "code" field. It is called by the builders before save.
 	menu.CodeValidator = menuDescCode.Validators[0].(func(string) error)
-	// menuDescParentID is the schema descriptor for parent_id field.
-	menuDescParentID := menuFields[4].Descriptor()
-	// menu.DefaultParentID holds the default value on creation for the parent_id field.
-	menu.DefaultParentID = menuDescParentID.Default.(string)
+	// menuDescCodePath is the schema descriptor for code_path field.
+	menuDescCodePath := menuFields[3].Descriptor()
+	// menu.CodePathValidator is a validator for the "code_path" field. It is called by the builders before save.
+	menu.CodePathValidator = menuDescCodePath.Validators[0].(func(string) error)
 	// menuDescMenuType is the schema descriptor for menu_type field.
 	menuDescMenuType := menuFields[5].Descriptor()
 	// menu.MenuTypeValidator is a validator for the "menu_type" field. It is called by the builders before save.
 	menu.MenuTypeValidator = menuDescMenuType.Validators[0].(func(string) error)
-	// menuDescMenuPath is the schema descriptor for menu_path field.
-	menuDescMenuPath := menuFields[6].Descriptor()
-	// menu.DefaultMenuPath holds the default value on creation for the menu_path field.
-	menu.DefaultMenuPath = menuDescMenuPath.Default.(string)
 	// menuDescProperties is the schema descriptor for properties field.
-	menuDescProperties := menuFields[7].Descriptor()
+	menuDescProperties := menuFields[6].Descriptor()
 	// menu.DefaultProperties holds the default value on creation for the properties field.
 	menu.DefaultProperties = menuDescProperties.Default.(string)
 	// menuDescID is the schema descriptor for id field.
@@ -135,6 +135,14 @@ func init() {
 	positionDescSort := positionMixinFields1[0].Descriptor()
 	// position.DefaultSort holds the default value on creation for the sort field.
 	position.DefaultSort = positionDescSort.Default.(uint32)
+	// positionDescPositionName is the schema descriptor for position_name field.
+	positionDescPositionName := positionFields[0].Descriptor()
+	// position.PositionNameValidator is a validator for the "position_name" field. It is called by the builders before save.
+	position.PositionNameValidator = positionDescPositionName.Validators[0].(func(string) error)
+	// positionDescCode is the schema descriptor for code field.
+	positionDescCode := positionFields[1].Descriptor()
+	// position.CodeValidator is a validator for the "code" field. It is called by the builders before save.
+	position.CodeValidator = positionDescCode.Validators[0].(func(string) error)
 	// positionDescRemark is the schema descriptor for remark field.
 	positionDescRemark := positionFields[2].Descriptor()
 	// position.DefaultRemark holds the default value on creation for the remark field.
@@ -199,6 +207,14 @@ func init() {
 	roleDescSort := roleMixinFields1[0].Descriptor()
 	// role.DefaultSort holds the default value on creation for the sort field.
 	role.DefaultSort = roleDescSort.Default.(uint32)
+	// roleDescRoleName is the schema descriptor for role_name field.
+	roleDescRoleName := roleFields[0].Descriptor()
+	// role.RoleNameValidator is a validator for the "role_name" field. It is called by the builders before save.
+	role.RoleNameValidator = roleDescRoleName.Validators[0].(func(string) error)
+	// roleDescCode is the schema descriptor for code field.
+	roleDescCode := roleFields[1].Descriptor()
+	// role.CodeValidator is a validator for the "code" field. It is called by the builders before save.
+	role.CodeValidator = roleDescCode.Validators[0].(func(string) error)
 	// roleDescRemark is the schema descriptor for remark field.
 	roleDescRemark := roleFields[2].Descriptor()
 	// role.DefaultRemark holds the default value on creation for the remark field.
@@ -234,6 +250,14 @@ func init() {
 	userDescStatus := userMixinFields2[0].Descriptor()
 	// user.DefaultStatus holds the default value on creation for the status field.
 	user.DefaultStatus = userDescStatus.Default.(uint8)
+	// userDescPassword is the schema descriptor for password field.
+	userDescPassword := userFields[0].Descriptor()
+	// user.PasswordValidator is a validator for the "password" field. It is called by the builders before save.
+	user.PasswordValidator = userDescPassword.Validators[0].(func(string) error)
+	// userDescEmail is the schema descriptor for email field.
+	userDescEmail := userFields[1].Descriptor()
+	// user.EmailValidator is a validator for the "email" field. It is called by the builders before save.
+	user.EmailValidator = userDescEmail.Validators[0].(func(string) error)
 	// userDescName is the schema descriptor for name field.
 	userDescName := userFields[2].Descriptor()
 	// user.DefaultName holds the default value on creation for the name field.
@@ -254,10 +278,6 @@ func init() {
 	userDescRemark := userFields[6].Descriptor()
 	// user.DefaultRemark holds the default value on creation for the remark field.
 	user.DefaultRemark = userDescRemark.Default.(string)
-	// userDescDepartmentID is the schema descriptor for department_id field.
-	userDescDepartmentID := userFields[7].Descriptor()
-	// user.DefaultDepartmentID holds the default value on creation for the department_id field.
-	user.DefaultDepartmentID = userDescDepartmentID.Default.(string)
 	// userDescID is the schema descriptor for id field.
 	userDescID := userMixinFields0[0].Descriptor()
 	// user.DefaultID holds the default value on creation for the id field.
@@ -267,6 +287,6 @@ func init() {
 }
 
 const (
-	Version = "v0.14.4"                                         // Version of ent codegen.
-	Sum     = "h1:/DhDraSLXIkBhyiVoJeSshr4ZYi7femzhj6/TckzZuI=" // Sum of ent codegen.
+	Version = "v0.14.5"                                         // Version of ent codegen.
+	Sum     = "h1:Rj2WOYJtCkWyFo6a+5wB3EfBRP0rnx1fMk6gGA0UUe4=" // Sum of ent codegen.
 )

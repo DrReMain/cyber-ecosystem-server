@@ -15,10 +15,10 @@ var (
 		{Name: "created_at", Type: field.TypeTime},
 		{Name: "updated_at", Type: field.TypeTime},
 		{Name: "sort", Type: field.TypeUint32, Default: 0},
-		{Name: "department_name", Type: field.TypeString, Comment: "Department name | 部门名称"},
-		{Name: "remark", Type: field.TypeString, Comment: "Department remark | 部门备注", Default: ""},
-		{Name: "id_path", Type: field.TypeString, Comment: "Id path | ID路径", Default: ""},
-		{Name: "parent_id", Type: field.TypeString, Nullable: true, Size: 20, Comment: "Parent ID | 父级部门ID", Default: ""},
+		{Name: "department_name", Type: field.TypeString, Comment: "Department name"},
+		{Name: "remark", Type: field.TypeString, Comment: "Department remark", Default: ""},
+		{Name: "id_path", Type: field.TypeString, Comment: "Id path", SchemaType: map[string]string{"mysql": "varchar(512)"}},
+		{Name: "parent_id", Type: field.TypeString, Nullable: true, Size: 20, Comment: "Parent ID"},
 	}
 	// AdminSystemDepartmentsTable holds the schema information for the "admin_system_departments" table.
 	AdminSystemDepartmentsTable = &schema.Table{
@@ -50,9 +50,9 @@ var (
 				Columns: []*schema.Column{AdminSystemDepartmentsColumns[3]},
 			},
 			{
-				Name:    "department_department_name",
+				Name:    "department_department_name_parent_id",
 				Unique:  true,
-				Columns: []*schema.Column{AdminSystemDepartmentsColumns[4]},
+				Columns: []*schema.Column{AdminSystemDepartmentsColumns[4], AdminSystemDepartmentsColumns[7]},
 			},
 			{
 				Name:    "department_parent_id",
@@ -73,14 +73,13 @@ var (
 		{Name: "updated_at", Type: field.TypeTime},
 		{Name: "sort", Type: field.TypeUint32, Default: 0},
 		{Name: "status", Type: field.TypeUint8, Nullable: true, Comment: "Status | 1 正常 2 禁用", Default: 1},
-		{Name: "title", Type: field.TypeString, Comment: "Menu title | 菜单标题"},
-		{Name: "icon", Type: field.TypeString, Comment: "Menu icon | 菜单图标", Default: "", SchemaType: map[string]string{"mysql": "varchar(512)"}},
-		{Name: "code", Type: field.TypeString, Comment: "Menu code | 菜单CODE"},
-		{Name: "code_path", Type: field.TypeString, Comment: "Menu code path | 菜单CODE路径 (code1.code2.code3)", SchemaType: map[string]string{"mysql": "varchar(512)"}},
-		{Name: "menu_type", Type: field.TypeString, Comment: "Menu type | 菜单类型 (page/button)", SchemaType: map[string]string{"mysql": "varchar(16)"}},
-		{Name: "menu_path", Type: field.TypeString, Comment: "Menu path | 菜单路径", Default: ""},
-		{Name: "properties", Type: field.TypeString, Comment: "Menu properties | 菜单属性 (JSON字符串)", Default: "{}", SchemaType: map[string]string{"mysql": "varchar(2048)"}},
-		{Name: "parent_id", Type: field.TypeString, Nullable: true, Size: 20, Comment: "Parent MenuID | 父级菜单ID", Default: ""},
+		{Name: "title", Type: field.TypeString, Comment: "Menu title", Default: ""},
+		{Name: "icon", Type: field.TypeString, Comment: "Menu icon", Default: "", SchemaType: map[string]string{"mysql": "varchar(512)"}},
+		{Name: "code", Type: field.TypeString, Comment: "Menu code"},
+		{Name: "code_path", Type: field.TypeString, Comment: "Menu code path (code1_code2_code3)", SchemaType: map[string]string{"mysql": "varchar(512)"}},
+		{Name: "menu_type", Type: field.TypeString, Comment: "Menu type (divider/group/menu/page/button)", SchemaType: map[string]string{"mysql": "varchar(16)"}},
+		{Name: "properties", Type: field.TypeString, Comment: "Menu properties (JSON字符串)", Default: "{}", SchemaType: map[string]string{"mysql": "varchar(2048)"}},
+		{Name: "parent_id", Type: field.TypeString, Nullable: true, Size: 20, Comment: "Parent MenuID"},
 	}
 	// AdminSystemMenusTable holds the schema information for the "admin_system_menus" table.
 	AdminSystemMenusTable = &schema.Table{
@@ -90,7 +89,7 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:     "admin_system_menus_admin_system_menus_children",
-				Columns:    []*schema.Column{AdminSystemMenusColumns[12]},
+				Columns:    []*schema.Column{AdminSystemMenusColumns[11]},
 				RefColumns: []*schema.Column{AdminSystemMenusColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
@@ -117,9 +116,14 @@ var (
 				Columns: []*schema.Column{AdminSystemMenusColumns[4]},
 			},
 			{
-				Name:    "menu_code",
+				Name:    "menu_code_parent_id",
 				Unique:  true,
-				Columns: []*schema.Column{AdminSystemMenusColumns[7]},
+				Columns: []*schema.Column{AdminSystemMenusColumns[7], AdminSystemMenusColumns[11]},
+			},
+			{
+				Name:    "menu_parent_id",
+				Unique:  false,
+				Columns: []*schema.Column{AdminSystemMenusColumns[11]},
 			},
 			{
 				Name:    "menu_code_path",
@@ -139,9 +143,9 @@ var (
 		{Name: "created_at", Type: field.TypeTime},
 		{Name: "updated_at", Type: field.TypeTime},
 		{Name: "sort", Type: field.TypeUint32, Default: 0},
-		{Name: "position_name", Type: field.TypeString, Comment: "Position name | 职位名称"},
-		{Name: "code", Type: field.TypeString, Comment: "Position code | 职位编号"},
-		{Name: "remark", Type: field.TypeString, Comment: "Position remark | 职位备注", Default: ""},
+		{Name: "position_name", Type: field.TypeString, Comment: "Position name"},
+		{Name: "code", Type: field.TypeString, Comment: "Position code"},
+		{Name: "remark", Type: field.TypeString, Comment: "Position remark", Default: ""},
 	}
 	// AdminSystemPositionsTable holds the schema information for the "admin_system_positions" table.
 	AdminSystemPositionsTable = &schema.Table{
@@ -181,9 +185,9 @@ var (
 		{Name: "id", Type: field.TypeString, Size: 20},
 		{Name: "created_at", Type: field.TypeTime},
 		{Name: "updated_at", Type: field.TypeTime},
-		{Name: "method", Type: field.TypeString, Comment: "HTTP method | HTTP 请求类型", SchemaType: map[string]string{"mysql": "varchar(32)"}},
-		{Name: "path", Type: field.TypeString, Comment: "HTTP path | HTTP 请求路径", SchemaType: map[string]string{"mysql": "varchar(512)"}},
-		{Name: "menu_id", Type: field.TypeString, Size: 20, Comment: "Menu ID | 所属 Menu"},
+		{Name: "method", Type: field.TypeString, Comment: "HTTP method", SchemaType: map[string]string{"mysql": "varchar(32)"}},
+		{Name: "path", Type: field.TypeString, Comment: "HTTP path", SchemaType: map[string]string{"mysql": "varchar(512)"}},
+		{Name: "menu_id", Type: field.TypeString, Size: 20, Comment: "Menu ID"},
 	}
 	// AdminSystemResourcesTable holds the schema information for the "admin_system_resources" table.
 	AdminSystemResourcesTable = &schema.Table{
@@ -214,6 +218,16 @@ var (
 				Unique:  true,
 				Columns: []*schema.Column{AdminSystemResourcesColumns[5], AdminSystemResourcesColumns[3], AdminSystemResourcesColumns[4]},
 			},
+			{
+				Name:    "resource_menu_id",
+				Unique:  false,
+				Columns: []*schema.Column{AdminSystemResourcesColumns[5]},
+			},
+			{
+				Name:    "resource_method_path",
+				Unique:  false,
+				Columns: []*schema.Column{AdminSystemResourcesColumns[3], AdminSystemResourcesColumns[4]},
+			},
 		},
 	}
 	// AdminSystemRolesColumns holds the columns for the "admin_system_roles" table.
@@ -222,9 +236,9 @@ var (
 		{Name: "created_at", Type: field.TypeTime},
 		{Name: "updated_at", Type: field.TypeTime},
 		{Name: "sort", Type: field.TypeUint32, Default: 0},
-		{Name: "role_name", Type: field.TypeString, Comment: "Role name | 角色名称"},
-		{Name: "code", Type: field.TypeString, Comment: "Role code | 角色CODE"},
-		{Name: "remark", Type: field.TypeString, Comment: "Role remark | 角色备注", Default: ""},
+		{Name: "role_name", Type: field.TypeString, Comment: "Role name"},
+		{Name: "code", Type: field.TypeString, Comment: "Role code"},
+		{Name: "remark", Type: field.TypeString, Comment: "Role remark", Default: ""},
 	}
 	// AdminSystemRolesTable holds the schema information for the "admin_system_roles" table.
 	AdminSystemRolesTable = &schema.Table{
@@ -266,14 +280,14 @@ var (
 		{Name: "updated_at", Type: field.TypeTime},
 		{Name: "deleted_at", Type: field.TypeTime, Nullable: true},
 		{Name: "status", Type: field.TypeUint8, Nullable: true, Comment: "Status | 1 正常 2 禁用", Default: 1},
-		{Name: "password", Type: field.TypeString, Comment: "User password | 用户密码"},
-		{Name: "email", Type: field.TypeString, Comment: "User email | 用户邮箱"},
-		{Name: "name", Type: field.TypeString, Comment: "User name | 用户名", Default: ""},
-		{Name: "nickname", Type: field.TypeString, Comment: "User nickname | 用户昵称", Default: ""},
-		{Name: "phone", Type: field.TypeString, Comment: "User phone | 用户手机号", Default: ""},
-		{Name: "avatar", Type: field.TypeString, Comment: "User avatar | 用户头像", Default: "", SchemaType: map[string]string{"mysql": "varchar(1024)"}},
-		{Name: "remark", Type: field.TypeString, Comment: "User remark | 用户备注", Default: ""},
-		{Name: "department_id", Type: field.TypeString, Size: 20, Comment: "User DepartmentID | 用户所属部门", Default: ""},
+		{Name: "password", Type: field.TypeString, Comment: "User password"},
+		{Name: "email", Type: field.TypeString, Comment: "User email"},
+		{Name: "name", Type: field.TypeString, Comment: "User name", Default: ""},
+		{Name: "nickname", Type: field.TypeString, Comment: "User nickname", Default: ""},
+		{Name: "phone", Type: field.TypeString, Comment: "User phone", Default: "", SchemaType: map[string]string{"mysql": "varchar(32)"}},
+		{Name: "avatar", Type: field.TypeString, Comment: "User avatar", Default: "", SchemaType: map[string]string{"mysql": "varchar(1024)"}},
+		{Name: "remark", Type: field.TypeString, Comment: "User remark", Default: ""},
+		{Name: "department_id", Type: field.TypeString, Nullable: true, Size: 20, Comment: "User DepartmentID"},
 	}
 	// AdminSystemUsersTable holds the schema information for the "admin_system_users" table.
 	AdminSystemUsersTable = &schema.Table{
@@ -285,7 +299,7 @@ var (
 				Symbol:     "admin_system_users_admin_system_departments_department",
 				Columns:    []*schema.Column{AdminSystemUsersColumns[12]},
 				RefColumns: []*schema.Column{AdminSystemDepartmentsColumns[0]},
-				OnDelete:   schema.NoAction,
+				OnDelete:   schema.SetNull,
 			},
 		},
 		Indexes: []*schema.Index{
@@ -328,6 +342,11 @@ var (
 				Name:    "user_phone",
 				Unique:  false,
 				Columns: []*schema.Column{AdminSystemUsersColumns[9]},
+			},
+			{
+				Name:    "user_department_id",
+				Unique:  false,
+				Columns: []*schema.Column{AdminSystemUsersColumns[12]},
 			},
 		},
 	}

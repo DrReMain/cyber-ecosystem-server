@@ -51,11 +51,11 @@ type DepartmentMutation struct {
 	remark          *string
 	id_path         *string
 	clearedFields   map[string]struct{}
-	parent          *string
-	clearedparent   bool
 	children        map[string]struct{}
 	removedchildren map[string]struct{}
 	clearedchildren bool
+	parent          *string
+	clearedparent   bool
 	users           map[string]struct{}
 	removedusers    map[string]struct{}
 	clearedusers    bool
@@ -385,7 +385,7 @@ func (m *DepartmentMutation) ParentID() (r string, exists bool) {
 // OldParentID returns the old "parent_id" field's value of the Department entity.
 // If the Department object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *DepartmentMutation) OldParentID(ctx context.Context) (v string, err error) {
+func (m *DepartmentMutation) OldParentID(ctx context.Context) (v *string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldParentID is only allowed on UpdateOne operations")
 	}
@@ -453,33 +453,6 @@ func (m *DepartmentMutation) ResetIDPath() {
 	m.id_path = nil
 }
 
-// ClearParent clears the "parent" edge to the Department entity.
-func (m *DepartmentMutation) ClearParent() {
-	m.clearedparent = true
-	m.clearedFields[department.FieldParentID] = struct{}{}
-}
-
-// ParentCleared reports if the "parent" edge to the Department entity was cleared.
-func (m *DepartmentMutation) ParentCleared() bool {
-	return m.ParentIDCleared() || m.clearedparent
-}
-
-// ParentIDs returns the "parent" edge IDs in the mutation.
-// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
-// ParentID instead. It exists only for internal usage by the builders.
-func (m *DepartmentMutation) ParentIDs() (ids []string) {
-	if id := m.parent; id != nil {
-		ids = append(ids, *id)
-	}
-	return
-}
-
-// ResetParent resets all changes to the "parent" edge.
-func (m *DepartmentMutation) ResetParent() {
-	m.parent = nil
-	m.clearedparent = false
-}
-
 // AddChildIDs adds the "children" edge to the Department entity by ids.
 func (m *DepartmentMutation) AddChildIDs(ids ...string) {
 	if m.children == nil {
@@ -532,6 +505,33 @@ func (m *DepartmentMutation) ResetChildren() {
 	m.children = nil
 	m.clearedchildren = false
 	m.removedchildren = nil
+}
+
+// ClearParent clears the "parent" edge to the Department entity.
+func (m *DepartmentMutation) ClearParent() {
+	m.clearedparent = true
+	m.clearedFields[department.FieldParentID] = struct{}{}
+}
+
+// ParentCleared reports if the "parent" edge to the Department entity was cleared.
+func (m *DepartmentMutation) ParentCleared() bool {
+	return m.ParentIDCleared() || m.clearedparent
+}
+
+// ParentIDs returns the "parent" edge IDs in the mutation.
+// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
+// ParentID instead. It exists only for internal usage by the builders.
+func (m *DepartmentMutation) ParentIDs() (ids []string) {
+	if id := m.parent; id != nil {
+		ids = append(ids, *id)
+	}
+	return
+}
+
+// ResetParent resets all changes to the "parent" edge.
+func (m *DepartmentMutation) ResetParent() {
+	m.parent = nil
+	m.clearedparent = false
 }
 
 // AddUserIDs adds the "users" edge to the User entity by ids.
@@ -848,11 +848,11 @@ func (m *DepartmentMutation) ResetField(name string) error {
 // AddedEdges returns all edge names that were set/added in this mutation.
 func (m *DepartmentMutation) AddedEdges() []string {
 	edges := make([]string, 0, 3)
-	if m.parent != nil {
-		edges = append(edges, department.EdgeParent)
-	}
 	if m.children != nil {
 		edges = append(edges, department.EdgeChildren)
+	}
+	if m.parent != nil {
+		edges = append(edges, department.EdgeParent)
 	}
 	if m.users != nil {
 		edges = append(edges, department.EdgeUsers)
@@ -864,16 +864,16 @@ func (m *DepartmentMutation) AddedEdges() []string {
 // name in this mutation.
 func (m *DepartmentMutation) AddedIDs(name string) []ent.Value {
 	switch name {
-	case department.EdgeParent:
-		if id := m.parent; id != nil {
-			return []ent.Value{*id}
-		}
 	case department.EdgeChildren:
 		ids := make([]ent.Value, 0, len(m.children))
 		for id := range m.children {
 			ids = append(ids, id)
 		}
 		return ids
+	case department.EdgeParent:
+		if id := m.parent; id != nil {
+			return []ent.Value{*id}
+		}
 	case department.EdgeUsers:
 		ids := make([]ent.Value, 0, len(m.users))
 		for id := range m.users {
@@ -919,11 +919,11 @@ func (m *DepartmentMutation) RemovedIDs(name string) []ent.Value {
 // ClearedEdges returns all edge names that were cleared in this mutation.
 func (m *DepartmentMutation) ClearedEdges() []string {
 	edges := make([]string, 0, 3)
-	if m.clearedparent {
-		edges = append(edges, department.EdgeParent)
-	}
 	if m.clearedchildren {
 		edges = append(edges, department.EdgeChildren)
+	}
+	if m.clearedparent {
+		edges = append(edges, department.EdgeParent)
 	}
 	if m.clearedusers {
 		edges = append(edges, department.EdgeUsers)
@@ -935,10 +935,10 @@ func (m *DepartmentMutation) ClearedEdges() []string {
 // was cleared in this mutation.
 func (m *DepartmentMutation) EdgeCleared(name string) bool {
 	switch name {
-	case department.EdgeParent:
-		return m.clearedparent
 	case department.EdgeChildren:
 		return m.clearedchildren
+	case department.EdgeParent:
+		return m.clearedparent
 	case department.EdgeUsers:
 		return m.clearedusers
 	}
@@ -960,11 +960,11 @@ func (m *DepartmentMutation) ClearEdge(name string) error {
 // It returns an error if the edge is not defined in the schema.
 func (m *DepartmentMutation) ResetEdge(name string) error {
 	switch name {
-	case department.EdgeParent:
-		m.ResetParent()
-		return nil
 	case department.EdgeChildren:
 		m.ResetChildren()
+		return nil
+	case department.EdgeParent:
+		m.ResetParent()
 		return nil
 	case department.EdgeUsers:
 		m.ResetUsers()
@@ -990,17 +990,16 @@ type MenuMutation struct {
 	code             *string
 	code_path        *string
 	menu_type        *string
-	menu_path        *string
 	properties       *string
 	clearedFields    map[string]struct{}
 	roles            map[string]struct{}
 	removedroles     map[string]struct{}
 	clearedroles     bool
-	parent           *string
-	clearedparent    bool
 	children         map[string]struct{}
 	removedchildren  map[string]struct{}
 	clearedchildren  bool
+	parent           *string
+	clearedparent    bool
 	resources        map[string]struct{}
 	removedresources map[string]struct{}
 	clearedresources bool
@@ -1472,7 +1471,7 @@ func (m *MenuMutation) ParentID() (r string, exists bool) {
 // OldParentID returns the old "parent_id" field's value of the Menu entity.
 // If the Menu object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *MenuMutation) OldParentID(ctx context.Context) (v string, err error) {
+func (m *MenuMutation) OldParentID(ctx context.Context) (v *string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldParentID is only allowed on UpdateOne operations")
 	}
@@ -1486,9 +1485,22 @@ func (m *MenuMutation) OldParentID(ctx context.Context) (v string, err error) {
 	return oldValue.ParentID, nil
 }
 
+// ClearParentID clears the value of the "parent_id" field.
+func (m *MenuMutation) ClearParentID() {
+	m.parent = nil
+	m.clearedFields[menu.FieldParentID] = struct{}{}
+}
+
+// ParentIDCleared returns if the "parent_id" field was cleared in this mutation.
+func (m *MenuMutation) ParentIDCleared() bool {
+	_, ok := m.clearedFields[menu.FieldParentID]
+	return ok
+}
+
 // ResetParentID resets all changes to the "parent_id" field.
 func (m *MenuMutation) ResetParentID() {
 	m.parent = nil
+	delete(m.clearedFields, menu.FieldParentID)
 }
 
 // SetMenuType sets the "menu_type" field.
@@ -1525,42 +1537,6 @@ func (m *MenuMutation) OldMenuType(ctx context.Context) (v string, err error) {
 // ResetMenuType resets all changes to the "menu_type" field.
 func (m *MenuMutation) ResetMenuType() {
 	m.menu_type = nil
-}
-
-// SetMenuPath sets the "menu_path" field.
-func (m *MenuMutation) SetMenuPath(s string) {
-	m.menu_path = &s
-}
-
-// MenuPath returns the value of the "menu_path" field in the mutation.
-func (m *MenuMutation) MenuPath() (r string, exists bool) {
-	v := m.menu_path
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldMenuPath returns the old "menu_path" field's value of the Menu entity.
-// If the Menu object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *MenuMutation) OldMenuPath(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldMenuPath is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldMenuPath requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldMenuPath: %w", err)
-	}
-	return oldValue.MenuPath, nil
-}
-
-// ResetMenuPath resets all changes to the "menu_path" field.
-func (m *MenuMutation) ResetMenuPath() {
-	m.menu_path = nil
 }
 
 // SetProperties sets the "properties" field.
@@ -1653,33 +1629,6 @@ func (m *MenuMutation) ResetRoles() {
 	m.removedroles = nil
 }
 
-// ClearParent clears the "parent" edge to the Menu entity.
-func (m *MenuMutation) ClearParent() {
-	m.clearedparent = true
-	m.clearedFields[menu.FieldParentID] = struct{}{}
-}
-
-// ParentCleared reports if the "parent" edge to the Menu entity was cleared.
-func (m *MenuMutation) ParentCleared() bool {
-	return m.clearedparent
-}
-
-// ParentIDs returns the "parent" edge IDs in the mutation.
-// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
-// ParentID instead. It exists only for internal usage by the builders.
-func (m *MenuMutation) ParentIDs() (ids []string) {
-	if id := m.parent; id != nil {
-		ids = append(ids, *id)
-	}
-	return
-}
-
-// ResetParent resets all changes to the "parent" edge.
-func (m *MenuMutation) ResetParent() {
-	m.parent = nil
-	m.clearedparent = false
-}
-
 // AddChildIDs adds the "children" edge to the Menu entity by ids.
 func (m *MenuMutation) AddChildIDs(ids ...string) {
 	if m.children == nil {
@@ -1732,6 +1681,33 @@ func (m *MenuMutation) ResetChildren() {
 	m.children = nil
 	m.clearedchildren = false
 	m.removedchildren = nil
+}
+
+// ClearParent clears the "parent" edge to the Menu entity.
+func (m *MenuMutation) ClearParent() {
+	m.clearedparent = true
+	m.clearedFields[menu.FieldParentID] = struct{}{}
+}
+
+// ParentCleared reports if the "parent" edge to the Menu entity was cleared.
+func (m *MenuMutation) ParentCleared() bool {
+	return m.ParentIDCleared() || m.clearedparent
+}
+
+// ParentIDs returns the "parent" edge IDs in the mutation.
+// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
+// ParentID instead. It exists only for internal usage by the builders.
+func (m *MenuMutation) ParentIDs() (ids []string) {
+	if id := m.parent; id != nil {
+		ids = append(ids, *id)
+	}
+	return
+}
+
+// ResetParent resets all changes to the "parent" edge.
+func (m *MenuMutation) ResetParent() {
+	m.parent = nil
+	m.clearedparent = false
 }
 
 // AddResourceIDs adds the "resources" edge to the Resource entity by ids.
@@ -1822,7 +1798,7 @@ func (m *MenuMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *MenuMutation) Fields() []string {
-	fields := make([]string, 0, 12)
+	fields := make([]string, 0, 11)
 	if m.created_at != nil {
 		fields = append(fields, menu.FieldCreatedAt)
 	}
@@ -1852,9 +1828,6 @@ func (m *MenuMutation) Fields() []string {
 	}
 	if m.menu_type != nil {
 		fields = append(fields, menu.FieldMenuType)
-	}
-	if m.menu_path != nil {
-		fields = append(fields, menu.FieldMenuPath)
 	}
 	if m.properties != nil {
 		fields = append(fields, menu.FieldProperties)
@@ -1887,8 +1860,6 @@ func (m *MenuMutation) Field(name string) (ent.Value, bool) {
 		return m.ParentID()
 	case menu.FieldMenuType:
 		return m.MenuType()
-	case menu.FieldMenuPath:
-		return m.MenuPath()
 	case menu.FieldProperties:
 		return m.Properties()
 	}
@@ -1920,8 +1891,6 @@ func (m *MenuMutation) OldField(ctx context.Context, name string) (ent.Value, er
 		return m.OldParentID(ctx)
 	case menu.FieldMenuType:
 		return m.OldMenuType(ctx)
-	case menu.FieldMenuPath:
-		return m.OldMenuPath(ctx)
 	case menu.FieldProperties:
 		return m.OldProperties(ctx)
 	}
@@ -2003,13 +1972,6 @@ func (m *MenuMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetMenuType(v)
 		return nil
-	case menu.FieldMenuPath:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetMenuPath(v)
-		return nil
 	case menu.FieldProperties:
 		v, ok := value.(string)
 		if !ok {
@@ -2077,6 +2039,9 @@ func (m *MenuMutation) ClearedFields() []string {
 	if m.FieldCleared(menu.FieldStatus) {
 		fields = append(fields, menu.FieldStatus)
 	}
+	if m.FieldCleared(menu.FieldParentID) {
+		fields = append(fields, menu.FieldParentID)
+	}
 	return fields
 }
 
@@ -2093,6 +2058,9 @@ func (m *MenuMutation) ClearField(name string) error {
 	switch name {
 	case menu.FieldStatus:
 		m.ClearStatus()
+		return nil
+	case menu.FieldParentID:
+		m.ClearParentID()
 		return nil
 	}
 	return fmt.Errorf("unknown Menu nullable field %s", name)
@@ -2132,9 +2100,6 @@ func (m *MenuMutation) ResetField(name string) error {
 	case menu.FieldMenuType:
 		m.ResetMenuType()
 		return nil
-	case menu.FieldMenuPath:
-		m.ResetMenuPath()
-		return nil
 	case menu.FieldProperties:
 		m.ResetProperties()
 		return nil
@@ -2148,11 +2113,11 @@ func (m *MenuMutation) AddedEdges() []string {
 	if m.roles != nil {
 		edges = append(edges, menu.EdgeRoles)
 	}
-	if m.parent != nil {
-		edges = append(edges, menu.EdgeParent)
-	}
 	if m.children != nil {
 		edges = append(edges, menu.EdgeChildren)
+	}
+	if m.parent != nil {
+		edges = append(edges, menu.EdgeParent)
 	}
 	if m.resources != nil {
 		edges = append(edges, menu.EdgeResources)
@@ -2170,16 +2135,16 @@ func (m *MenuMutation) AddedIDs(name string) []ent.Value {
 			ids = append(ids, id)
 		}
 		return ids
-	case menu.EdgeParent:
-		if id := m.parent; id != nil {
-			return []ent.Value{*id}
-		}
 	case menu.EdgeChildren:
 		ids := make([]ent.Value, 0, len(m.children))
 		for id := range m.children {
 			ids = append(ids, id)
 		}
 		return ids
+	case menu.EdgeParent:
+		if id := m.parent; id != nil {
+			return []ent.Value{*id}
+		}
 	case menu.EdgeResources:
 		ids := make([]ent.Value, 0, len(m.resources))
 		for id := range m.resources {
@@ -2237,11 +2202,11 @@ func (m *MenuMutation) ClearedEdges() []string {
 	if m.clearedroles {
 		edges = append(edges, menu.EdgeRoles)
 	}
-	if m.clearedparent {
-		edges = append(edges, menu.EdgeParent)
-	}
 	if m.clearedchildren {
 		edges = append(edges, menu.EdgeChildren)
+	}
+	if m.clearedparent {
+		edges = append(edges, menu.EdgeParent)
 	}
 	if m.clearedresources {
 		edges = append(edges, menu.EdgeResources)
@@ -2255,10 +2220,10 @@ func (m *MenuMutation) EdgeCleared(name string) bool {
 	switch name {
 	case menu.EdgeRoles:
 		return m.clearedroles
-	case menu.EdgeParent:
-		return m.clearedparent
 	case menu.EdgeChildren:
 		return m.clearedchildren
+	case menu.EdgeParent:
+		return m.clearedparent
 	case menu.EdgeResources:
 		return m.clearedresources
 	}
@@ -2283,11 +2248,11 @@ func (m *MenuMutation) ResetEdge(name string) error {
 	case menu.EdgeRoles:
 		m.ResetRoles()
 		return nil
-	case menu.EdgeParent:
-		m.ResetParent()
-		return nil
 	case menu.EdgeChildren:
 		m.ResetChildren()
+		return nil
+	case menu.EdgeParent:
+		m.ResetParent()
 		return nil
 	case menu.EdgeResources:
 		m.ResetResources()
@@ -5039,7 +5004,7 @@ func (m *UserMutation) DepartmentID() (r string, exists bool) {
 // OldDepartmentID returns the old "department_id" field's value of the User entity.
 // If the User object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *UserMutation) OldDepartmentID(ctx context.Context) (v string, err error) {
+func (m *UserMutation) OldDepartmentID(ctx context.Context) (v *string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldDepartmentID is only allowed on UpdateOne operations")
 	}
@@ -5053,9 +5018,22 @@ func (m *UserMutation) OldDepartmentID(ctx context.Context) (v string, err error
 	return oldValue.DepartmentID, nil
 }
 
+// ClearDepartmentID clears the value of the "department_id" field.
+func (m *UserMutation) ClearDepartmentID() {
+	m.department = nil
+	m.clearedFields[user.FieldDepartmentID] = struct{}{}
+}
+
+// DepartmentIDCleared returns if the "department_id" field was cleared in this mutation.
+func (m *UserMutation) DepartmentIDCleared() bool {
+	_, ok := m.clearedFields[user.FieldDepartmentID]
+	return ok
+}
+
 // ResetDepartmentID resets all changes to the "department_id" field.
 func (m *UserMutation) ResetDepartmentID() {
 	m.department = nil
+	delete(m.clearedFields, user.FieldDepartmentID)
 }
 
 // ClearDepartment clears the "department" edge to the Department entity.
@@ -5066,7 +5044,7 @@ func (m *UserMutation) ClearDepartment() {
 
 // DepartmentCleared reports if the "department" edge to the Department entity was cleared.
 func (m *UserMutation) DepartmentCleared() bool {
-	return m.cleareddepartment
+	return m.DepartmentIDCleared() || m.cleareddepartment
 }
 
 // DepartmentIDs returns the "department" edge IDs in the mutation.
@@ -5473,6 +5451,9 @@ func (m *UserMutation) ClearedFields() []string {
 	if m.FieldCleared(user.FieldStatus) {
 		fields = append(fields, user.FieldStatus)
 	}
+	if m.FieldCleared(user.FieldDepartmentID) {
+		fields = append(fields, user.FieldDepartmentID)
+	}
 	return fields
 }
 
@@ -5492,6 +5473,9 @@ func (m *UserMutation) ClearField(name string) error {
 		return nil
 	case user.FieldStatus:
 		m.ClearStatus()
+		return nil
+	case user.FieldDepartmentID:
+		m.ClearDepartmentID()
 		return nil
 	}
 	return fmt.Errorf("unknown User nullable field %s", name)
