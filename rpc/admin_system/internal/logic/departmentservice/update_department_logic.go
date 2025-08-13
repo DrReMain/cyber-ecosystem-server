@@ -57,7 +57,7 @@ func (l *UpdateDepartmentLogic) UpdateDepartment(in *admin_system.DepartmentBody
 			l.Logger.Errorw("department can't move to subordinate", logx.Field("detail", in))
 			return nil, errorc.GRPCInvalidArgumentError(msgc.UPDATE_FAILED)
 		}
-		path = pointc.P(parent.IDPath + "." + id)
+		path = pointc.P(parent.IDPath + "_" + id)
 	}
 
 	if err := checkLevel(path); err != nil {
@@ -83,7 +83,7 @@ func (l *UpdateDepartmentLogic) UpdateDepartment(in *admin_system.DepartmentBody
 
 		// 如果有path，就是有parent_id有传入，并且path与原数据不同，需要修改所有子Department
 		if path != nil && prev.IDPath != *path {
-			children, err := tx.Department.Query().Where(department.IDPathHasPrefix(prev.IDPath + ".")).All(l.ctx)
+			children, err := tx.Department.Query().Where(department.IDPathHasPrefix(prev.IDPath + "_")).All(l.ctx)
 			if err != nil {
 				return err
 			}

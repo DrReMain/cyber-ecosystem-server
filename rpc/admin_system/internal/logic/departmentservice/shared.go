@@ -29,7 +29,7 @@ func withAlias(C func(string) string, cols []string) (result []string) {
 }
 
 func checkLevel(path *string) error {
-	if path != nil && len(strings.Split(*path, ".")) > 10 {
+	if path != nil && len(strings.Split(*path, "_")) > 10 {
 		return errors.New("level should not more then 10")
 	}
 	return nil

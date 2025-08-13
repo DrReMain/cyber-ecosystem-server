@@ -82,9 +82,9 @@ func (l *QueryDepartmentLogic) QueryDepartment(in *admin_system.DepartmentListRe
 			Sort:           pointc.P(v.Sort),
 			DepartmentName: pointc.P(v.DepartmentName),
 			Remark:         pointc.P(v.Remark),
-			ParentId:       pointc.P(v.ParentID),
+			ParentId:       v.ParentID,
 			Path:           pointc.P(v.IDPath),
-			Level:          pointc.P(uint32(len(strings.Split(v.IDPath, ".")))),
+			Level:          pointc.P(uint32(len(strings.Split(v.IDPath, "_")))),
 			Children:       []*admin_system.DepartmentBody{},
 		}
 	}

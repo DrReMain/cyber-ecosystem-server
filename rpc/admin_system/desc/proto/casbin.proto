@@ -1,4 +1,4 @@
-// 以下两行必须要写，合并时会被删除
+// The following two lines are mandatory.
 syntax = "proto3";
 import "base.proto";
 

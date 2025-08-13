@@ -38,7 +38,7 @@ func (l *InitDBLogic) initBaseData() error {
 			return err
 		}
 
-		menuCodeMap := make(map[string]*ent.Menu)
+		menuCodePathMap := make(map[string]*ent.Menu)
 		var createMenus func(menus []map[string]any, parentMenu *ent.Menu) error
 		createMenus = func(menus []map[string]any, parentMenu *ent.Menu) error {
 			for _, menuData := range menus {
@@ -47,8 +47,7 @@ func (l *InitDBLogic) initBaseData() error {
 					SetIcon(menuData["icon"].(string)).
 					SetCode(menuData["code"].(string)).
 					SetCodePath(menuData["code_path"].(string)).
-					SetMenuType(menuData["menu_type"].(string)).
-					SetMenuPath(menuData["menu_path"].(string))
+					SetMenuType(menuData["menu_type"].(string))
 				if parentMenu != nil {
 					menuCreate.SetParentID(parentMenu.ID)
 				}
@@ -58,7 +57,7 @@ func (l *InitDBLogic) initBaseData() error {
 					return err
 				}
 
-				menuCodeMap[menuData["code"].(string)] = menu
+				menuCodePathMap[menuData["code_path"].(string)] = menu
 
 				if resources, ok := menuData["resources"].([]interface{}); ok && len(resources) > 0 {
 					for _, res := range resources {
@@ -108,11 +107,11 @@ func (l *InitDBLogic) initBaseData() error {
 
 			roleCodeMap[roleData["code"].(string)] = role
 
-			if menuCodes, ok := roleData["menu_code"].([]interface{}); ok {
-				menuIds := []string{}
+			if menuCodes, ok := roleData["menu_code_path"].([]interface{}); ok {
+				menuIds := make([]string, 0)
 				for _, codeI := range menuCodes {
 					code := codeI.(string)
-					if menu, exists := menuCodeMap[code]; exists {
+					if menu, exists := menuCodePathMap[code]; exists {
 						menuIds = append(menuIds, menu.ID)
 					}
 				}

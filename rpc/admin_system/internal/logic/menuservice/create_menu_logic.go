@@ -33,7 +33,7 @@ func (l *CreateMenuLogic) CreateMenu(in *admin_system.MenuBody) (*admin_system.B
 		l.Logger.Errorw("code is empty", logx.Field("detail", in))
 		return nil, errorc.GRPCInvalidArgumentError(msgc.CREATE_FAILED)
 	} else {
-		c := strings.ReplaceAll(*in.Code, ".", "")
+		c := strings.ReplaceAll(*in.Code, "_", "")
 		in.Code = &c
 	}
 
@@ -49,7 +49,7 @@ func (l *CreateMenuLogic) CreateMenu(in *admin_system.MenuBody) (*admin_system.B
 	// 如果没传父级id，path为自身Code
 	var path *string
 	if parent != nil {
-		path = pointc.P(parent.CodePath + "." + *in.Code)
+		path = pointc.P(parent.CodePath + "_" + *in.Code)
 	} else {
 		path = in.Code
 	}
@@ -70,7 +70,6 @@ func (l *CreateMenuLogic) CreateMenu(in *admin_system.MenuBody) (*admin_system.B
 			SetNotNilCodePath(path).
 			SetNotNilParentID(in.ParentId).
 			SetNotNilMenuType(in.MenuType).
-			SetNotNilMenuPath(in.MenuPath).
 			SetNotNilProperties(in.Properties).
 			Save(l.ctx)
 		if err != nil {

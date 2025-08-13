@@ -29,7 +29,6 @@ func NewCreateDepartmentLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 }
 
 func (l *CreateDepartmentLogic) CreateDepartment(in *admin_system.DepartmentBody) (*admin_system.BaseIDRes, error) {
-	// 获取父级Department，没有则为nil
 	var parent *ent.Department
 	if in.ParentId != nil && *in.ParentId != "" {
 		if item, err := l.svcCtx.DB.Department.Get(l.ctx, *in.ParentId); err != nil {
@@ -39,11 +38,10 @@ func (l *CreateDepartmentLogic) CreateDepartment(in *admin_system.DepartmentBody
 		}
 	}
 
-	// 没有父级，path为自身id
 	id := xid.New().String()
 	var path *string
 	if parent != nil {
-		path = pointc.P(parent.IDPath + "." + id)
+		path = pointc.P(parent.IDPath + "_" + id)
 	} else {
 		path = pointc.P(id)
 	}

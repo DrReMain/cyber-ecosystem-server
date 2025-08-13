@@ -45,7 +45,6 @@ func (l *DeleteMenuLogic) DeleteMenu(in *admin_system.IDsReq) (*admin_system.Bas
 	}
 
 	if err := ent.WithTX(l.ctx, l.svcCtx.DB, func(tx *ent.Tx) error {
-		// 先删除Menu下所有的Resource
 		if _, err := tx.Resource.Delete().Where(resource.MenuIDIn(in.Ids...)).Exec(l.ctx); err != nil {
 			return err
 		}

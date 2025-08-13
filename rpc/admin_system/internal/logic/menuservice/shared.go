@@ -23,7 +23,6 @@ var columns = []string{
 	menu.FieldCodePath,
 	menu.FieldParentID,
 	menu.FieldMenuType,
-	menu.FieldMenuPath,
 	menu.FieldProperties,
 }
 
@@ -35,7 +34,7 @@ func withAlias(C func(string) string, cols []string) (result []string) {
 }
 
 func checkLevel(path *string) error {
-	if path != nil && len(strings.Split(*path, ".")) > 5 {
+	if path != nil && len(strings.Split(*path, "_")) > 5 {
 		return errors.New("level should not more than 5")
 	}
 	return nil

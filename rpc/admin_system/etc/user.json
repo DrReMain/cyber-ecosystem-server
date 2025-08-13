@@ -5,7 +5,7 @@
     "name": "super",
     "nickname": "",
     "phone": "",
-    "avatar": "https://dummyimage.com/64x64/000/fff.png&text=SUPER",
+    "avatar": "",
     "role_code": ["SUPER"]
   },
   {
@@ -14,7 +14,7 @@
     "name": "admin",
     "nickname": "",
     "phone": "",
-    "avatar": "https://dummyimage.com/64x64/000/fff.png&text=SUPER",
+    "avatar": "",
     "role_code": ["ADMIN"]
   }
 ]

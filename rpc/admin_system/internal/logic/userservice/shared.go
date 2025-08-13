@@ -17,7 +17,7 @@ func buildBDepartment(e *ent.Department) *admin_system.DepartmentBody {
 		Sort:           nil,
 		DepartmentName: pointc.P(e.DepartmentName),
 		Remark:         nil,
-		ParentId:       pointc.P(e.ParentID),
+		ParentId:       e.ParentID,
 		Path:           pointc.P(e.IDPath),
 		Level:          nil,
 		Children:       nil,
