@@ -54,9 +54,10 @@
             "icon": "",
             "code": "DELETE",
             "code_path": "SYSTEM_DEPARTMENT_DELETE",
-            "menu_type": "page",
+            "menu_type": "button",
             "resources": [
-              { "method": "DELETE", "path": "/api/v1/admin_system/department" }
+              { "method": "POST", "path": "/api/v1/admin_system/department/delete" },
+              { "method": "DELETE", "path": "/api/v1/admin_system/department/:id" }
             ],
             "children": []
           }
@@ -100,9 +101,10 @@
             "icon": "",
             "code": "DELETE",
             "code_path": "SYSTEM_MENU_DELETE",
-            "menu_type": "page",
+            "menu_type": "button",
             "resources": [
-              { "method": "DELETE", "path": "/api/v1/admin_system/menu" }
+              { "method": "POST", "path": "/api/v1/admin_system/menu/delete" },
+              { "method": "DELETE", "path": "/api/v1/admin_system/menu/:id" }
             ],
             "children": []
           }
@@ -146,9 +148,10 @@
             "icon": "",
             "code": "DELETE",
             "code_path": "SYSTEM_POSITION_DELETE",
-            "menu_type": "page",
+            "menu_type": "button",
             "resources": [
-              { "method": "DELETE", "path": "/api/v1/admin_system/position" }
+              { "method": "POST", "path": "/api/v1/admin_system/position/delete" },
+              { "method": "DELETE", "path": "/api/v1/admin_system/position/:id" }
             ],
             "children": []
           }
@@ -192,9 +195,10 @@
             "icon": "",
             "code": "DELETE",
             "code_path": "SYSTEM_ROLE_DELETE",
-            "menu_type": "page",
+            "menu_type": "button",
             "resources": [
-              { "method": "DELETE", "path": "/api/v1/admin_system/role" }
+              { "method": "POST", "path": "/api/v1/admin_system/role/delete" },
+              { "method": "DELETE", "path": "/api/v1/admin_system/role/:id" }
             ],
             "children": []
           }
@@ -239,9 +243,10 @@
             "icon": "",
             "code": "USER_DELETE",
             "code_path": "SYSTEM_USER_DELETE",
-            "menu_type": "page",
+            "menu_type": "button",
             "resources": [
-              { "method": "DELETE", "path": "/api/v1/admin_system/user" }
+              { "method": "POST", "path": "/api/v1/admin_system/user/delete" },
+              { "method": "DELETE", "path": "/api/v1/admin_system/user/:id" }
             ],
             "children": []
           }
@@ -311,7 +316,10 @@
     "code": "ACCOUNT",
     "code_path": "ACCOUNT",
     "menu_type": "menu",
-    "resources": [],
+    "resources": [
+      { "method": "POST", "path": "/api/v1/admin_system/account/logout" },
+      { "method": "GET", "path": "/api/v1/admin_system/account/info" }
+    ],
     "children": []
   }
 ]
