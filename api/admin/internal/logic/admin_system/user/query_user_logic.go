@@ -48,7 +48,7 @@ func (l *QueryUserLogic) QueryUser(req *types.UserQueryReq) (resp *types.UserQue
 
 	resp = &types.UserQueryRes{
 		CommonRes: common_res.NewYES(""),
-		Data: &types.UserQuery{
+		Result: &types.UserQuery{
 			CommonPageRes: &types.CommonPageRes{
 				PageNo:   data.PageNo,
 				PageSize: data.PageSize,

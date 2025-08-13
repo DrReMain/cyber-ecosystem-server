@@ -37,7 +37,7 @@ func (l *QueryDepartmentLogic) QueryDepartment(req *types.DepartmentQueryReq) (r
 
 	return &types.DepartmentQueryRes{
 		CommonRes: common_res.NewYES(""),
-		Data: &types.DepartmentQuery{
+		Result: &types.DepartmentQuery{
 			CommonPageRes: &types.CommonPageRes{
 				PageNo:   data.PageNo,
 				PageSize: data.PageSize,

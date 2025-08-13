@@ -4,12 +4,11 @@ import "./position.api"
 import "./role.api"
 
 info (
-	title:   "管理系统用户API"
-	desc:    "用于用户管理的API，包括创建、删除、更新、查询用户信息"
+	title: "user API"
+	desc:  ""
 )
 
 type (
-	// create
 	UserCreateReq {
 		Password     *string  `json:"password,optional" validate:"required,min=6"`
 		Confirm      *string  `json:"confirm,optional" validate:"required"`
@@ -25,16 +24,14 @@ type (
 	}
 	UserCreateRes {
 		*CommonRes
-		Data *string `json:"data"`
+		Result *string `json:"result"`
 	}
-	// delete
 	UserDeleteReq {
 		ID *string `path:"id" validate:"required,len=20"`
 	}
 	UserDeleteRes {
 		*CommonRes
 	}
-	// update
 	UserUpdateReq {
 		ID           *string  `path:"id" validate:"required,len=20"`
 		Status       *uint8   `json:"status,optional" validate:"omitempty,oneof=1 2"`
@@ -53,7 +50,6 @@ type (
 	UserUpdateRes {
 		*CommonRes
 	}
-	// get
 	UserGet {
 		ID         *string        `json:"id"`
 		CreatedAt  *int64         `json:"created_at"`
@@ -77,9 +73,8 @@ type (
 	}
 	UserGetRes {
 		*CommonRes
-		Data *UserGet `json:"data"`
+		Result *UserGet `json:"result"`
 	}
-	// query
 	UserQuery {
 		*CommonPageRes
 		List []*UserGet `json:"list"`
@@ -100,7 +95,7 @@ type (
 	}
 	UserQueryRes {
 		*CommonRes
-		Data *UserQuery `json:"data"`
+		Result *UserQuery `json:"result"`
 	}
 )
 
@@ -111,52 +106,31 @@ type (
 	prefix:     /api/v1/admin_system/user
 )
 service admin {
-	@doc (
-		summary:     "创建用户"
-		description: "创建新的用户信息"
-	)
+
 	@handler createUser
 	post / (UserCreateReq) returns (UserCreateRes)
 
-	@doc (
-		summary:     "删除用户"
-		description: "根据ID删除用户信息"
-	)
+
 	@handler deleteUser
 	post /delete (IDsReq) returns (CommonRes)
 
-	@doc (
-		summary:	 "删除单个用户"
-		description: "根据ID删除单个用户信息"
-	)
+
 	@handler deleteUserOne
 	delete /:id (UserDeleteReq) returns (UserDeleteRes)
 
-	@doc (
-		summary:     "更新用户"
-		description: "根据ID更新用户信息"
-	)
+
 	@handler updateUser
 	put /:id (UserUpdateReq) returns (UserUpdateRes)
 
-	@doc (
-		summary:     "获取用户详情"
-		description: "根据ID获取用户详细信息"
-	)
+
 	@handler getUser
 	get /:id (UserGetReq) returns (UserGetRes)
 
-	@doc (
-		summary:     "查询用户列表"
-		description: "分页查询用户列表信息"
-	)
+
 	@handler queryUser
 	get / (UserQueryReq) returns (UserQueryRes)
 
-	@doc (
-		summary:     "通过邮箱获取用户"
-		description: "根据邮箱地址获取用户详细信息"
-	)
+
 	@handler getUserByEmail
 	get /byemail (UserGetByEmailReq) returns (UserGetRes)
 }

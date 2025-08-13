@@ -1,12 +1,11 @@
 import "../common.api"
 
 info (
-	title:   "管理系统角色API"
-	desc:    "用于角色管理的API，包括创建、删除、更新、查询角色信息"
+	title: "role API"
+	desc:  ""
 )
 
 type (
-	// create
 	RoleCreateReq {
 		Sort     *uint32  `json:"sort,optional" validate:"omitempty,gte=0"`
 		RoleName *string  `json:"role_name,optional" validate:"required,max=255"`
@@ -16,16 +15,14 @@ type (
 	}
 	RoleCreateRes {
 		*CommonRes
-		Data *string `json:"data"`
+		Result *string `json:"result"`
 	}
-	// delete
 	RoleDeleteReq {
 		ID *string `path:"id" validate:"required,len=20"`
 	}
 	RoleDeleteRes {
 		*CommonRes
 	}
-	// update
 	RoleUpdateReq {
 		ID       *string  `path:"id" validate:"required,len=20"`
 		Sort     *uint32  `json:"sort,optional" validate:"omitempty,gte=0"`
@@ -37,7 +34,6 @@ type (
 	RoleUpdateRes {
 		*CommonRes
 	}
-	// get
 	RoleGet {
 		ID        *string  `json:"id"`
 		CreatedAt *int64   `json:"created_at"`
@@ -53,9 +49,8 @@ type (
 	}
 	RoleGetRes {
 		*CommonRes
-		Data *RoleGet `json:"data"`
+		Result *RoleGet `json:"result"`
 	}
-	// query
 	RoleQuery {
 		*CommonPageRes
 		List []*RoleGet `json:"list"`
@@ -70,7 +65,7 @@ type (
 	}
 	RoleQueryRes {
 		*CommonRes
-		Data *RoleQuery `json:"data"`
+		Result *RoleQuery `json:"result"`
 	}
 )
 
@@ -81,45 +76,27 @@ type (
 	prefix:     /api/v1/admin_system/role
 )
 service admin {
-	@doc (
-		summary:     "创建角色"
-		description: "创建新的角色信息"
-	)
+
 	@handler createRole
 	post / (RoleCreateReq) returns (RoleCreateRes)
 
-	@doc (
-		summary:     "删除角色"
-		description: "根据ID删除角色信息"
-	)
+
 	@handler deleteRole
 	post /delete (IDsReq) returns (CommonRes)
 
-	@doc (
-		summary:	 "删除单个角色"
-		description: "根据ID删除单个角色信息"
-	)
+
 	@handler deleteRoleOne
 	delete /:id (RoleDeleteReq) returns (RoleDeleteRes)
 
-	@doc (
-		summary:     "更新角色"
-		description: "根据ID更新角色信息"
-	)
+
 	@handler updateRole
 	put /:id (RoleUpdateReq) returns (RoleUpdateRes)
 
-	@doc (
-		summary:     "获取角色详情"
-		description: "根据ID获取角色详细信息"
-	)
+
 	@handler getRole
 	get /:id (RoleGetReq) returns (RoleGetRes)
 
-	@doc (
-		summary:     "查询角色列表"
-		description: "分页查询角色列表信息"
-	)
+
 	@handler queryRole
 	get / (RoleQueryReq) returns (RoleQueryRes)
 }

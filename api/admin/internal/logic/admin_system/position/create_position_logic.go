@@ -39,6 +39,6 @@ func (l *CreatePositionLogic) CreatePosition(req *types.PositionCreateReq) (resp
 
 	return &types.PositionCreateRes{
 		CommonRes: common_res.NewYES(data.Msg),
-		Data:      &data.Id,
+		Result:    &data.Id,
 	}, nil
 }

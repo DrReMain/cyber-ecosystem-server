@@ -41,7 +41,7 @@ func (l *QueryPositionLogic) QueryPosition(req *types.PositionQueryReq) (resp *t
 
 	resp = &types.PositionQueryRes{
 		CommonRes: common_res.NewYES(""),
-		Data: &types.PositionQuery{
+		Result: &types.PositionQuery{
 			CommonPageRes: &types.CommonPageRes{
 				PageNo:   data.PageNo,
 				PageSize: data.PageSize,
@@ -53,7 +53,7 @@ func (l *QueryPositionLogic) QueryPosition(req *types.PositionQueryReq) (resp *t
 	}
 
 	for i, v := range data.List {
-		resp.Data.List[i] = &types.PositionGet{
+		resp.Result.List[i] = &types.PositionGet{
 			ID:           v.Id,
 			CreatedAt:    v.CreatedAt,
 			UpdatedAt:    v.UpdatedAt,

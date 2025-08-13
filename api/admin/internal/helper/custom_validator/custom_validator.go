@@ -5,7 +5,8 @@ import (
 
 	"github.com/go-playground/validator/v10"
 
-	"github.com/DrReMain/cyber-ecosystem-server/api/admin/internal/helper/usual_err"
+	"github.com/DrReMain/cyber-ecosystem-server/pkg/errorc"
+	"github.com/DrReMain/cyber-ecosystem-server/pkg/msgc"
 )
 
 type Validator struct {
@@ -20,7 +21,7 @@ func New() *Validator {
 
 func (v *Validator) Validate(_ *http.Request, data any) error {
 	if err := v.validate.Struct(data); err != nil {
-		return usual_err.HTTPBadRequest(err.Error())
+		return errorc.NewHTTPBadRequest(msgc.VALIDATE_FAILURE, err.Error())
 	}
 	return nil
 }

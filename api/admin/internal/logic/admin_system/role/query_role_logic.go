@@ -41,7 +41,7 @@ func (l *QueryRoleLogic) QueryRole(req *types.RoleQueryReq) (resp *types.RoleQue
 
 	resp = &types.RoleQueryRes{
 		CommonRes: common_res.NewYES(""),
-		Data: &types.RoleQuery{
+		Result: &types.RoleQuery{
 			CommonPageRes: &types.CommonPageRes{
 				PageNo:   data.PageNo,
 				PageSize: data.PageSize,
@@ -53,7 +53,7 @@ func (l *QueryRoleLogic) QueryRole(req *types.RoleQueryReq) (resp *types.RoleQue
 	}
 
 	for i, v := range data.List {
-		resp.Data.List[i] = &types.RoleGet{
+		resp.Result.List[i] = &types.RoleGet{
 			ID:        v.Id,
 			CreatedAt: v.CreatedAt,
 			UpdatedAt: v.UpdatedAt,

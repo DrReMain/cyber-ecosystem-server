@@ -4,10 +4,10 @@ import (
 	"context"
 
 	"github.com/DrReMain/cyber-ecosystem-server/api/admin/internal/helper/common_res"
-	"github.com/DrReMain/cyber-ecosystem-server/api/admin/internal/helper/usual_err"
 	"github.com/DrReMain/cyber-ecosystem-server/api/admin/internal/svc"
 	"github.com/DrReMain/cyber-ecosystem-server/api/admin/internal/types"
 	"github.com/DrReMain/cyber-ecosystem-server/pkg/errorc"
+	"github.com/DrReMain/cyber-ecosystem-server/pkg/msgc"
 	"github.com/DrReMain/cyber-ecosystem-server/pkg/utils/pointc"
 	"github.com/DrReMain/cyber-ecosystem-server/rpc/admin_system/admin_system"
 
@@ -30,7 +30,7 @@ func NewUpdateUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 
 func (l *UpdateUserLogic) UpdateUser(req *types.UserUpdateReq) (resp *types.UserUpdateRes, err error) {
 	if req.Password != nil && req.Confirm != nil && *req.Password != *req.Confirm {
-		return nil, usual_err.HTTPBadRequest("confirm don't match password")
+		return nil, errorc.NewHTTPBadRequest(msgc.CONFIRM_ERROR)
 	}
 
 	data, err := l.svcCtx.RPCAdminSystem.USER.UpdateUser(l.ctx, &admin_system.UserBody{

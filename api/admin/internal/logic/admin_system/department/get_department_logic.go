@@ -34,7 +34,7 @@ func (l *GetDepartmentLogic) GetDepartment(req *types.DepartmentGetReq) (resp *t
 
 	return &types.DepartmentGetRes{
 		CommonRes: common_res.NewYES(""),
-		Data: &types.DepartmentGet{
+		Result: &types.DepartmentGet{
 			ID:             data.Id,
 			CreatedAt:      data.CreatedAt,
 			UpdatedAt:      data.UpdatedAt,

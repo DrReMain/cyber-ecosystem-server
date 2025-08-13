@@ -34,7 +34,7 @@ func (l *GetPositionLogic) GetPosition(req *types.PositionGetReq) (resp *types.P
 
 	return &types.PositionGetRes{
 		CommonRes: common_res.NewYES(""),
-		Data: &types.PositionGet{
+		Result: &types.PositionGet{
 			ID:           data.Id,
 			CreatedAt:    data.CreatedAt,
 			UpdatedAt:    data.UpdatedAt,

@@ -43,7 +43,6 @@ func buildTChildren(b []*admin_system.MenuBody) (result []*types.MenuGet) {
 			CodePath:   v.CodePath,
 			ParentID:   v.ParentId,
 			MenuType:   v.MenuType,
-			MenuPath:   v.MenuPath,
 			Level:      v.Level,
 			Properties: v.Properties,
 			Resources:  buildTResources(v.Resources),

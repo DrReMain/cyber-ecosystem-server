@@ -1,8 +1,8 @@
 import "../common.api"
 
 info (
-	title:   "管理系统账户API"
-	desc:    "用于账户管理的API，包括登录和令牌刷新"
+	title: "account API"
+	desc:  ""
 )
 
 type (
@@ -18,14 +18,37 @@ type (
 	}
 	LoginPasswordRes {
 		*CommonRes
-		Data *Token `json:"data"`
+		Result *Token `json:"result"`
 	}
 	RefreshReq {
 		RefreshToken *string `json:"refresh_token,optional" validate:"required"`
 	}
 	RefreshRes {
 		*CommonRes
-		Data *Token `json:"data"`
+		Result *Token `json:"result"`
+	}
+	LogoutReq  {}
+	LogoutRes {
+		*CommonRes
+	}
+	AccountInfoReq  {}
+	Menu {
+		CodePath *string `json:"code_path"`
+		Icon     *string `json:"icon"`
+		MenuType *string `json:"menu_type"`
+		Children []*Menu `json:"children"`
+	}
+	InfoBody {
+		Email    *string `json:"email"`
+		Name     *string `json:"name"`
+		Nickname *string `json:"nickname"`
+		Phone    *string `json:"phone"`
+		Avatar   *string `json:"avatar"`
+		Menus    []*Menu `json:"menus"`
+	}
+	AccountInfoRes {
+		*CommonRes
+		Result *InfoBody `json:"result"`
 	}
 )
 
@@ -34,18 +57,28 @@ type (
 	prefix: /api/v1/admin_system/account
 )
 service admin {
-	@doc (
-		summary:     "使用邮箱和密码登录"
-		description: "使用邮箱和密码进行用户认证，并返回访问令牌和刷新令牌"
-	)
+
 	@handler loginPassword
 	post /login_password (LoginPasswordReq) returns (LoginPasswordRes)
 
-	@doc (
-		summary:     "刷新访问令牌"
-		description: "使用刷新令牌获取新的访问令牌"
-	)
+
 	@handler refresh
 	post /refresh (RefreshReq) returns (RefreshRes)
+}
+
+@server (
+	jwt:        Auth
+	middleware: Auth
+	group:      admin_system/account
+	prefix:     /api/v1/admin_system/account
+)
+service admin {
+
+	@handler logout
+	post /logout (LogoutReq) returns (LogoutRes)
+
+
+	@handler accountInfo
+	get /info (AccountInfoReq) returns (AccountInfoRes)
 }
 

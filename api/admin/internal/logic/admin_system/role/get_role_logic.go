@@ -34,7 +34,7 @@ func (l *GetRoleLogic) GetRole(req *types.RoleGetReq) (resp *types.RoleGetRes, e
 
 	return &types.RoleGetRes{
 		CommonRes: common_res.NewYES(""),
-		Data: &types.RoleGet{
+		Result: &types.RoleGet{
 			ID:        data.Id,
 			CreatedAt: data.CreatedAt,
 			UpdatedAt: data.UpdatedAt,

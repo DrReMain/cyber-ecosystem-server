@@ -8,6 +8,7 @@ import (
 	"github.com/DrReMain/cyber-ecosystem-server/api/admin/internal/svc"
 	"github.com/DrReMain/cyber-ecosystem-server/api/admin/internal/types"
 	"github.com/DrReMain/cyber-ecosystem-server/pkg/errorc"
+	"github.com/DrReMain/cyber-ecosystem-server/pkg/msgc"
 	"github.com/DrReMain/cyber-ecosystem-server/rpc/admin_system/admin_system"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -36,7 +37,6 @@ func (l *CreateMenuLogic) CreateMenu(req *types.MenuCreateReq) (resp *types.Menu
 		Code:       req.Code,
 		ParentId:   req.ParentID,
 		MenuType:   req.MenuType,
-		MenuPath:   req.MenuPath,
 		Properties: req.Properties,
 		Resources:  buildBResources(req.Resources),
 	})
@@ -54,11 +54,11 @@ func (l *CreateMenuLogic) CreateMenu(req *types.MenuCreateReq) (resp *types.Menu
 		return nil, errorc.NewGRPCError(err)
 	}
 	if err := casbin_rules.RefreshCasbinRules(l.svcCtx.Casbin, roles.RoleCode, rule.List); err != nil {
-		return nil, errorc.NewUnknownError(err)
+		return nil, errorc.NewHTTPInternal(msgc.SYSTEM_ERROR, err.Error())
 	}
 
 	return &types.MenuCreateRes{
 		CommonRes: common_res.NewYES(data.Msg),
-		Data:      &data.Id,
+		Result:    &data.Id,
 	}, nil
 }

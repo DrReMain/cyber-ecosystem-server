@@ -8,6 +8,7 @@ import (
 	"github.com/DrReMain/cyber-ecosystem-server/api/admin/internal/svc"
 	"github.com/DrReMain/cyber-ecosystem-server/api/admin/internal/types"
 	"github.com/DrReMain/cyber-ecosystem-server/pkg/errorc"
+	"github.com/DrReMain/cyber-ecosystem-server/pkg/msgc"
 	"github.com/DrReMain/cyber-ecosystem-server/rpc/admin_system/admin_system"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -50,7 +51,7 @@ func (l *UpdateRoleLogic) UpdateRole(req *types.RoleUpdateReq) (resp *types.Role
 		return nil, errorc.NewGRPCError(err)
 	}
 	if err := casbin_rules.RefreshCasbinRules(l.svcCtx.Casbin, roles.RoleCode, rule.List); err != nil {
-		return nil, errorc.NewUnknownError(err)
+		return nil, errorc.NewHTTPInternal(msgc.SYSTEM_ERROR, err.Error())
 	}
 
 	return &types.RoleUpdateRes{

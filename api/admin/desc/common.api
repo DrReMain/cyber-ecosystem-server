@@ -11,6 +11,7 @@ type CommonRes {
 	Success bool   `json:"success"`
 	Code    string `json:"code"`
 	Msg     string `json:"msg"`
+	Result  string `json:"result"`
 }
 
 type CommonPageRes {

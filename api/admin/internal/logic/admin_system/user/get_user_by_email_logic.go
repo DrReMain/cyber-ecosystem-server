@@ -35,7 +35,7 @@ func (l *GetUserByEmailLogic) GetUserByEmail(req *types.UserGetByEmailReq) (resp
 
 	return &types.UserGetRes{
 		CommonRes: common_res.NewYES(""),
-		Data: &types.UserGet{
+		Result: &types.UserGet{
 			ID:         data.Id,
 			CreatedAt:  data.CreatedAt,
 			UpdatedAt:  data.UpdatedAt,

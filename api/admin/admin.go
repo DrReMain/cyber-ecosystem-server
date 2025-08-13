@@ -9,10 +9,10 @@ import (
 	"github.com/DrReMain/cyber-ecosystem-server/api/admin/internal/handler"
 	"github.com/DrReMain/cyber-ecosystem-server/api/admin/internal/helper/common_res"
 	"github.com/DrReMain/cyber-ecosystem-server/api/admin/internal/helper/custom_validator"
-	"github.com/DrReMain/cyber-ecosystem-server/api/admin/internal/helper/usual_err"
 	"github.com/DrReMain/cyber-ecosystem-server/api/admin/internal/middleware"
 	"github.com/DrReMain/cyber-ecosystem-server/api/admin/internal/svc"
 	"github.com/DrReMain/cyber-ecosystem-server/pkg/errorc"
+	"github.com/DrReMain/cyber-ecosystem-server/pkg/msgc"
 
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/core/logx"
@@ -39,7 +39,7 @@ func main() {
 		rest.WithUnauthorizedCallback(func(w http.ResponseWriter, r *http.Request, err error) {
 			httpx.Error(
 				w,
-				usual_err.HTTPUnauthorized(err.Error()),
+				errorc.NewHTTPUnauthorized(err.Error()),
 			)
 		}),
 	)
@@ -51,32 +51,15 @@ func main() {
 	httpx.SetValidator(custom_validator.New())
 	httpx.SetErrorHandler(func(err error) (int, any) {
 		switch e := err.(type) {
-		case *errorc.HTTPError:
-			logx.Errorw(
-				"[HTTPError]",
-				logx.Field("status", e.Status),
-				logx.Field("detail", e.Detail),
-			)
-			return http.StatusOK, common_res.New(false, e.Code, e.Message)
 		case *errorc.GRPCError:
-			logx.Errorw(
-				"[GRPCError]",
-				logx.Field("status", e.Status),
-				logx.Field("detail", e.Detail),
-			)
-			return http.StatusOK, common_res.NewGRPCRes(e.Code, e.Message)
-		case *errorc.UnknownError:
-			logx.Errorw(
-				"[UnknownError]",
-				logx.Field("detail", err.Error()),
-			)
-			return http.StatusOK, common_res.NewUnknownRes()
+			logx.Errorw("[GRPCError]", logx.Field("detail", e))
+			return e.Status, common_res.New(false, fmt.Sprintf("2%05d", e.Code), e.Message)
+		case *errorc.HTTPError:
+			logx.Errorw("[HTTPError]", logx.Field("detail", e))
+			return http.StatusOK, common_res.New(false, fmt.Sprintf("1%05d", e.Code), e.Message)
 		default:
-			logx.Errorw(
-				"[SystemError]",
-				logx.Field("detail", err.Error()),
-			)
-			return http.StatusInternalServerError, common_res.NewSystemRes()
+			logx.Errorw("[SystemError]", logx.Field("detail", e))
+			return http.StatusInternalServerError, common_res.New(false, "000500", msgc.SYSTEM_ERROR)
 		}
 	})
 

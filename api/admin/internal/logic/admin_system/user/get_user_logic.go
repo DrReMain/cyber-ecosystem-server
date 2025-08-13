@@ -35,7 +35,7 @@ func (l *GetUserLogic) GetUser(req *types.UserGetReq) (resp *types.UserGetRes, e
 
 	return &types.UserGetRes{
 		CommonRes: common_res.NewYES(""),
-		Data: &types.UserGet{
+		Result: &types.UserGet{
 			ID:         data.Id,
 			CreatedAt:  data.CreatedAt,
 			UpdatedAt:  data.UpdatedAt,

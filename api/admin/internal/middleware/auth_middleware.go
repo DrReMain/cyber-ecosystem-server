@@ -1,15 +1,20 @@
 package middleware
 
 import (
+	"context"
+	"errors"
 	"fmt"
 	"net/http"
+	"strings"
 
+	"github.com/DrReMain/cyber-ecosystem-server/pkg/config/redisc"
 	"github.com/casbin/casbin/v2"
 	"github.com/redis/go-redis/v9"
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/rest/httpx"
 
-	"github.com/DrReMain/cyber-ecosystem-server/api/admin/internal/helper/usual_err"
+	"github.com/DrReMain/cyber-ecosystem-server/pkg/errorc"
+	"github.com/DrReMain/cyber-ecosystem-server/pkg/msgc"
 	"github.com/DrReMain/cyber-ecosystem-server/pkg/utils/ctx/role_ctx"
 )
 
@@ -31,10 +36,26 @@ func (m *AuthMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 		if err != nil {
 			httpx.Error(w, err)
 		}
+
+		jwt := strings.TrimPrefix(r.Header.Get("Authorization"), "Bearer ")
+		v, err := m.Redis.Get(context.Background(), redisc.REDIS_TOKEN_PREFIX+jwt).Result()
+		if err != nil && !errors.Is(err, redis.Nil) {
+			httpx.Error(w, errorc.NewHTTPInternal(msgc.SYSTEM_ERROR, err.Error()))
+			return
+
+		}
+		if v == redisc.REDIS_TOKEN_BANNED {
+			httpx.Error(
+				w,
+				errorc.NewHTTPForbidden(
+					msgc.AUTH_NOTALLOWED,
+					fmt.Sprintf("token has banned: %s", jwt),
+				),
+			)
+			return
+		}
+
 		method, path := r.Method, r.URL.Path
-
-		// TODO: jwt blacklist
-
 		if result := check(m.Casbin, roleCode, method, path); result {
 			next(w, r)
 			return
@@ -42,7 +63,10 @@ func (m *AuthMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 
 		httpx.Error(
 			w,
-			usual_err.HTTPForbidden(fmt.Sprintf("roleCode->%v, method->%v, path->%v", roleCode, method, path)),
+			errorc.NewHTTPForbidden(
+				msgc.AUTH_NOTALLOWED,
+				fmt.Sprintf("roleCode->%v, method->%v, path->%v", roleCode, method, path),
+			),
 		)
 		return
 	}

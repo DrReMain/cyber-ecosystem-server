@@ -2,14 +2,15 @@ package account
 
 import (
 	"context"
+	"fmt"
 	"strings"
 	"time"
 
 	"github.com/DrReMain/cyber-ecosystem-server/api/admin/internal/helper/common_res"
-	"github.com/DrReMain/cyber-ecosystem-server/api/admin/internal/helper/usual_err"
 	"github.com/DrReMain/cyber-ecosystem-server/api/admin/internal/svc"
 	"github.com/DrReMain/cyber-ecosystem-server/api/admin/internal/types"
 	"github.com/DrReMain/cyber-ecosystem-server/pkg/errorc"
+	"github.com/DrReMain/cyber-ecosystem-server/pkg/msgc"
 	"github.com/DrReMain/cyber-ecosystem-server/pkg/orm/ent/mixins"
 	"github.com/DrReMain/cyber-ecosystem-server/pkg/utils/encrypt"
 	"github.com/DrReMain/cyber-ecosystem-server/pkg/utils/jwt"
@@ -40,12 +41,11 @@ func (l *LoginPasswordLogic) LoginPassword(req *types.LoginPasswordReq) (resp *t
 	}
 
 	if user.Status != nil && *user.Status != uint32(mixins.StatusNormal) {
-		return nil, usual_err.HTTPBadRequestCustom(common_res.USER_BANNED, "user has been banned")
-
+		return nil, errorc.NewHTTPBadRequest(msgc.USER_BANNED, "user has been banned")
 	}
 
 	if !encrypt.EncryptCheck(*req.Password, *user.Password) {
-		return nil, usual_err.HTTPBadRequestCustom(common_res.PASSWORD_ERROR, "password check failed")
+		return nil, errorc.NewHTTPBadRequest(msgc.PASSWORD_ERROR, fmt.Sprintf("password check failed email:%s password:%s", *req.Email, *req.Password))
 	}
 
 	userID := ""
@@ -99,7 +99,7 @@ func (l *LoginPasswordLogic) LoginPassword(req *types.LoginPasswordReq) (resp *t
 
 	return &types.LoginPasswordRes{
 		CommonRes: common_res.NewYES(""),
-		Data: &types.Token{
+		Result: &types.Token{
 			AccessToken:   pointc.P(accessToken),
 			AccessExpire:  pointc.P(now.Add(time.Duration(l.svcCtx.Config.Auth.AccessExpire) * time.Second).UnixMilli()),
 			RefreshToken:  pointc.P(refreshToken),

@@ -7,6 +7,7 @@ import (
 	"github.com/DrReMain/cyber-ecosystem-server/api/admin/internal/svc"
 	"github.com/DrReMain/cyber-ecosystem-server/api/admin/internal/types"
 	"github.com/DrReMain/cyber-ecosystem-server/pkg/errorc"
+	"github.com/DrReMain/cyber-ecosystem-server/pkg/msgc"
 	"github.com/DrReMain/cyber-ecosystem-server/rpc/admin_system/admin_system"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -33,7 +34,7 @@ func (l *InitLogic) Init(req *types.InitReq) (resp *types.CommonRes, err error) 
 	}
 
 	if err := l.svcCtx.Casbin.LoadPolicy(); err != nil {
-		return nil, errorc.NewUnknownError(err)
+		return nil, errorc.NewHTTPInternal(msgc.SYSTEM_ERROR, err.Error())
 	}
 
 	return common_res.NewYES(data.Msg), nil

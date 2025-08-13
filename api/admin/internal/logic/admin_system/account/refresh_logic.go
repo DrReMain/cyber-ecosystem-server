@@ -6,9 +6,10 @@ import (
 	"time"
 
 	"github.com/DrReMain/cyber-ecosystem-server/api/admin/internal/helper/common_res"
-	"github.com/DrReMain/cyber-ecosystem-server/api/admin/internal/helper/usual_err"
 	"github.com/DrReMain/cyber-ecosystem-server/api/admin/internal/svc"
 	"github.com/DrReMain/cyber-ecosystem-server/api/admin/internal/types"
+	"github.com/DrReMain/cyber-ecosystem-server/pkg/errorc"
+	"github.com/DrReMain/cyber-ecosystem-server/pkg/msgc"
 	"github.com/DrReMain/cyber-ecosystem-server/pkg/orm/ent/mixins"
 	"github.com/DrReMain/cyber-ecosystem-server/pkg/utils/jwt"
 	"github.com/DrReMain/cyber-ecosystem-server/pkg/utils/pointc"
@@ -34,21 +35,21 @@ func NewRefreshLogic(ctx context.Context, svcCtx *svc.ServiceContext) *RefreshLo
 func (l *RefreshLogic) Refresh(req *types.RefreshReq) (resp *types.RefreshRes, err error) {
 	claims, err := jwt.Parse(*req.RefreshToken, l.svcCtx.Config.Auth.RefreshSecret)
 	if err != nil {
-		return nil, usual_err.HTTPRefreshFail(err.Error())
+		return nil, errorc.NewHTTPInternal(msgc.TOKEN_REFRESH_ERROR, err.Error())
 	}
 
 	id, ok := claims["userID"].(string)
 	if !ok {
-		return nil, usual_err.HTTPRefreshFail("userID not found")
+		return nil, errorc.NewHTTPInternal(msgc.TOKEN_REFRESH_ERROR, "userID not found")
 	}
 
 	user, err := l.svcCtx.RPCAdminSystem.USER.GetUser(l.ctx, &admin_system.IDReq{Id: id})
 	if err != nil {
-		return nil, usual_err.HTTPRefreshFail(err.Error())
+		return nil, errorc.NewHTTPInternal(msgc.TOKEN_REFRESH_ERROR, err.Error())
 	}
 
 	if user.Status != nil && *user.Status != uint32(mixins.StatusNormal) {
-		return nil, usual_err.HTTPRefreshFail("user has been banned")
+		return nil, errorc.NewHTTPInternal(msgc.TOKEN_REFRESH_ERROR, "user has been banned")
 	}
 
 	userID := ""
@@ -102,7 +103,7 @@ func (l *RefreshLogic) Refresh(req *types.RefreshReq) (resp *types.RefreshRes, e
 
 	return &types.RefreshRes{
 		CommonRes: common_res.NewYES(""),
-		Data: &types.Token{
+		Result: &types.Token{
 			AccessToken:   pointc.P(accessToken),
 			AccessExpire:  pointc.P(now.Add(time.Duration(l.svcCtx.Config.Auth.AccessExpire) * time.Second).UnixMilli()),
 			RefreshToken:  pointc.P(refreshToken),

@@ -35,7 +35,7 @@ func (l *GetMenuLogic) GetMenu(req *types.MenuGetReq) (resp *types.MenuGetRes, e
 
 	return &types.MenuGetRes{
 		CommonRes: common_res.NewYES(""),
-		Data: &types.MenuGet{
+		Result: &types.MenuGet{
 			ID:         data.Id,
 			CreatedAt:  data.CreatedAt,
 			UpdatedAt:  data.UpdatedAt,
@@ -47,7 +47,6 @@ func (l *GetMenuLogic) GetMenu(req *types.MenuGetReq) (resp *types.MenuGetRes, e
 			CodePath:   data.CodePath,
 			ParentID:   data.ParentId,
 			MenuType:   data.MenuType,
-			MenuPath:   data.MenuPath,
 			Level:      data.Level,
 			Properties: data.Properties,
 			Resources:  buildTResources(data.Resources),

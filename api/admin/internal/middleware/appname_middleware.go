@@ -1,11 +1,12 @@
 package middleware
 
 import (
-	"errors"
-	"fmt"
 	"net/http"
 
 	"github.com/zeromicro/go-zero/rest/httpx"
+
+	"github.com/DrReMain/cyber-ecosystem-server/pkg/errorc"
+	"github.com/DrReMain/cyber-ecosystem-server/pkg/msgc"
 )
 
 type AppNameMiddleware struct {
@@ -25,7 +26,7 @@ func (m *AppNameMiddleware) Handle(next http.Handler) http.Handler {
 		if m.Header != "" && r.Header.Get(m.Header) != m.Value {
 			httpx.Error(
 				w,
-				errors.New(fmt.Sprintf("'%s' in header is invalid", m.Header)),
+				errorc.NewHTTPForbidden(msgc.APP_NOTALLOWED, "app name check fail"),
 			)
 			return
 		}

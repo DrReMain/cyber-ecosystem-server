@@ -1,12 +1,11 @@
 import "../common.api"
 
 info (
-	title:   "管理系统职位API"
-	desc:    "用于职位管理的API，包括创建、删除、更新、查询职位信息"
+	title: "position API"
+	desc:  ""
 )
 
 type (
-	// create
 	PositionCreateReq {
 		Sort         *uint32 `json:"sort,optional" validate:"omitempty,gte=0"`
 		PositionName *string `json:"position_name,optional" validate:"required,max=255"`
@@ -15,16 +14,14 @@ type (
 	}
 	PositionCreateRes {
 		*CommonRes
-		Data *string `json:"data"`
+		Result *string `json:"result"`
 	}
-	// delete
 	PositionDeleteReq {
 		ID *string `path:"id" validate:"required,len=20"`
 	}
 	PositionDeleteRes {
 		*CommonRes
 	}
-	// update
 	PositionUpdateReq {
 		ID           *string `path:"id" validate:"required,len=20"`
 		Sort         *uint32 `json:"sort,optional" validate:"omitempty,gte=0"`
@@ -35,7 +32,6 @@ type (
 	PositionUpdateRes {
 		*CommonRes
 	}
-	// get
 	PositionGet {
 		ID           *string `json:"id"`
 		CreatedAt    *int64  `json:"created_at"`
@@ -50,9 +46,8 @@ type (
 	}
 	PositionGetRes {
 		*CommonRes
-		Data *PositionGet `json:"data"`
+		Result *PositionGet `json:"result"`
 	}
-	// query
 	PositionQuery {
 		*CommonPageRes
 		List []*PositionGet `json:"list"`
@@ -67,7 +62,7 @@ type (
 	}
 	PositionQueryRes {
 		*CommonRes
-		Data *PositionQuery `json:"data"`
+		Result *PositionQuery `json:"result"`
 	}
 )
 
@@ -78,45 +73,27 @@ type (
 	prefix:     /api/v1/admin_system/position
 )
 service admin {
-	@doc (
-		summary:     "创建职位"
-		description: "创建新的职位信息"
-	)
+
 	@handler createPosition
 	post / (PositionCreateReq) returns (PositionCreateRes)
 
-	@doc (
-		summary:     "删除职位"
-		description: "根据ID删除职位信息"
-	)
+
 	@handler deletePosition
 	post /delete (IDsReq) returns (CommonRes)
 
-	@doc (
-		summary:	 "删除单个职位"
-		description: "根据ID删除单个职位信息"
-	)
+
 	@handler deletePositionOne
 	delete /:id (PositionDeleteReq) returns (PositionDeleteRes)
 
-	@doc (
-		summary:     "更新职位"
-		description: "根据ID更新职位信息"
-	)
+
 	@handler updatePosition
 	put /:id (PositionUpdateReq) returns (PositionUpdateRes)
 
-	@doc (
-		summary:     "获取职位详情"
-		description: "根据ID获取职位详细信息"
-	)
+
 	@handler getPosition
 	get /:id (PositionGetReq) returns (PositionGetRes)
 
-	@doc (
-		summary:     "查询职位列表"
-		description: "分页查询职位列表信息"
-	)
+
 	@handler queryPosition
 	get / (PositionQueryReq) returns (PositionQueryRes)
 }

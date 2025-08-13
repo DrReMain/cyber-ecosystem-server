@@ -34,7 +34,7 @@ func (l *QueryMenuLogic) QueryMenu(req *types.MenuQueryReq) (resp *types.MenuQue
 
 	return &types.MenuQueryRes{
 		CommonRes: common_res.NewYES(""),
-		Data: &types.MenuQuery{
+		Result: &types.MenuQuery{
 			List: buildTChildren(data.List),
 		},
 	}, nil

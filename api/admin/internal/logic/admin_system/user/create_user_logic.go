@@ -4,10 +4,10 @@ import (
 	"context"
 
 	"github.com/DrReMain/cyber-ecosystem-server/api/admin/internal/helper/common_res"
-	"github.com/DrReMain/cyber-ecosystem-server/api/admin/internal/helper/usual_err"
 	"github.com/DrReMain/cyber-ecosystem-server/api/admin/internal/svc"
 	"github.com/DrReMain/cyber-ecosystem-server/api/admin/internal/types"
 	"github.com/DrReMain/cyber-ecosystem-server/pkg/errorc"
+	"github.com/DrReMain/cyber-ecosystem-server/pkg/msgc"
 	"github.com/DrReMain/cyber-ecosystem-server/rpc/admin_system/admin_system"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -29,7 +29,7 @@ func NewCreateUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Create
 
 func (l *CreateUserLogic) CreateUser(req *types.UserCreateReq) (resp *types.UserCreateRes, err error) {
 	if req.Password != nil && req.Confirm != nil && *req.Password != *req.Confirm {
-		return nil, usual_err.HTTPBadRequest("confirm don't match password")
+		return nil, errorc.NewHTTPBadRequest(msgc.CONFIRM_ERROR)
 	}
 
 	data, err := l.svcCtx.RPCAdminSystem.USER.CreateUser(l.ctx, &admin_system.UserBody{
@@ -50,6 +50,6 @@ func (l *CreateUserLogic) CreateUser(req *types.UserCreateReq) (resp *types.User
 
 	return &types.UserCreateRes{
 		CommonRes: common_res.NewYES(data.Msg),
-		Data:      &data.Id,
+		Result:    &data.Id,
 	}, nil
 }

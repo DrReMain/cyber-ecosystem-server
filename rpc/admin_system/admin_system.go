@@ -3,7 +3,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	casbinserviceServer "github.com/DrReMain/cyber-ecosystem-server/rpc/admin_system/internal/server/casbinservice"
 
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/core/service"
@@ -16,6 +15,7 @@ import (
 	"github.com/DrReMain/cyber-ecosystem-server/rpc/admin_system/internal/svc"
 
 	baseserviceServer "github.com/DrReMain/cyber-ecosystem-server/rpc/admin_system/internal/server/baseservice"
+	casbinserviceServer "github.com/DrReMain/cyber-ecosystem-server/rpc/admin_system/internal/server/casbinservice"
 	departmentserviceServer "github.com/DrReMain/cyber-ecosystem-server/rpc/admin_system/internal/server/departmentservice"
 	menuserviceServer "github.com/DrReMain/cyber-ecosystem-server/rpc/admin_system/internal/server/menuservice"
 	positionserviceServer "github.com/DrReMain/cyber-ecosystem-server/rpc/admin_system/internal/server/positionservice"

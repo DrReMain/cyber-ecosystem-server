@@ -39,6 +39,6 @@ func (l *CreateDepartmentLogic) CreateDepartment(req *types.DepartmentCreateReq)
 
 	return &types.DepartmentCreateRes{
 		CommonRes: common_res.NewYES(data.Msg),
-		Data:      &data.Id,
+		Result:    &data.Id,
 	}, nil
 }
