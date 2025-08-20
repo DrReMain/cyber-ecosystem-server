@@ -56,7 +56,7 @@ func main() {
 			return e.Status, common_res.New(false, fmt.Sprintf("2%05d", e.Code), e.Message)
 		case *errorc.HTTPError:
 			logx.Errorw("[HTTPError]", logx.Field("detail", e))
-			return http.StatusOK, common_res.New(false, fmt.Sprintf("1%05d", e.Code), e.Message)
+			return e.Status, common_res.New(false, fmt.Sprintf("1%05d", e.Code), e.Message)
 		default:
 			logx.Errorw("[SystemError]", logx.Field("detail", e))
 			return http.StatusInternalServerError, common_res.New(false, "000500", msgc.SYSTEM_ERROR)
