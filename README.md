@@ -9,3 +9,8 @@
 5. [ ] [CyberEcosystem iOS](https://github.com/DrReMain/cyber-ecosystem-iOS) ------------ Large-scale iOS app (Swift / UIKit / Flutter)
 6. [ ] [CyberEcosystem RN](https://github.com/DrReMain/cyber-ecosystem-rn) ------------ Small to medium-sized app (React Native / Kotlin / Swift)
 7. [ ] [CyberEcosystem Mini](https://github.com/DrReMain/cyber-ecosystem-mini) ----------- Mini programs (WeChat, Douyin, Alipay, etc.)
+
+> [!CAUTION]
+>
+> In the API service, the sequential invocation of multiple RPC interfaces leads to a problem of distributed transactions.
+> If you are sensitive to distributed transactions, please handle it by yourself temporarily.
