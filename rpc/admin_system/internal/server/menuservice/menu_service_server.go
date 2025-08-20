@@ -47,3 +47,8 @@ func (s *MenuServiceServer) QueryMenu(ctx context.Context, in *admin_system.Menu
 	l := menuservicelogic.NewQueryMenuLogic(ctx, s.svcCtx)
 	return l.QueryMenu(in)
 }
+
+func (s *MenuServiceServer) QueryMenuByRoleCode(ctx context.Context, in *admin_system.MenuListByRoleCodeReq) (*admin_system.MenuListRes, error) {
+	l := menuservicelogic.NewQueryMenuByRoleCodeLogic(ctx, s.svcCtx)
+	return l.QueryMenuByRoleCode(in)
+}

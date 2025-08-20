@@ -14,36 +14,37 @@ import (
 )
 
 type (
-	BaseIDRes         = admin_system.BaseIDRes
-	BaseRes           = admin_system.BaseRes
-	CasbinBody        = admin_system.CasbinBody
-	CasbinReq         = admin_system.CasbinReq
-	CasbinRes         = admin_system.CasbinRes
-	DepartmentBody    = admin_system.DepartmentBody
-	DepartmentListReq = admin_system.DepartmentListReq
-	DepartmentListRes = admin_system.DepartmentListRes
-	EmailReq          = admin_system.EmailReq
-	Empty             = admin_system.Empty
-	IDReq             = admin_system.IDReq
-	IDsReq            = admin_system.IDsReq
-	ListReq           = admin_system.ListReq
-	MenuBody          = admin_system.MenuBody
-	MenuListReq       = admin_system.MenuListReq
-	MenuListRes       = admin_system.MenuListRes
-	PositionBody      = admin_system.PositionBody
-	PositionListReq   = admin_system.PositionListReq
-	PositionListRes   = admin_system.PositionListRes
-	ResourceBody      = admin_system.ResourceBody
-	RoleBody          = admin_system.RoleBody
-	RoleFromMenuReq   = admin_system.RoleFromMenuReq
-	RoleFromMenuRes   = admin_system.RoleFromMenuRes
-	RoleFromRoleReq   = admin_system.RoleFromRoleReq
-	RoleFromRoleRes   = admin_system.RoleFromRoleRes
-	RoleListReq       = admin_system.RoleListReq
-	RoleListRes       = admin_system.RoleListRes
-	UserBody          = admin_system.UserBody
-	UserListReq       = admin_system.UserListReq
-	UserListRes       = admin_system.UserListRes
+	BaseIDRes             = admin_system.BaseIDRes
+	BaseRes               = admin_system.BaseRes
+	CasbinBody            = admin_system.CasbinBody
+	CasbinReq             = admin_system.CasbinReq
+	CasbinRes             = admin_system.CasbinRes
+	DepartmentBody        = admin_system.DepartmentBody
+	DepartmentListReq     = admin_system.DepartmentListReq
+	DepartmentListRes     = admin_system.DepartmentListRes
+	EmailReq              = admin_system.EmailReq
+	Empty                 = admin_system.Empty
+	IDReq                 = admin_system.IDReq
+	IDsReq                = admin_system.IDsReq
+	ListReq               = admin_system.ListReq
+	MenuBody              = admin_system.MenuBody
+	MenuListByRoleCodeReq = admin_system.MenuListByRoleCodeReq
+	MenuListReq           = admin_system.MenuListReq
+	MenuListRes           = admin_system.MenuListRes
+	PositionBody          = admin_system.PositionBody
+	PositionListReq       = admin_system.PositionListReq
+	PositionListRes       = admin_system.PositionListRes
+	ResourceBody          = admin_system.ResourceBody
+	RoleBody              = admin_system.RoleBody
+	RoleFromMenuReq       = admin_system.RoleFromMenuReq
+	RoleFromMenuRes       = admin_system.RoleFromMenuRes
+	RoleFromRoleReq       = admin_system.RoleFromRoleReq
+	RoleFromRoleRes       = admin_system.RoleFromRoleRes
+	RoleListReq           = admin_system.RoleListReq
+	RoleListRes           = admin_system.RoleListRes
+	UserBody              = admin_system.UserBody
+	UserListReq           = admin_system.UserListReq
+	UserListRes           = admin_system.UserListRes
 
 	MenuService interface {
 		CreateMenu(ctx context.Context, in *MenuBody, opts ...grpc.CallOption) (*BaseIDRes, error)
@@ -51,6 +52,7 @@ type (
 		UpdateMenu(ctx context.Context, in *MenuBody, opts ...grpc.CallOption) (*BaseRes, error)
 		GetMenu(ctx context.Context, in *IDReq, opts ...grpc.CallOption) (*MenuBody, error)
 		QueryMenu(ctx context.Context, in *MenuListReq, opts ...grpc.CallOption) (*MenuListRes, error)
+		QueryMenuByRoleCode(ctx context.Context, in *MenuListByRoleCodeReq, opts ...grpc.CallOption) (*MenuListRes, error)
 	}
 
 	defaultMenuService struct {
@@ -87,4 +89,9 @@ func (m *defaultMenuService) GetMenu(ctx context.Context, in *IDReq, opts ...grp
 func (m *defaultMenuService) QueryMenu(ctx context.Context, in *MenuListReq, opts ...grpc.CallOption) (*MenuListRes, error) {
 	client := admin_system.NewMenuServiceClient(m.cli.Conn())
 	return client.QueryMenu(ctx, in, opts...)
+}
+
+func (m *defaultMenuService) QueryMenuByRoleCode(ctx context.Context, in *MenuListByRoleCodeReq, opts ...grpc.CallOption) (*MenuListRes, error) {
+	client := admin_system.NewMenuServiceClient(m.cli.Conn())
+	return client.QueryMenuByRoleCode(ctx, in, opts...)
 }

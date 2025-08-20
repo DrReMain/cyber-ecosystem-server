@@ -138,12 +138,17 @@ message MenuListRes {
   repeated MenuBody list = 5;
 }
 
+message MenuListByRoleCodeReq {
+  repeated string role_code = 1;
+}
+
 service MenuService {
   rpc createMenu (MenuBody) returns (BaseIDRes);
   rpc deleteMenu (IDsReq) returns (BaseRes);
   rpc updateMenu (MenuBody) returns (BaseRes);
   rpc getMenu (IDReq) returns (MenuBody);
   rpc queryMenu (MenuListReq) returns (MenuListRes);
+  rpc queryMenuByRoleCode (MenuListByRoleCodeReq) returns (MenuListRes);
 
 }
 
