@@ -1,0 +1,25 @@
+{
+  "common": {
+    "system": {
+      "SYSTEM_ERROR": "系统错误"
+    },
+    "grpc": {
+      "REDIS_ERROR": "Redis 错误",
+      "DB_INIT_ERROR": "数据库初始化失败",
+      "ENT_UNKNOWN_ERROR": "未知错误",
+      "ENT_VALIDATION_ERROR": "参数验证失败",
+      "ENT_NOTFOUND_ERROR": "数据未找到",
+      "ENT_NOT_SINGULAR_ERROR": "数据不唯一",
+      "ENT_NOT_LOADED_ERROR": "数据未加载",
+      "ENT_CONSTRAINT_ERROR": "数据约束冲突",
+      "SUCCESS": "操作成功",
+      "FAILED": "操作失败",
+      "CREATE_SUCCESS": "创建成功",
+      "CREATE_FAILED": "创建失败",
+      "DELETE_SUCCESS": "删除成功",
+      "DELETE_FAILED": "删除失败",
+      "UPDATE_SUCCESS": "更新成功",
+      "UPDATE_FAILED": "更新失败"
+    }
+  }
+}

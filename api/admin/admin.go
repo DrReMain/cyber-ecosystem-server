@@ -35,11 +35,12 @@ func main() {
 		rest.WithCorsHeaders(c.Project.AppNameHeader),
 		rest.WithChain(chain.New(
 			middleware.NewAppNameMiddleware(c.Project.AppNameHeader, c.Project.AppNameValue).Handle,
+			middleware.NewLangMiddleware(c.Project.LangHeader).Handle,
 		)),
 		rest.WithUnauthorizedCallback(func(w http.ResponseWriter, r *http.Request, err error) {
 			httpx.Error(
 				w,
-				errorc.NewHTTPUnauthorized(err.Error()),
+				errorc.NewHTTPUnauthorized(msgc.TOKEN_INVALID, err.Error()),
 			)
 		}),
 	)

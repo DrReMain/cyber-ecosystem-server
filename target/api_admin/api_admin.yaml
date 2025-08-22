@@ -9,6 +9,8 @@ CORS:
 Project:
   AppNameHeader: X-APP-NAME
   AppNameValue: cyber-ecosystem
+  LangHeader: X-LANG
+  DefaultLang: zh-CN
 
 Log:
   ServiceName: adminApiLogger
@@ -60,6 +62,3 @@ RpcAdminSystem:
     - host.docker.internal:8001
   Enabled: true
   Timeout: 6000
-
-
-

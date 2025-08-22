@@ -1,0 +1,35 @@
+{
+  "common": {
+    "grpc": {
+      "CREATE_FAILED": "فشل الإنشاء",
+      "CREATE_SUCCESS": "تم الإنشاء بنجاح",
+      "DB_INIT_ERROR": "فشل تهيئة قاعدة البيانات",
+      "DELETE_FAILED": "فشل الحذف",
+      "DELETE_SUCCESS": "تم الحذف بنجاح",
+      "ENT_CONSTRAINT_ERROR": "تعارض في قيود البيانات",
+      "ENT_NOTFOUND_ERROR": "البيانات غير موجودة",
+      "ENT_NOT_LOADED_ERROR": "البيانات لم يتم تحميلها",
+      "ENT_NOT_SINGULAR_ERROR": "البيانات غير فريدة",
+      "ENT_UNKNOWN_ERROR": "خطأ غير معروف",
+      "ENT_VALIDATION_ERROR": "فشل في التحقق من المعلمات",
+      "FAILED": "فشلت العملية",
+      "REDIS_ERROR": "خطأ في Redis",
+      "SUCCESS": "تمت العملية بنجاح",
+      "UPDATE_FAILED": "فشل التحديث",
+      "UPDATE_SUCCESS": "تم التحديث بنجاح"
+    },
+    "system": {
+      "SYSTEM_ERROR": "خطأ في النظام"
+    }
+  },
+  "http": {
+    "APP_NOTALLOWED": "العميل الحالي غير مسموح به",
+    "AUTH_NOTALLOWED": "غير مصرح بالدخول",
+    "CONFIRM_ERROR": "كلمتا المرور غير متطابقتين",
+    "PASSWORD_ERROR": "اسم المستخدم أو كلمة المرور غير صحيحة",
+    "TOKEN_INVALID": "رمز الوصول غير صالح",
+    "TOKEN_REFRESH_FAIL": "فشل في تحديث الرمز",
+    "USER_BANNED": "المستخدم محظور",
+    "VALIDATE_FAIL": "فشل في التحقق من المعلمات"
+  }
+}

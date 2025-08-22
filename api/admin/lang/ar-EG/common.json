@@ -1,0 +1,25 @@
+{
+  "common": {
+    "system": {
+      "SYSTEM_ERROR": "خطأ في النظام"
+    },
+    "grpc": {
+      "REDIS_ERROR": "خطأ في Redis",
+      "DB_INIT_ERROR": "فشل تهيئة قاعدة البيانات",
+      "ENT_UNKNOWN_ERROR": "خطأ غير معروف",
+      "ENT_VALIDATION_ERROR": "فشل في التحقق من المعلمات",
+      "ENT_NOTFOUND_ERROR": "البيانات غير موجودة",
+      "ENT_NOT_SINGULAR_ERROR": "البيانات غير فريدة",
+      "ENT_NOT_LOADED_ERROR": "البيانات لم يتم تحميلها",
+      "ENT_CONSTRAINT_ERROR": "تعارض في قيود البيانات",
+      "SUCCESS": "تمت العملية بنجاح",
+      "FAILED": "فشلت العملية",
+      "CREATE_SUCCESS": "تم الإنشاء بنجاح",
+      "CREATE_FAILED": "فشل الإنشاء",
+      "DELETE_SUCCESS": "تم الحذف بنجاح",
+      "DELETE_FAILED": "فشل الحذف",
+      "UPDATE_SUCCESS": "تم التحديث بنجاح",
+      "UPDATE_FAILED": "فشل التحديث"
+    }
+  }
+}

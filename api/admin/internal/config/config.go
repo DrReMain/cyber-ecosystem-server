@@ -32,4 +32,6 @@ type Config struct {
 type Project struct {
 	AppNameHeader string `json:",optional"`
 	AppNameValue  string `json:",optional"`
+	LangHeader    string `json:",default=X-LANG"`
+	DefaultLang   string `json:",env=DEFAULT_LANG"`
 }
