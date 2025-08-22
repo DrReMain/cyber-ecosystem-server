@@ -7,9 +7,11 @@ Mode: dev
 CORS:
   Address: '*'
 
-#Project:
+Project:
 #  AppNameHeader: X-APP-NAME
 #  AppNameValue: cyber-ecosystem
+  LangHeader: X-LANG
+  DefaultLang: zh-CN
 
 Log:
   ServiceName: adminApiLogger
@@ -60,11 +62,9 @@ CasbinC:
     [matchers]
     m = r.sub == p.sub && r.act == p.act && (keyMatch2(r.obj,p.obj) || keyMatch2(r.obj,p.obj + "/"))
 
+
 RpcAdminSystem:
   Endpoints:
     - localhost:8001
   Enabled: true
   Timeout: 6000
-
-
-

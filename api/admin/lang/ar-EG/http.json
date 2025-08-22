@@ -1,0 +1,12 @@
+{
+  "http": {
+    "APP_NOTALLOWED": "العميل الحالي غير مسموح به",
+    "TOKEN_INVALID": "رمز الوصول غير صالح",
+    "AUTH_NOTALLOWED": "غير مصرح بالدخول",
+    "VALIDATE_FAIL": "فشل في التحقق من المعلمات",
+    "TOKEN_REFRESH_FAIL": "فشل في تحديث الرمز",
+    "USER_BANNED": "المستخدم محظور",
+    "PASSWORD_ERROR": "اسم المستخدم أو كلمة المرور غير صحيحة",
+    "CONFIRM_ERROR": "كلمتا المرور غير متطابقتين"
+  }
+}

@@ -15,7 +15,7 @@ ENT_FEATURE:=sql/execquery,sql/modifier,intercept
 # Default target
 .DEFAULT_GOAL := help
 
-.PHONY: init tidy format atlas ent_new ent_gen combine gen_rpc gen_api build_rpc build_api start stop restart image run help
+.PHONY: init tidy format atlas ent_new ent_gen combine_pb gen_rpc combine_locales gen_api build_rpc build_api start stop restart image run help
 
 # Initialize environment
 init:
@@ -59,7 +59,7 @@ ent_gen:
 ############################################# GEN ################################################
 
 # Combine *.proto files target=admin_system
-combine:
+combine_pb:
 	@echo "Merging Proto files..."
 	@go run ./rpc/$(target)/desc/main.go
 	@echo "Merge completed"
@@ -69,6 +69,12 @@ gen_rpc:
 	@echo "Generating RPC service..."
 	@goctl rpc protoc ./rpc/$(target)/$(target).proto --go_out=./rpc/$(target)/ --go-grpc_out=./rpc/$(target)/ --zrpc_out=./rpc/$(target)/ -m --style=go_zero
 	@echo "RPC service generation completed"
+
+# Combine Locales files target=admin default=zh-CN
+combine_locales:
+	@echo "Merging Locales files..."
+	@go run ./api/$(target)/lang/main.go -messages api/$(target)/lang -default $(default) --strict
+	@echo "Merge completed"
 
 # Generate API service target=admin
 gen_api:

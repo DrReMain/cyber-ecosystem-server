@@ -10,6 +10,8 @@ import (
 
 	"github.com/DrReMain/cyber-ecosystem-server/api/admin/internal/config"
 	"github.com/DrReMain/cyber-ecosystem-server/api/admin/internal/middleware"
+	"github.com/DrReMain/cyber-ecosystem-server/api/admin/lang/locales"
+	"github.com/DrReMain/cyber-ecosystem-server/pkg/i18nc"
 	admin_system_baseservice "github.com/DrReMain/cyber-ecosystem-server/rpc/admin_system/client/baseservice"
 	admin_system_casbinservice "github.com/DrReMain/cyber-ecosystem-server/rpc/admin_system/client/casbinservice"
 	admin_system_departmentservice "github.com/DrReMain/cyber-ecosystem-server/rpc/admin_system/client/departmentservice"
@@ -25,6 +27,7 @@ type ServiceContext struct {
 	Redis   redis.UniversalClient
 	Casbin  *casbin.Enforcer
 	Captcha *rotate.Captcha
+	I18N    *i18nc.Translator
 
 	RPCAdminSystem RPCAdminSystem
 }
@@ -45,6 +48,8 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	csb := c.CasbinC.MustNewCasbinWithOriginalRedisWatcher(c.DBC.Type, c.DBC.GetDSN(), c.RedisC)
 	csb.EnableLog(c.Mode == service.DevMode)
 
+	translator := i18nc.MustNewTranslator(c.Project.LangHeader, c.Project.DefaultLang, locales.LocaleFS)
+
 	clientAdminSystem := zrpc.MustNewClient(c.RpcAdminSystem)
 	return &ServiceContext{
 		Config:  c,
@@ -52,6 +57,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		Redis:   r,
 		Casbin:  csb,
 		Captcha: c.CaptchaC.MustNew(),
+		I18N:    translator,
 		RPCAdminSystem: RPCAdminSystem{
 			BASE:       admin_system_baseservice.NewBaseService(clientAdminSystem),
 			CASBIN:     admin_system_casbinservice.NewCasbinService(clientAdminSystem),
