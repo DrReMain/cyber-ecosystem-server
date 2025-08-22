@@ -1,0 +1,12 @@
+{
+  "http": {
+    "APP_NOTALLOWED": "不允许当前客户端",
+    "TOKEN_INVALID": "访问令牌无效",
+    "AUTH_NOTALLOWED": "没有权限",
+    "VALIDATE_FAIL": "参数校验失败",
+    "TOKEN_REFRESH_FAIL": "令牌刷新失败",
+    "USER_BANNED": "用户已禁用",
+    "PASSWORD_ERROR": "用户名或密码错误",
+    "CONFIRM_ERROR": "两次密码不一致"
+  }
+}

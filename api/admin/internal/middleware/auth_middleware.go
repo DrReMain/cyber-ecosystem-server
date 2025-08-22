@@ -47,8 +47,8 @@ func (m *AuthMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 		if v == redisc.REDIS_TOKEN_BANNED {
 			httpx.Error(
 				w,
-				errorc.NewHTTPForbidden(
-					msgc.AUTH_NOTALLOWED,
+				errorc.NewHTTPUnauthorized(
+					msgc.TOKEN_INVALID,
 					fmt.Sprintf("token has banned: %s", jwt),
 				),
 			)

@@ -15,6 +15,7 @@ require (
 	github.com/golang-jwt/jwt/v4 v4.5.2
 	github.com/lib/pq v1.10.9
 	github.com/mattn/go-sqlite3 v1.14.30
+	github.com/nicksnyder/go-i18n/v2 v2.6.0
 	github.com/redis/go-redis/v9 v9.12.0
 	github.com/rs/xid v1.6.0
 	github.com/wenlng/go-captcha-assets v1.0.7

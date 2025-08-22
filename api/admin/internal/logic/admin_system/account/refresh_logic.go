@@ -35,21 +35,21 @@ func NewRefreshLogic(ctx context.Context, svcCtx *svc.ServiceContext) *RefreshLo
 func (l *RefreshLogic) Refresh(req *types.RefreshReq) (resp *types.RefreshRes, err error) {
 	claims, err := jwt.Parse(*req.RefreshToken, l.svcCtx.Config.Auth.RefreshSecret)
 	if err != nil {
-		return nil, errorc.NewHTTPInternal(msgc.TOKEN_REFRESH_ERROR, err.Error())
+		return nil, errorc.NewHTTPInternal(msgc.TOKEN_REFRESH_FAIL, err.Error())
 	}
 
 	id, ok := claims["userID"].(string)
 	if !ok {
-		return nil, errorc.NewHTTPInternal(msgc.TOKEN_REFRESH_ERROR, "userID not found")
+		return nil, errorc.NewHTTPInternal(msgc.TOKEN_REFRESH_FAIL, "userID not found")
 	}
 
 	user, err := l.svcCtx.RPCAdminSystem.USER.GetUser(l.ctx, &admin_system.IDReq{Id: id})
 	if err != nil {
-		return nil, errorc.NewHTTPInternal(msgc.TOKEN_REFRESH_ERROR, err.Error())
+		return nil, errorc.NewHTTPInternal(msgc.TOKEN_REFRESH_FAIL, err.Error())
 	}
 
 	if user.Status != nil && *user.Status != uint32(mixins.StatusNormal) {
-		return nil, errorc.NewHTTPInternal(msgc.TOKEN_REFRESH_ERROR, "user has been banned")
+		return nil, errorc.NewHTTPInternal(msgc.TOKEN_REFRESH_FAIL, "user has been banned")
 	}
 
 	userID := ""
