@@ -8,7 +8,7 @@ CORS:
 
 Project:
   AppNameHeader: X-APP-NAME
-  AppNameValue: cyber-ecosystem
+  AppNameValue: [ "cyber-ecosystem" ]
   LangHeader: X-LANG
   DefaultLang: zh-CN
 

@@ -8,8 +8,8 @@ CORS:
   Address: '*'
 
 Project:
-#  AppNameHeader: X-APP-NAME
-#  AppNameValue: cyber-ecosystem
+  AppNameHeader: X-APP-NAME
+  AppNameValue: [ ]
   LangHeader: X-LANG
   DefaultLang: zh-CN
 

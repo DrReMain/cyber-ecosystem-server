@@ -11,10 +11,10 @@ import (
 
 type AppNameMiddleware struct {
 	Header string
-	Value  string
+	Value  []string
 }
 
-func NewAppNameMiddleware(header, value string) *AppNameMiddleware {
+func NewAppNameMiddleware(header string, value []string) *AppNameMiddleware {
 	return &AppNameMiddleware{
 		Header: header,
 		Value:  value,
@@ -23,8 +23,10 @@ func NewAppNameMiddleware(header, value string) *AppNameMiddleware {
 
 func (m *AppNameMiddleware) Handle(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if m.Header != "" && r.Header.Get(m.Header) != m.Value {
-			httpx.Error(
+		h := r.Header.Get(m.Header)
+		if len(m.Value) > 0 && !includes(m.Value, h) {
+			httpx.ErrorCtx(
+				r.Context(),
 				w,
 				errorc.NewHTTPForbidden(msgc.APP_NOTALLOWED, "app name check fail"),
 			)
@@ -32,4 +34,13 @@ func (m *AppNameMiddleware) Handle(next http.Handler) http.Handler {
 		}
 		next.ServeHTTP(w, r)
 	})
+}
+
+func includes(slice []string, target string) bool {
+	for _, v := range slice {
+		if v == target {
+			return true
+		}
+	}
+	return false
 }

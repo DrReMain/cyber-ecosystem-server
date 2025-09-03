@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"fmt"
 	"net/http"
@@ -32,13 +33,13 @@ func main() {
 	server := rest.MustNewServer(
 		c.RestConf,
 		rest.WithCors(c.CORS.Address),
-		rest.WithCorsHeaders(c.Project.AppNameHeader),
 		rest.WithChain(chain.New(
 			middleware.NewAppNameMiddleware(c.Project.AppNameHeader, c.Project.AppNameValue).Handle,
 			middleware.NewLangMiddleware(c.Project.LangHeader).Handle,
 		)),
 		rest.WithUnauthorizedCallback(func(w http.ResponseWriter, r *http.Request, err error) {
-			httpx.Error(
+			httpx.ErrorCtx(
+				r.Context(),
 				w,
 				errorc.NewHTTPUnauthorized(msgc.TOKEN_INVALID, err.Error()),
 			)
@@ -50,17 +51,29 @@ func main() {
 	handler.RegisterHandlers(server, ctx)
 
 	httpx.SetValidator(custom_validator.New())
-	httpx.SetErrorHandler(func(err error) (int, any) {
+	httpx.SetErrorHandlerCtx(func(requestCtx context.Context, err error) (int, any) {
 		switch e := err.(type) {
-		case *errorc.GRPCError:
-			logx.Errorw("[GRPCError]", logx.Field("detail", e))
-			return e.Status, common_res.New(false, fmt.Sprintf("2%05d", e.Code), e.Message)
 		case *errorc.HTTPError:
 			logx.Errorw("[HTTPError]", logx.Field("detail", e))
-			return e.Status, common_res.New(false, fmt.Sprintf("1%05d", e.Code), e.Message)
+			return e.Status, common_res.New(
+				false,
+				fmt.Sprintf("1%05d", e.Code),
+				ctx.I18N.T(requestCtx, "http."+e.Message),
+			)
+		case *errorc.GRPCError:
+			logx.Errorw("[GRPCError]", logx.Field("detail", e))
+			return e.Status, common_res.New(
+				false,
+				fmt.Sprintf("2%05d", e.Code),
+				ctx.I18N.T(requestCtx, "common.grpc."+e.Message),
+			)
 		default:
 			logx.Errorw("[SystemError]", logx.Field("detail", e))
-			return http.StatusInternalServerError, common_res.New(false, "000500", msgc.SYSTEM_ERROR)
+			return http.StatusInternalServerError, common_res.New(
+				false,
+				"000500",
+				ctx.I18N.T(requestCtx, "common.system"+msgc.SYSTEM_ERROR),
+			)
 		}
 	})
 

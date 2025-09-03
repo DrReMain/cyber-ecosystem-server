@@ -7,8 +7,9 @@ import (
 	"strings"
 )
 
+const service = "admin_system"
+
 func main() {
-	service := "admin_system"
 	folder := fmt.Sprintf("rpc/%s/desc/proto", service)
 	output := fmt.Sprintf("rpc/%s/%s.proto", service, service)
 

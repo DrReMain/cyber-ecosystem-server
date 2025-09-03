@@ -34,18 +34,19 @@ func (m *AuthMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		roleCode, err := role_ctx.ValueFromCtx(r.Context())
 		if err != nil {
-			httpx.Error(w, err)
+			httpx.ErrorCtx(r.Context(), w, err)
 		}
 
 		jwt := strings.TrimPrefix(r.Header.Get("Authorization"), "Bearer ")
 		v, err := m.Redis.Get(context.Background(), redisc.REDIS_TOKEN_PREFIX+jwt).Result()
 		if err != nil && !errors.Is(err, redis.Nil) {
-			httpx.Error(w, errorc.NewHTTPInternal(msgc.SYSTEM_ERROR, err.Error()))
+			httpx.ErrorCtx(r.Context(), w, errorc.NewHTTPInternal(msgc.SYSTEM_ERROR, err.Error()))
 			return
 
 		}
 		if v == redisc.REDIS_TOKEN_BANNED {
-			httpx.Error(
+			httpx.ErrorCtx(
+				r.Context(),
 				w,
 				errorc.NewHTTPUnauthorized(
 					msgc.TOKEN_INVALID,
@@ -61,7 +62,8 @@ func (m *AuthMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 			return
 		}
 
-		httpx.Error(
+		httpx.ErrorCtx(
+			r.Context(),
 			w,
 			errorc.NewHTTPForbidden(
 				msgc.AUTH_NOTALLOWED,
