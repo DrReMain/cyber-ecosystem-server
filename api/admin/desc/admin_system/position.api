@@ -73,26 +73,20 @@ type (
 	prefix:     /api/v1/admin_system/position
 )
 service admin {
-
 	@handler createPosition
 	post / (PositionCreateReq) returns (PositionCreateRes)
-
 
 	@handler deletePosition
 	post /delete (IDsReq) returns (CommonRes)
 
-
 	@handler deletePositionOne
 	delete /:id (PositionDeleteReq) returns (PositionDeleteRes)
-
 
 	@handler updatePosition
 	put /:id (PositionUpdateReq) returns (PositionUpdateRes)
 
-
 	@handler getPosition
 	get /:id (PositionGetReq) returns (PositionGetRes)
-
 
 	@handler queryPosition
 	get / (PositionQueryReq) returns (PositionQueryRes)

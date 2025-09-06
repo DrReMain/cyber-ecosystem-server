@@ -83,26 +83,20 @@ type (
 	prefix:     /api/v1/admin_system/menu
 )
 service admin {
-
 	@handler createMenu
 	post / (MenuCreateReq) returns (MenuCreateRes)
-
 
 	@handler deleteMenu
 	post /delete (IDsReq) returns (CommonRes)
 
-
 	@handler deleteMenuOne
 	delete /:id (MenuDeleteReq) returns (MenuDeleteRes)
-
 
 	@handler updateMenu
 	put /:id (MenuUpdateReq) returns (MenuUpdateRes)
 
-
 	@handler getMenu
 	get /:id (MenuGetReq) returns (MenuGetRes)
-
 
 	@handler queryMenu
 	get / (MenuQueryReq) returns (MenuQueryRes)

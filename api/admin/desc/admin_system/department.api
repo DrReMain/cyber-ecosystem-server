@@ -72,26 +72,20 @@ type (
 	prefix:     /api/v1/admin_system/department
 )
 service admin {
-
 	@handler createDepartment
 	post / (DepartmentCreateReq) returns (DepartmentCreateRes)
-
 
 	@handler deleteDepartment
 	post /delete (IDsReq) returns (CommonRes)
 
-
 	@handler deleteDepartmentOne
 	delete /:id (DepartmentDeleteReq) returns (DepartmentDeleteRes)
-
 
 	@handler updateDepartment
 	put /:id (DepartmentUpdateReq) returns (DepartmentUpdateRes)
 
-
 	@handler getDepartment
 	get /:id (DepartmentGetReq) returns (DepartmentGetRes)
-
 
 	@handler queryDepartment
 	get / (DepartmentQueryReq) returns (DepartmentQueryRes)

@@ -15,9 +15,9 @@ ENT_FEATURE:=sql/execquery,sql/modifier,intercept
 # Default target
 .DEFAULT_GOAL := help
 
-.PHONY: init tidy format atlas ent_new ent_gen combine_pb gen_rpc combine_locales gen_api build_rpc build_api start stop restart image run help
+.PHONY: init tidy rpc_new ent_new ent_gen ent_visualize ent_migrate_diff ent_migrate_apply rpc_pb rpc_gen api_locales api_format api_gen rpc_build api_build start stop image run help
 
-# Initialize environment
+# Initialize environment (required: Golang & docker & protobuf)
 init:
 	@echo "Initializing environment..."
 	@go install github.com/zeromicro/go-zero/tools/goctl@latest
@@ -29,20 +29,6 @@ tidy:
 	@echo "Updating dependencies..."
 	@go mod tidy -v
 	@echo "Dependency update completed"
-
-# Format *.api files target=admin
-format:
-	@echo "Formatting API files..."
-	@goctl api format --dir api/$(target)/desc/
-	@echo "Formatting completed"
-
-############################################# Ent #################################################
-
-# Visualize database schema target=admin_system
-atlas:
-	@echo "Generating database visualization..."
-	@atlas schema inspect -u "ent://rpc/$(target)/ent/schema" --dev-url "docker+mysql://_/mysql:8.4-oracle/dev" -w
-	@echo "Visualization completed"
 
 # Create new Ent entity target=admin_system entity=User
 ent_new:
@@ -56,28 +42,50 @@ ent_gen:
 	@go run -mod=mod entgo.io/ent/cmd/ent generate --template glob="./rpc/$(target)/ent/template/*.tmpl" ./rpc/$(target)/ent/schema --feature $(ENT_FEATURE)
 	@echo "Code generation completed"
 
-############################################# GEN ################################################
+# Visualize database schema target=admin_system
+ent_visualize:
+	@echo "Generating database visualization..."
+	@atlas schema inspect -u "ent://rpc/$(target)/ent/schema" --dev-url "docker+mysql://_/mysql:8.4-oracle/dev" -w
+	@echo "Visualization completed"
+
+# Versioned Migration target=admin_system
+ent_migrate_diff:
+	@echo "Generating Ent migrations..."
+	@atlas migrate diff --dir "file://rpc/$(target)/ent/migrate/migrations" --to "ent://rpc/$(target)/ent/schema" --dev-url "docker+mysql://_/mysql:8.4-oracle/dev"
+	@echo "Migrations generation completed"
+
+# Apply Migration target=admin_system dsn=root:pass@localhost:3306/cyber_ecosystem_system
+ent_migrate_apply:
+	@echo "Applying Ent migrations..."
+	@atlas migrate apply --dir "file://rpc/$(target)/ent/migrate/migrations" --url "mysql://$(dsn)"
+	@echo "Migrations apply completed"
 
 # Combine *.proto files target=admin_system
-combine_pb:
+rpc_pb:
 	@echo "Merging Proto files..."
 	@go run ./rpc/$(target)/desc/main.go
 	@echo "Merge completed"
 
 # Generate RPC service target=admin_system
-gen_rpc:
+rpc_gen:
 	@echo "Generating RPC service..."
 	@goctl rpc protoc ./rpc/$(target)/$(target).proto --go_out=./rpc/$(target)/ --go-grpc_out=./rpc/$(target)/ --zrpc_out=./rpc/$(target)/ -m --style=go_zero
 	@echo "RPC service generation completed"
 
 # Combine Locales files target=admin default=zh-CN
-combine_locales:
+api_locales:
 	@echo "Merging Locales files..."
 	@go run ./api/$(target)/lang/main.go -messages api/$(target)/lang -default $(default) --strict
 	@echo "Merge completed"
 
+# Format *.api files target=admin
+api_format:
+	@echo "Formatting API files..."
+	@goctl api format --dir api/$(target)/desc/
+	@echo "Formatting completed"
+
 # Generate API service target=admin
-gen_api:
+api_gen:
 	@echo "Generating API service..."
 	@goctl api go -api ./api/$(target)/desc/$(target).api -dir ./api/$(target)/ --style=go_zero
 	@echo "API service generation completed"
@@ -85,7 +93,7 @@ gen_api:
 ############################################# Build #############################################
 
 # Build RPC service os=windows|darwin|linux arch=amd64|arm64 ext=.exe target=admin_system
-build_rpc:
+rpc_build:
 	@echo "Building RPC service..."
 	@mkdir -p target/rpc_$(target)
 	@env CGO_ENABLED=0 GOOS=$(os) GOARCH=$(arch) go build \
@@ -100,7 +108,7 @@ build_rpc:
 	@echo "RPC service build completed"
 
 # Build API service os=windows|darwin|linux arch=amd64|arm64 ext=.exe target=admin
-build_api:
+api_build:
 	@echo "Building API service..."
 	@mkdir -p target/api_$(target)
 	@env CGO_ENABLED=0 GOOS=$(os) GOARCH=$(arch) go build \
@@ -116,13 +124,13 @@ build_api:
 
 ############################################# RUN ################################################
 
-# Run bare metal service target=rpc_admin_system
+# Run bare metal service target=rpc_admin_system / api_admin
 start:
 	@echo "Starting service..."
 	@nohup ./target/$(target)/$(target) -f ./target/$(target)/$(target).yaml > /dev/null 2>&1 &
 	@echo "Service started"
 
-# Stop bare metal service target=rpc_admin_system
+# Stop bare metal service target=rpc_admin_system / api_admin
 stop:
 	@echo "Stopping service..."
 	@-pkill -f $(target)
@@ -132,9 +140,6 @@ stop:
 		echo " "; \
 	done
 	@echo "Service stopped"
-
-# Restart bare metal service
-restart: stop start
 
 # Build container image target=rpc_admin_system
 image:
