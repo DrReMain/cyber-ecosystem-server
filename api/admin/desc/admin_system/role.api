@@ -76,26 +76,20 @@ type (
 	prefix:     /api/v1/admin_system/role
 )
 service admin {
-
 	@handler createRole
 	post / (RoleCreateReq) returns (RoleCreateRes)
-
 
 	@handler deleteRole
 	post /delete (IDsReq) returns (CommonRes)
 
-
 	@handler deleteRoleOne
 	delete /:id (RoleDeleteReq) returns (RoleDeleteRes)
-
 
 	@handler updateRole
 	put /:id (RoleUpdateReq) returns (RoleUpdateRes)
 
-
 	@handler getRole
 	get /:id (RoleGetReq) returns (RoleGetRes)
-
 
 	@handler queryRole
 	get / (RoleQueryReq) returns (RoleQueryRes)
